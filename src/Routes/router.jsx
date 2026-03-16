@@ -3,6 +3,7 @@ import MainLayout from "../Layouts/MainLayout";
 import Home from "../Pages/Home/Home";
 import Services from "../Pages/Services/Services";
 import CollectionPage from "../Pages/Collections/CollectionPage";
+import ProductDetails from "../Pages/ProductsDetalispage/ProductDetails";
 
 export const router = createBrowserRouter(
     [
@@ -12,7 +13,8 @@ export const router = createBrowserRouter(
             children: [
                 { index: true, element: <Home></Home> },
                 { path: "services", element: <Services></Services> },
-                { path: "collections", element: <CollectionPage></CollectionPage> }
+                { path: "collections", element: <CollectionPage></CollectionPage> },
+                { path: "products/:id", element: <ProductDetails></ProductDetails> },
             ]
         }
     ]

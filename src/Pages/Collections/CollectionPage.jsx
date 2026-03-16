@@ -1,10 +1,26 @@
-import React from 'react';
-import { Search, ChevronDown, ChevronRight, Plus } from 'lucide-react';
-
+import React from "react";
+import { Search, ChevronDown, ChevronRight, Plus } from "lucide-react";
+import { Link } from "react-router";
 const ProductsPage = () => {
-  const categories = ["NEW", "BEST SELLERS", "SHIRTS", "T-SHIRTS", "POLO SHIRTS", "JEANS", "SHORTS", "JACKETS"];
+  const categories = [
+    "NEW",
+    "BEST SELLERS",
+    "SHIRTS",
+    "T-SHIRTS",
+    "POLO SHIRTS",
+    "JEANS",
+    "SHORTS",
+    "JACKETS",
+  ];
   const sizes = ["XS", "S", "M", "L", "XL", "2X"];
-  const filterGroups = ["Category", "Colors", "Price Range", "Collections", "Tags", "Ratings"];
+  const filterGroups = [
+    "Category",
+    "Colors",
+    "Price Range",
+    "Collections",
+    "Tags",
+    "Ratings",
+  ];
 
   const products = [
     {
@@ -68,27 +84,33 @@ const ProductsPage = () => {
 
   return (
     <div className="min-h-screen bg-[#f2f2f2] pt-28 pb-20 px-4 md:px-12 font-sans">
-        <title>Products Collections Page</title>
-      
+      <title>Products Collections Page</title>
+
       {/* Breadcrumb & Title */}
       <div className="mb-8">
         {/* <p className="text-[10px] font-bold uppercase tracking-widest text-gray-400">Home / <span className="text-gray-900">Products</span></p> */}
-        <h1 className="text-3xl font-black uppercase tracking-tighter mt-2 italic">PRODUCTS</h1>
+        <h1 className="text-3xl font-black uppercase tracking-tighter mt-2 italic">
+          PRODUCTS
+        </h1>
       </div>
 
       <div className="flex flex-col lg:flex-row gap-12 items-start">
-        
         {/* --- FIXED SIDEBAR FILTERS --- */}
         <aside className="w-full lg:w-64 lg:sticky lg:top-24 h-auto lg:max-h-[calc(100vh-120px)] overflow-y-auto no-scrollbar">
           <div className="pr-2">
-            <h3 className="font-black text-sm uppercase tracking-widest mb-6">Filters</h3>
-            
+            <h3 className="font-black text-sm uppercase tracking-widest mb-6">
+              Filters
+            </h3>
+
             {/* Size Filter */}
             <div className="mb-8">
               <p className="text-[11px] font-black uppercase mb-3">Size</p>
               <div className="grid grid-cols-4 gap-2">
-                {sizes.map(size => (
-                  <button key={size} className="border border-gray-300 py-2 text-[10px] font-bold hover:bg-black hover:text-white transition-colors uppercase">
+                {sizes.map((size) => (
+                  <button
+                    key={size}
+                    className="border border-gray-300 py-2 text-[10px] font-bold hover:bg-black hover:text-white transition-colors uppercase"
+                  >
                     {size}
                   </button>
                 ))}
@@ -103,21 +125,34 @@ const ProductsPage = () => {
               </div>
               <div className="flex flex-col gap-3">
                 <label className="flex items-center gap-3 text-[11px] font-bold text-gray-600 uppercase cursor-pointer">
-                  <input type="checkbox" className="w-4 h-4 accent-black rounded-none" />
-                  Availability <span className="text-blue-700 ml-auto">(450)</span>
+                  <input
+                    type="checkbox"
+                    className="w-4 h-4 accent-black rounded-none"
+                  />
+                  Availability{" "}
+                  <span className="text-blue-700 ml-auto">(450)</span>
                 </label>
                 <label className="flex items-center gap-3 text-[11px] font-bold text-gray-600 uppercase cursor-pointer">
-                  <input type="checkbox" className="w-4 h-4 accent-black rounded-none" />
-                  Out Of Stock <span className="text-blue-700 ml-auto">(18)</span>
+                  <input
+                    type="checkbox"
+                    className="w-4 h-4 accent-black rounded-none"
+                  />
+                  Out Of Stock{" "}
+                  <span className="text-blue-700 ml-auto">(18)</span>
                 </label>
               </div>
             </div>
 
             {/* Collapsible Groups */}
             <div className="flex flex-col border-t border-gray-200">
-              {filterGroups.map(group => (
-                <div key={group} className="flex justify-between items-center py-4 border-b border-gray-200 cursor-pointer hover:bg-gray-100/50 px-1 transition-all">
-                  <span className="text-[11px] font-black uppercase tracking-wider">{group}</span>
+              {filterGroups.map((group) => (
+                <div
+                  key={group}
+                  className="flex justify-between items-center py-4 border-b border-gray-200 cursor-pointer hover:bg-gray-100/50 px-1 transition-all"
+                >
+                  <span className="text-[11px] font-black uppercase tracking-wider">
+                    {group}
+                  </span>
                   <ChevronRight size={14} className="text-gray-400" />
                 </div>
               ))}
@@ -130,18 +165,21 @@ const ProductsPage = () => {
           {/* Top Search & Tag Bar */}
           <div className="flex flex-col xl:flex-row gap-4 mb-10 sticky top-[100px] lg:relative lg:top-0 z-20 bg-[#f2f2f2]/90 backdrop-blur-sm py-2">
             <div className="relative flex-1 group">
-              <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
-              <input 
-                type="text" 
-                placeholder="Search" 
+              <Search
+                className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"
+                size={18}
+              />
+              <input
+                type="text"
+                placeholder="Search"
                 className="w-full bg-gray-200/50 border-none py-4 pl-12 pr-4 text-xs font-bold uppercase tracking-widest focus:ring-1 focus:ring-black outline-none transition-all"
               />
             </div>
 
             <div className="flex flex-wrap gap-1">
               {categories.map((cat, index) => (
-                <button 
-                  key={cat} 
+                <button
+                  key={cat}
                   className={`px-5 py-3 text-[9px] font-black uppercase tracking-widest border border-gray-200 transition-all
                   ${index === 0 ? "bg-white border-gray-400" : "bg-transparent hover:bg-white"}`}
                 >
@@ -154,28 +192,40 @@ const ProductsPage = () => {
           {/* Product Grid */}
           <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
             {products.map((product) => (
-              <div key={product.id} className="group cursor-pointer">
-                <div className="relative aspect-[3/4] bg-white overflow-hidden border border-transparent group-hover:border-gray-300 transition-all shadow-sm">
-                  <img 
-                    src={product.img} 
-                    alt={product.title} 
-                    className="w-full h-full object-cover grayscale-[10%] group-hover:grayscale-0 transition-all duration-700 group-hover:scale-105"
-                  />
-                  <div className="absolute bottom-4 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity">
-                    <div className="bg-white/90 p-2 shadow-xl border border-gray-100">
-                      <Plus size={22} />
+              <Link
+                key={product.id}
+                to={`/products/${product.id}`}
+                className="group cursor-pointer"
+              >
+                <div key={product.id} className="group cursor-pointer">
+                  <div className="relative aspect-[3/4] bg-white overflow-hidden border border-transparent group-hover:border-gray-300 transition-all shadow-sm">
+                    <img
+                      src={product.img}
+                      alt={product.title}
+                      className="w-full h-full object-cover grayscale-[10%] group-hover:grayscale-0 transition-all duration-700 group-hover:scale-105"
+                    />
+                    <div className="absolute bottom-4 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity">
+                      <div className="bg-white/90 p-2 shadow-xl border border-gray-100">
+                        <Plus size={22} />
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="mt-4 flex flex-col gap-1 px-1">
+                    <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">
+                      {product.category}
+                    </p>
+                    <div className="flex justify-between items-baseline">
+                      <h3 className="text-[13px] font-black uppercase tracking-tighter text-gray-800">
+                        {product.title}
+                      </h3>
+                      <span className="text-[13px] font-black text-gray-900">
+                        {product.price}
+                      </span>
                     </div>
                   </div>
                 </div>
-
-                <div className="mt-4 flex flex-col gap-1 px-1">
-                  <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">{product.category}</p>
-                  <div className="flex justify-between items-baseline">
-                    <h3 className="text-[13px] font-black uppercase tracking-tighter text-gray-800">{product.title}</h3>
-                    <span className="text-[13px] font-black text-gray-900">{product.price}</span>
-                  </div>
-                </div>
-              </div>
+              </Link>
             ))}
           </div>
         </main>
