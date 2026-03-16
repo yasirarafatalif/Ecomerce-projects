@@ -8,6 +8,7 @@ import NewArrivals from './NewArrivals';
 const Home = () => {
   return (
     <div>
+        <title>Home Section</title>
         <Hero />
         <NewArrivals />
         <Collections />
