@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Menu, Heart, ShoppingBag, User, X, ChevronRight } from "lucide-react";
+import Logo from "../Shared/Logo";
 
 const Navbar = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
@@ -33,12 +34,13 @@ const Navbar = () => {
         </div>
 
         {/* --- Center Section: Brand Logo --- */}
-        <div className="absolute left-1/2 -translate-x-1/2 flex items-center pointer-events-none">
+        <Logo></Logo>
+        {/* <div className="absolute left-1/2 -translate-x-1/2 flex items-center pointer-events-none">
           <div className="flex h-7 w-7">
             <div className="w-1/2 h-full bg-gray-400/60 -skew-x-[20deg]"></div>
             <div className="w-1/2 h-full bg-black -skew-x-[20deg] -ml-1"></div>
           </div>
-        </div>
+        </div> */}
 
         {/* --- Right Section: Icons & Cart --- */}
         <div className="flex items-center gap-2 md:gap-4">
