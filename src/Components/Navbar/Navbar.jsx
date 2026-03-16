@@ -1,109 +1,119 @@
-import React from "react";
+import React, { useState } from "react";
+import { Menu, Heart, ShoppingBag, User, X, ChevronRight } from "lucide-react";
 
 const Navbar = () => {
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+
+  const navLinks = ["Home", "Collections", "New", "Offers", "About Us"];
+
   return (
-    <div>
-      <div className="navbar bg-base-100 shadow-sm">
-        <div className="navbar-start">
-          <div className="dropdown">
-            <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-5 w-5"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
+    <>
+      <nav className="fixed top-0 left-0 w-full z-50 flex items-center justify-between px-4 md:px-12 py-4 bg-transparent backdrop-blur-[2px] transition-all duration-300">
+        
+        {/* --- Left Section: Drawer Toggle & Desktop Links --- */}
+        <div className="flex items-center gap-4 md:gap-8">
+          <button
+            className="p-1 hover:bg-black/5 rounded-md transition-colors"
+            onClick={() => setIsDrawerOpen(true)}
+          >
+            <Menu size={24} strokeWidth={1.5} className="text-gray-900" />
+          </button>
+
+          <div className="hidden md:flex items-center gap-8 text-[13px] font-semibold uppercase tracking-tight text-gray-700">
+            {navLinks.slice(0, 5).map((link) => (
+              <a
+                key={link}
+                href="#"
+                className="hover:text-black transition-colors"
               >
-                {" "}
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M4 6h16M4 12h8m-8 6h16"
-                />{" "}
-              </svg>
-            </div>
-            <ul
-              tabIndex="-1"
-              className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow"
-            >
-              <li>
-                <a>Item 1</a>
-              </li>
-              <li>
-                <a>Parent</a>
-                <ul className="p-2">
-                  <li>
-                    <a>Submenu 1</a>
-                  </li>
-                  <li>
-                    <a>Submenu 2</a>
-                  </li>
-                </ul>
-              </li>
-              <li>
-                <a>Item 3</a>
-              </li>
-            </ul>
-          </div>
-          <a className="btn btn-ghost text-xl">daisyUI</a>
-        </div>
-        <div className="navbar-center hidden lg:flex">
-          <ul className="menu menu-horizontal px-1">
-            <li>
-              <a>Item 1</a>
-            </li>
-            <li>
-              <details>
-                <summary>Parent</summary>
-                <ul className="p-2 bg-base-100 w-40 z-1">
-                  <li>
-                    <a>Submenu 1</a>
-                  </li>
-                  <li>
-                    <a>Submenu 2</a>
-                  </li>
-                </ul>
-              </details>
-            </li>
-            <li>
-              <a>Item 3</a>
-            </li>
-          </ul>
-        </div>
-        <div className="dropdown dropdown-end navbar-end">
-          <div
-            tabIndex={0}
-            role="button"
-            className="btn btn-ghost btn-circle avatar"
-          >
-            <div className="w-10 rounded-full">
-              <img
-                alt="Tailwind CSS Navbar component"
-                src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"
-              />
-            </div>
-          </div>
-          <ul
-            tabIndex="-1"
-            className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow"
-          >
-            <li>
-              <a className="justify-between">
-                Profile
-                <span className="badge">New</span>
+                {link}
               </a>
-            </li>
-            <li>
-              <a>Settings</a>
-            </li>
-            <li>
-              <a>Logout</a>
-            </li>
-          </ul>
+            ))}
+          </div>
+        </div>
+
+        {/* --- Center Section: Brand Logo --- */}
+        <div className="absolute left-1/2 -translate-x-1/2 flex items-center pointer-events-none">
+          <div className="flex h-7 w-7">
+            <div className="w-1/2 h-full bg-gray-400/60 -skew-x-[20deg]"></div>
+            <div className="w-1/2 h-full bg-black -skew-x-[20deg] -ml-1"></div>
+          </div>
+        </div>
+
+        {/* --- Right Section: Icons & Cart --- */}
+        <div className="flex items-center gap-2 md:gap-4">
+          <button className="hidden sm:flex p-2.5 bg-[#1A1A1A] text-white rounded-full hover:bg-black transition-transform active:scale-95">
+            <Heart size={16} />
+          </button>
+
+          <div className="flex items-center bg-[#1A1A1A] rounded-full p-1 pl-3 md:pl-5 pr-1 gap-2 md:gap-4 cursor-pointer hover:bg-black transition-all active:scale-95">
+            <span className="text-white text-[10px] md:text-xs font-bold uppercase tracking-widest hidden xs:block">
+              Cart
+            </span>
+            <div className="bg-white p-1.5 rounded-full shadow-sm">
+              <ShoppingBag size={14} className="text-black" />
+            </div>
+          </div>
+
+          <button className="p-2.5 bg-[#1A1A1A] text-white rounded-full hover:bg-black transition-transform active:scale-95">
+            <User size={16} />
+          </button>
+        </div>
+      </nav>
+
+      {/* --- SIDE DRAWER OVERLAY --- */}
+      <div
+        className={`fixed inset-0 bg-black/40 backdrop-blur-sm z-[100] transition-opacity duration-300 ${
+          isDrawerOpen ? "opacity-100 visible" : "opacity-0 invisible"
+        }`}
+        onClick={() => setIsDrawerOpen(false)}
+      />
+
+      {/* Drawer Panel */}
+      <div
+        className={`fixed top-0 left-0 h-full w-[300px] bg-white z-[101] shadow-2xl transform transition-transform duration-500 ease-in-out ${
+          isDrawerOpen ? "translate-x-0" : "-translate-x-full"
+        }`}
+      >
+        <div className="flex flex-col h-full p-6">
+          <div className="flex items-center justify-between mb-10">
+            <span className="font-bold text-xl tracking-tighter italic text-gray-900">
+              MENU
+            </span>
+            <button
+              onClick={() => setIsDrawerOpen(false)}
+              className="p-2 hover:bg-gray-100 rounded-full transition-colors"
+            >
+              <X size={24} />
+            </button>
+          </div>
+
+          <div className="flex flex-col gap-6">
+            {navLinks.map((link) => (
+              <a
+                key={link}
+                href="#"
+                className="group flex items-center justify-between text-lg font-medium text-gray-800 hover:text-black transition-colors"
+                onClick={() => setIsDrawerOpen(false)}
+              >
+                {link}
+                <ChevronRight
+                  size={18}
+                  className="opacity-0 group-hover:opacity-100 transition-all -translate-x-2 group-hover:translate-x-0"
+                />
+              </a>
+            ))}
+          </div>
+
+          <div className="mt-auto pt-6 border-t border-gray-100">
+            <div className="flex items-center gap-4 text-sm text-gray-500">
+              <a href="#" className="hover:underline hover:text-black">Privacy</a>
+              <a href="#" className="hover:underline hover:text-black">Terms</a>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 
