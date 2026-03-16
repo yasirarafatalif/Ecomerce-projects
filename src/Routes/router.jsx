@@ -6,6 +6,8 @@ import CollectionPage from "../Pages/Collections/CollectionPage";
 import ProductDetails from "../Pages/ProductsDetalispage/ProductDetails";
 import CheckoutPage from "../Pages/CheckOut/CheckoutPage";
 import OffersPage from "../Pages/OffersPage/OffersPage";
+import AboutUs from "../Pages/About/AboutUs";
+import NewPage from "../Pages/New/NewPage";
 
 export const router = createBrowserRouter(
     [
@@ -19,6 +21,8 @@ export const router = createBrowserRouter(
                 { path: "products/:id", element: <ProductDetails></ProductDetails> },
                 { path: "checkout", element: <CheckoutPage></CheckoutPage> },
                 { path: "offers", element: <OffersPage></OffersPage> },
+                { path: "about", element: <AboutUs></AboutUs> },
+                { path: "new", element: <NewPage></NewPage> },
             ]
         }
     ]

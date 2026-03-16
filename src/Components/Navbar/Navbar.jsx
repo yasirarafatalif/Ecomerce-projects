@@ -6,7 +6,7 @@ import { Link } from "react-router";
 const Navbar = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
-  const navLinks = ["Home", "Collections", "New", "Offers", "About Us"];
+  const navLinks = ["Home", "Collections", "New", "Offers", "About"];
 
   return (
     <>
