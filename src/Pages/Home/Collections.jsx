@@ -68,10 +68,9 @@ const Collections = () => {
       className="min-h-screen bg-[#f2f2f2] px-6 md:px-16 py-20 font-sans relative"
       style={{
         backgroundImage: `url(${Img})`,
-        opacity: 0.8, // Ekhane opacity komano hoyeche (0.1 theke 1 er moddhe thakbe)
+        opacity: 0.8,
       }}
     >
-      {/* Background Texture Overlay (Optional) */}
       <div className="absolute inset-0 opacity-[0.03] pointer-events-none bg-[url('https://www.transparenttextures.com/patterns/asfalt-light.png')]"></div>
 
       {/* Header Section */}

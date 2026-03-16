@@ -3,12 +3,15 @@ import { Search, MoveRight, ChevronLeft, ChevronRight } from 'lucide-react';
 import Img from '../../assets/bg-home1.png'; // Aponar image path
 import Hero from './Hero';
 import Collections from './Collections';
+import NewArrivals from './NewArrivals';
 
 const Home = () => {
   return (
     <div>
         <Hero />
+        <NewArrivals />
         <Collections />
+        
     </div>
   );
 };
