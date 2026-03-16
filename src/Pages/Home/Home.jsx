@@ -4,7 +4,7 @@ import Img from '../../assets/bg-home1.png'; // Aponar image path
 import Hero from './Hero';
 import Collections from './Collections';
 import NewArrivals from './NewArrivals';
-import CollectionPage from '../Collections/CollectionPage';
+import LandingPage from './LandingPage';
 
 const Home = () => {
   return (
@@ -13,7 +13,8 @@ const Home = () => {
         <Hero />
         <NewArrivals />
         <Collections />
-        {/* <CollectionPage /> */}
+        <LandingPage />
+        
         
     </div>
   );
