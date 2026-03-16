@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Menu, Heart, ShoppingBag, User, X, ChevronRight } from "lucide-react";
 import Logo from "../Shared/Logo";
+import { Link } from "react-router";
 
 const Navbar = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
@@ -10,7 +11,6 @@ const Navbar = () => {
   return (
     <>
       <nav className="fixed top-0 left-0 w-full z-50 flex items-center justify-between px-4 md:px-12 py-4 bg-transparent backdrop-blur-[2px] transition-all duration-300">
-        
         {/* --- Left Section: Drawer Toggle & Desktop Links --- */}
         <div className="flex items-center gap-4 md:gap-8">
           <button
@@ -22,25 +22,21 @@ const Navbar = () => {
 
           <div className="hidden md:flex items-center gap-8 text-[13px] font-semibold uppercase tracking-tight text-gray-700">
             {navLinks.slice(0, 5).map((link) => (
-              <a
+              <Link
                 key={link}
-                href="#"
+                to={link === "Home" ? "/" : `/${link.toLowerCase()}`}
+                // href="#"
                 className="hover:text-black transition-colors"
               >
                 {link}
-              </a>
+              </Link>
             ))}
           </div>
         </div>
 
         {/* --- Center Section: Brand Logo --- */}
         <Logo></Logo>
-        {/* <div className="absolute left-1/2 -translate-x-1/2 flex items-center pointer-events-none">
-          <div className="flex h-7 w-7">
-            <div className="w-1/2 h-full bg-gray-400/60 -skew-x-[20deg]"></div>
-            <div className="w-1/2 h-full bg-black -skew-x-[20deg] -ml-1"></div>
-          </div>
-        </div> */}
+       
 
         {/* --- Right Section: Icons & Cart --- */}
         <div className="flex items-center gap-2 md:gap-4">
@@ -92,9 +88,9 @@ const Navbar = () => {
 
           <div className="flex flex-col gap-6">
             {navLinks.map((link) => (
-              <a
+              <Link
                 key={link}
-                href="#"
+                to={link === "Home" ? "/" : `/${link.toLowerCase()}`}
                 className="group flex items-center justify-between text-lg font-medium text-gray-800 hover:text-black transition-colors"
                 onClick={() => setIsDrawerOpen(false)}
               >
@@ -103,14 +99,18 @@ const Navbar = () => {
                   size={18}
                   className="opacity-0 group-hover:opacity-100 transition-all -translate-x-2 group-hover:translate-x-0"
                 />
-              </a>
+              </Link>
             ))}
           </div>
 
           <div className="mt-auto pt-6 border-t border-gray-100">
             <div className="flex items-center gap-4 text-sm text-gray-500">
-              <a href="#" className="hover:underline hover:text-black">Privacy</a>
-              <a href="#" className="hover:underline hover:text-black">Terms</a>
+              <a href="#" className="hover:underline hover:text-black">
+                Privacy
+              </a>
+              <a href="#" className="hover:underline hover:text-black">
+                Terms
+              </a>
             </div>
           </div>
         </div>
