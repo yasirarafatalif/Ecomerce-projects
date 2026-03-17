@@ -8,6 +8,10 @@ import CheckoutPage from "../Pages/CheckOut/CheckoutPage";
 import OffersPage from "../Pages/OffersPage/OffersPage";
 import AboutUs from "../Pages/About/AboutUs";
 import NewPage from "../Pages/New/NewPage";
+import WishlistPage from "../Pages/WishList/WishlistPage";
+import MyOrders from "../Pages/User/MyOrders/MyOrders";
+import AccountSettings from "../Pages/User/AccountSettings/AccountSettings";
+
 
 export const router = createBrowserRouter(
     [
@@ -23,6 +27,9 @@ export const router = createBrowserRouter(
                 { path: "offers", element: <OffersPage></OffersPage> },
                 { path: "about", element: <AboutUs></AboutUs> },
                 { path: "new", element: <NewPage></NewPage> },
+                { path: "my-orders", element: <MyOrders></MyOrders>  },
+                { path: "wishlist", element: <WishlistPage></WishlistPage> },
+                { path: "account-settings", element: <AccountSettings></AccountSettings> },
             ]
         }
     ]

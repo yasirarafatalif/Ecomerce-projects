@@ -2,11 +2,16 @@ import React, { useState } from "react";
 import { Menu, Heart, ShoppingBag, User, X, ChevronRight } from "lucide-react";
 import Logo from "../Shared/Logo";
 import { Link } from "react-router";
+import UserMenu from "../Items/User/UserMenu";
 
 const Navbar = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
   const navLinks = ["Home", "Collections", "New", "Offers", "About"];
+  const user = {
+    name: "Yasir Arafat",
+    email: "email.com",
+  };
 
   return (
     <>
@@ -36,7 +41,6 @@ const Navbar = () => {
 
         {/* --- Center Section: Brand Logo --- */}
         <Logo></Logo>
-       
 
         {/* --- Right Section: Icons & Cart --- */}
         <div className="flex items-center gap-2 md:gap-4">
@@ -52,10 +56,17 @@ const Navbar = () => {
               <ShoppingBag size={14} className="text-black" />
             </div>
           </div>
-
-          <button className="p-2.5 bg-[#1A1A1A] text-white rounded-full hover:bg-black transition-transform active:scale-95">
-            <User size={16} />
-          </button>
+          {user ? (
+            
+            <UserMenu />
+          ) : (
+          
+            <button className="flex items-center gap-2 px-6 py-2.5 bg-[#1A1A1A] text-white text-[11px] font-black uppercase tracking-[0.2em] hover:bg-black transition-all active:scale-95 rounded-full shadow-lg">
+              <User size={14} />
+              Log In
+            </button>
+          )}
+          {/* <UserMenu ></UserMenu> */}
         </div>
       </nav>
 

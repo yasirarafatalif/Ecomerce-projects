@@ -200,6 +200,27 @@ const CheckoutPage = () => {
                   </div>
                 </div>
               </div>
+                {/* --- COUPON INPUT SECTION --- */}
+              <div className="mb-8 p-4 bg-gray-50 border border-dashed border-gray-300">
+                <p className="text-[9px] font-black uppercase tracking-widest text-gray-400 mb-2">Discount Coupon</p>
+                <div className="flex gap-2">
+                  <input 
+                    type="text" 
+                    // value={couponCode}
+                    // onChange={(e) => setCouponCode(e.target.value)}
+                    placeholder="ENTER CODE"
+                    className="flex-1 bg-white border border-gray-200 py-2 px-3 text-[10px] font-bold uppercase focus:ring-1 focus:ring-black outline-none"
+                  />
+                  <button 
+                    type="button"
+                    // onClick={handleApplyCoupon}
+                    className="bg-black text-white px-4 py-2 text-[10px] font-black uppercase hover:bg-gray-800 transition-all"
+                  >
+                    Apply
+                  </button>
+                </div>
+                <p className="text-[8px] font-bold text-gray-400 mt-2 italic">Try: "SAVE10" for 10% off</p>
+              </div>
 
               {/* Pricing Breakdown */}
               <div className="flex flex-col gap-4 text-[11px] font-bold uppercase tracking-widest border-t border-b py-6 border-gray-100">
