@@ -9,8 +9,9 @@ const Home = () => {
     <div>
         <title>New Collection</title>
         <Hero />
-        <NewArrivals />
         <Collections />
+        <NewArrivals />
+        
         <LandingPage />
         
         

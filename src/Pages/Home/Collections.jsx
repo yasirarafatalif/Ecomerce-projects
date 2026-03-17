@@ -1,27 +1,25 @@
-import React from "react";
-import { ChevronDown, Plus } from "lucide-react";
-import Img from "../../assets/bg-home1.png"; 
+import React, { useState } from "react";
+import { ChevronDown, ChevronLeft, ChevronRight, Plus } from "lucide-react";
+import Img from "../../assets/bg-home1.png";
+import NweArrivalsSkeletonCard from "../../Components/Shared/SkeletonCard/NweArrivalsSkeletonCard";
+import useAxios from "../../Hooks/useAxios";
 
 const Collections = () => {
-  const products = [
-    { id: 1, category: "Cotton T-Shirt", title: "Basic Heavy Weight T-Shirt", price: "$199", img: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=600&auto=format&fit=crop&q=80" },
-    { id: 2, category: "Denim Jeans", title: "Soft Wash Straight Fit Jeans", price: "$249", img: "https://images.unsplash.com/photo-1541099649105-f69ad21f3246?w=600&auto=format&fit=crop&q=80",  },
-    { id: 3, category: "Oversized T-Shirt", title: "Street Style Graphic Tee", price: "$179", img: "https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?w=600&auto=format&fit=crop&q=80" },
-    { id: 4, category: "Hoodie", title: "Premium Cotton Hoodie", price: "$299", img: "https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=600&auto=format&fit=crop&q=80" },
-    { id: 5, category: "Sneakers", title: "Urban Casual Sneakers", price: "$320", img: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=600&auto=format&fit=crop&q=80" },
-    { id: 6, category: "Jacket", title: "Winter Casual Jacket", price: "$399", img: "https://images.unsplash.com/photo-1516826957135-700dedea698c?w=600&auto=format&fit=crop&q=80" },
-    { id: 7, category: "Cap", title: "Minimal Cotton Cap", price: "$79", img: "https://images.unsplash.com/photo-1521369909029-2afed882baee?w=600&auto=format&fit=crop&q=80" },
-    { id: 8, category: "Shirt", title: "Classic White Formal Shirt", price: "$210", img: "https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=600&auto=format&fit=crop&q=80" },
-  ];
+  const [page, setPage] = useState(1);
+  const { data, loading, error } = useAxios(`/home-collections?page=${page}&limit=4`);
+  // const { data, loading, error } = useAxios("/home-collections");
+  // console.log(data.products)
+
+  
+  console.log(page);
 
   return (
     <section className="relative min-h-screen bg-[#f2f2f2] px-6 md:px-16 py-20 font-sans overflow-hidden">
-      
-      <div 
+      <div
         className="absolute inset-0 z-0 bg-cover bg-center pointer-events-none"
-        style={{ 
+        style={{
           backgroundImage: `url(${Img})`,
-          opacity: 0.8 
+          opacity: 0.6,
         }}
       />
 
@@ -37,15 +35,25 @@ const Collections = () => {
             </h1>
 
             <div className="mt-10 flex gap-6 text-[12px] font-black uppercase tracking-widest text-gray-400">
-              <button className="text-black border-b-2 border-black pb-1">(ALL)</button>
-              <button className="hover:text-black transition-colors">Men</button>
-              <button className="hover:text-black transition-colors">Women</button>
-              <button className="hover:text-black transition-colors">KID</button>
+              <button className="text-black border-b-2 border-black pb-1">
+                (ALL)
+              </button>
+              <button className="hover:text-black transition-colors">
+                Men
+              </button>
+              <button className="hover:text-black transition-colors">
+                Women
+              </button>
+              <button className="hover:text-black transition-colors">
+                KID
+              </button>
             </div>
           </div>
 
           <div className="flex gap-12 mt-8 md:mt-0 text-[11px] font-black uppercase tracking-widest">
-            <button className="flex items-center gap-1 hover:text-blue-700 transition-colors">Filters(+)</button>
+            <button className="flex items-center gap-1 hover:text-blue-700 transition-colors">
+              Filters(+)
+            </button>
             <div className="text-right">
               <p className="flex items-center justify-end gap-1">Sorts(-)</p>
               <span className="text-gray-400 block mt-1 lowercase font-normal leading-tight">
@@ -55,14 +63,16 @@ const Collections = () => {
           </div>
         </div>
 
-        <hr className="border-gray-300 mb-12" /> 
+        <hr className="border-gray-300 mb-12" />
 
         {/* Product Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-6 gap-y-12">
-          {products.map((product) => (
+          {data?.products?.map((product) => (
             <div key={product.id} className="group cursor-pointer">
               {/* Image Container */}
-              <div className={`relative aspect-[3/4] bg-white overflow-hidden shadow-sm transition-all duration-500 ${product.featured ? 'ring-2 ring-blue-600 ring-offset-4' : ''}`}>
+              <div
+                className={`relative aspect-[3/4] bg-white overflow-hidden shadow-sm transition-all duration-500 ${product.featured ? "ring-2 ring-blue-600 ring-offset-4" : ""}`}
+              >
                 <img
                   src={product.img}
                   alt={product.title}
@@ -81,20 +91,39 @@ const Collections = () => {
               <div className="mt-5 flex justify-between items-start px-1">
                 <div className="max-w-[80%]">
                   <p className="text-[10px] uppercase tracking-widest text-gray-400 font-black mb-1">
-                    {product.category} <span className="text-gray-200 ml-1">+5</span>
+                    {product.category}{" "}
+                    <span className="text-gray-200 ml-1">+5</span>
                   </p>
                   <h3 className="text-[13px] font-black text-gray-800 uppercase tracking-tighter leading-tight group-hover:underline">
                     {product.title}
                   </h3>
                 </div>
-                <span className="font-black text-[13px] text-gray-900">{product.price}</span>
+                <span className="font-black text-[13px] text-gray-900">
+                  {product.price}
+                </span>
               </div>
             </div>
           ))}
         </div>
 
+        {/* Slider Controls */}
+        <div className="flex justify-center gap-3 mt-4">
+          <button
+            disabled={page === 1}
+            onClick={() => setPage(page - 1)}
+            className="p-3 border border-gray-300 hover:bg-white transition-colors"
+          >
+            <ChevronLeft size={20} />
+          </button>
+          <button
+          onClick={() => setPage(page + 1)}
+          className="p-3 border border-gray-300 hover:bg-white transition-colors">
+            <ChevronRight size={20} />
+          </button>
+        </div>
+
         {/* Footer "More" Button */}
-        <div className="flex flex-col items-center mt-24 group cursor-pointer">
+        {/* <div className="flex flex-col items-center mt-24 group cursor-pointer">
           <span className="text-xs font-black uppercase tracking-[0.3em] text-gray-400 group-hover:text-black transition-colors">
             Discover More
           </span>
@@ -102,7 +131,7 @@ const Collections = () => {
             size={24}
             className="text-gray-300 group-hover:text-black group-hover:translate-y-2 transition-all duration-300 mt-2"
           />
-        </div>
+        </div> */}
       </div>
     </section>
   );
