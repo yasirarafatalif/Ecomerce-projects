@@ -9,9 +9,14 @@ import {
   ChevronRight,
 } from "lucide-react";
 import Img from "../../../assets/bg-home1.png";
+import axios from "axios";
+import useAxios from "../../../Hooks/useAxios";
+import PremiumSpinner from "../../../Components/Shared/PremiumSpinner";
 
 const AccountSettings = () => {
   const [activeTab, setActiveTab] = useState("profile");
+  const { data, loading, error } = useAxios("/products");
+  console.log(data);
 
   const menuItems = [
     { id: "profile", label: "Profile", icon: <User size={16} /> },
@@ -19,6 +24,12 @@ const AccountSettings = () => {
     { id: "notifications", label: "Alerts", icon: <Bell size={16} /> },
     { id: "address", label: "Address", icon: <MapPin size={16} /> },
   ];
+
+  if (loading) {
+    return (
+      <PremiumSpinner></PremiumSpinner>
+    );
+  }
 
   return (
     <div className="relative min-h-screen bg-[#F2F2F2] pt-24 md:pt-32 pb-20 font-sans overflow-hidden">
@@ -40,7 +51,6 @@ const AccountSettings = () => {
         </div>
 
         <div className="flex flex-col lg:flex-row gap-8 md:gap-12 items-start">
-          
           {/* --- SIDEBAR MENU (Responsive: Horizontal Scroll on Mobile) --- */}
           <aside className="w-full lg:w-64 bg-white/40 backdrop-blur-md border border-white/20 p-1 md:p-2 shadow-sm sticky top-20 z-20">
             <div className="flex lg:flex-col overflow-x-auto no-scrollbar lg:overflow-visible">
@@ -75,7 +85,6 @@ const AccountSettings = () => {
 
           {/* --- RIGHT CONTENT AREA --- */}
           <main className="w-full flex-1 bg-white p-6 md:p-12 shadow-2xl relative">
-            
             {/* Profile Tab */}
             {activeTab === "profile" && (
               <section className="animate-in fade-in slide-in-from-bottom-4 duration-500">
@@ -102,10 +111,17 @@ const AccountSettings = () => {
                   <InputField label="First Name" placeholder="Yasir" />
                   <InputField label="Last Name" placeholder="Arafat" />
                   <div className="md:col-span-2">
-                    <InputField label="Email Address" placeholder="yasir@xiv.com" type="email" />
+                    <InputField
+                      label="Email Address"
+                      placeholder="yasir@xiv.com"
+                      type="email"
+                    />
                   </div>
                   <div className="md:col-span-2">
-                    <InputField label="Phone Number" placeholder="+880 123 456 789" />
+                    <InputField
+                      label="Phone Number"
+                      placeholder="+880 123 456 789"
+                    />
                   </div>
 
                   <div className="md:col-span-2 mt-4 md:mt-6">
@@ -124,9 +140,21 @@ const AccountSettings = () => {
                   Security
                 </h3>
                 <form className="flex flex-col gap-5 md:gap-6 max-w-md">
-                  <InputField label="Current Password" type="password" placeholder="••••••••" />
-                  <InputField label="New Password" type="password" placeholder="••••••••" />
-                  <InputField label="Confirm Password" type="password" placeholder="••••••••" />
+                  <InputField
+                    label="Current Password"
+                    type="password"
+                    placeholder="••••••••"
+                  />
+                  <InputField
+                    label="New Password"
+                    type="password"
+                    placeholder="••••••••"
+                  />
+                  <InputField
+                    label="Confirm Password"
+                    type="password"
+                    placeholder="••••••••"
+                  />
                   <button className="w-full sm:w-auto bg-black text-white px-10 py-4 text-[10px] md:text-[11px] font-black uppercase tracking-widest hover:bg-gray-800 transition-all active:scale-95 shadow-xl mt-4">
                     Update Password
                   </button>
@@ -141,8 +169,14 @@ const AccountSettings = () => {
                   Notifications
                 </h3>
                 <div className="space-y-6">
-                  <ToggleOption label="Email Marketing" desc="Receive updates on new drops." />
-                  <ToggleOption label="Order Status" desc="Get SMS updates on shipping." />
+                  <ToggleOption
+                    label="Email Marketing"
+                    desc="Receive updates on new drops."
+                  />
+                  <ToggleOption
+                    label="Order Status"
+                    desc="Get SMS updates on shipping."
+                  />
                 </div>
               </section>
             )}
@@ -155,7 +189,10 @@ const AccountSettings = () => {
                 </h3>
                 <form className="grid grid-cols-1 md:grid-cols-2 gap-5">
                   <div className="md:col-span-2">
-                    <InputField label="Street Address" placeholder="123 Main St" />
+                    <InputField
+                      label="Street Address"
+                      placeholder="123 Main St"
+                    />
                   </div>
                   <InputField label="City" placeholder="Dhaka" />
                   <InputField label="Postal Code" placeholder="1234" />
@@ -173,7 +210,7 @@ const AccountSettings = () => {
           </main>
         </div>
       </div>
-      
+
       {/* Hide scrollbar utility */}
       <style>{`
         .no-scrollbar::-webkit-scrollbar { display: none; }
@@ -199,7 +236,9 @@ const InputField = ({ label, placeholder, type = "text" }) => (
 const ToggleOption = ({ label, desc }) => (
   <div className="flex justify-between items-center py-2">
     <div>
-      <p className="text-[11px] font-black uppercase tracking-widest">{label}</p>
+      <p className="text-[11px] font-black uppercase tracking-widest">
+        {label}
+      </p>
       <p className="text-[9px] text-gray-400 font-bold uppercase">{desc}</p>
     </div>
     <div className="w-10 h-5 bg-black rounded-full relative cursor-pointer">
