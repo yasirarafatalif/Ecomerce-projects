@@ -163,7 +163,7 @@ const ProductsPage = () => {
         {/* --- MAIN CONTENT AREA (Scrollable) --- */}
         <main className="flex-1 w-full">
           {/* Top Search & Tag Bar */}
-          <div className="flex flex-col xl:flex-row gap-4 mb-10 sticky top-[100px] lg:relative lg:top-0 z-20 bg-[#f2f2f2]/90 backdrop-blur-sm py-2">
+          <div className="flex flex-col xl:flex-row gap-4 mb-10  lg:relative lg:top-0 z-20 bg-[#f2f2f2]/90 backdrop-blur-sm py-2">
             <div className="relative flex-1 group">
               <Search
                 className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"

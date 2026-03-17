@@ -1,17 +1,56 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { ChevronDown, ChevronLeft, ChevronRight, Plus } from "lucide-react";
 import Img from "../../assets/bg-home1.png";
 import NweArrivalsSkeletonCard from "../../Components/Shared/SkeletonCard/NweArrivalsSkeletonCard";
 import useAxios from "../../Hooks/useAxios";
+import { useQuery } from "@tanstack/react-query";
 
 const Collections = () => {
-  const [page, setPage] = useState(1);
-  const { data, loading, error } = useAxios(`/home-collections?page=${page}&limit=4`);
-  // const { data, loading, error } = useAxios("/home-collections");
-  // console.log(data.products)
+  const axiosSecure = useAxios();
+    const [category, setCategory] = useState("all");
+    console.log(category)
 
-  
-  console.log(page);
+  const {
+    data: homeCollections = [],
+    isLoading,
+    isError,
+    error,
+  } = useQuery({
+    queryKey: ["home-collections",category],
+    queryFn: async () => {
+      const res = await axiosSecure.get(
+      category === "all"
+        ? "/home-collections"
+        : `/home-collections?gender=${category}`
+    );
+      return res.data;
+    },
+  });
+
+
+
+  // const { data, loading, error } = useAxios("/home-collections");
+  const [startIndex, setStartIndex] = useState(0);
+  const limit = 4;
+  const visibleProducts = homeCollections?.slice(
+    startIndex,
+    startIndex + limit,
+  );
+  const handleNext = () => {
+    if (startIndex + limit < homeCollections.length) {
+      setStartIndex(startIndex + 1);
+    } else {
+      setStartIndex(0);
+    }
+  };
+
+  const handlePrev = () => {
+    if (startIndex - limit >= 0) {
+      setStartIndex(startIndex - 1);
+    } else {
+      setStartIndex(Math.max(homeCollections.length - limit, 0));
+    }
+  };
 
   return (
     <section className="relative min-h-screen bg-[#f2f2f2] px-6 md:px-16 py-20 font-sans overflow-hidden">
@@ -33,19 +72,49 @@ const Collections = () => {
             <h1 className="text-5xl md:text-7xl font-black leading-[0.9] tracking-tighter uppercase text-gray-900 italic">
               XIV <br /> COLLECTIONS <br /> 25-26
             </h1>
-
             <div className="mt-10 flex gap-6 text-[12px] font-black uppercase tracking-widest text-gray-400">
-              <button className="text-black border-b-2 border-black pb-1">
+              <button
+                onClick={() => setCategory("all")}
+                className={
+                  category === "all"
+                    ? "text-black border-b-2 border-black pb-1"
+                    : ""
+                }
+              >
                 (ALL)
               </button>
-              <button className="hover:text-black transition-colors">
+
+              <button
+                onClick={() => setCategory("Men")}
+                className={
+                  category === "Men"
+                    ? "text-black border-b-2 border-black pb-1"
+                    : "hover:text-black"
+                }
+              >
                 Men
               </button>
-              <button className="hover:text-black transition-colors">
+
+              <button
+                onClick={() => setCategory("Women")}
+                className={
+                  category === "Women"
+                    ? "text-black border-b-2 border-black pb-1"
+                    : "hover:text-black"
+                }
+              >
                 Women
               </button>
-              <button className="hover:text-black transition-colors">
-                KID
+
+              <button
+                onClick={() => setCategory("Unisex")}
+                className={
+                  category === "Unisex"
+                    ? "text-black border-b-2 border-black pb-1"
+                    : "hover:text-black"
+                }
+              >
+                T-Shirt
               </button>
             </div>
           </div>
@@ -67,8 +136,8 @@ const Collections = () => {
 
         {/* Product Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-6 gap-y-12">
-          {data?.products?.map((product) => (
-            <div key={product.id} className="group cursor-pointer">
+          {visibleProducts?.map((product) => (
+            <div key={product._id} className="group cursor-pointer">
               {/* Image Container */}
               <div
                 className={`relative aspect-[3/4] bg-white overflow-hidden shadow-sm transition-all duration-500 ${product.featured ? "ring-2 ring-blue-600 ring-offset-4" : ""}`}
@@ -109,15 +178,18 @@ const Collections = () => {
         {/* Slider Controls */}
         <div className="flex justify-center gap-3 mt-4">
           <button
-            disabled={page === 1}
-            onClick={() => setPage(page - 1)}
+            // disabled={page === 1}
+            // onClick={() => setPage(page - 1)}
+            onClick={handlePrev}
             className="p-3 border border-gray-300 hover:bg-white transition-colors"
           >
             <ChevronLeft size={20} />
           </button>
           <button
-          onClick={() => setPage(page + 1)}
-          className="p-3 border border-gray-300 hover:bg-white transition-colors">
+            // onClick={() => setPage(page + 1)}
+            onClick={handleNext}
+            className="p-3 border border-gray-300 hover:bg-white transition-colors"
+          >
             <ChevronRight size={20} />
           </button>
         </div>
