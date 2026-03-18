@@ -11,12 +11,18 @@ import {
 import { Link, useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import useAxios from "../../Hooks/useAxios";
+import { HiShoppingBag } from "react-icons/hi";
+import { GoPackage } from "react-icons/go";
+import PremiumLoader from "../../Components/Shared/PremiumSpinner";
 
 const ProductDetails = () => {
   const {id} = useParams()
   const axois= useAxios()
+  const [active, setActive] = useState(null);
 
-  const {data : products=[] }= useQuery({
+
+
+  const {data : products=[] ,isLoading}= useQuery({
     queryKey:["products-detalis", id],
     queryFn: async()=>{
       const res= await  axois.get(`/products/${id}`)
@@ -26,6 +32,22 @@ const ProductDetails = () => {
   })
 
   console.log(products)
+
+
+    const detailsData = [
+  {
+    title: "Description",
+    content: `${products?.description}`,
+  },
+  {
+    title: "Care Instructions",
+    content: "Wash in cold water. Do not bleach. Iron at low temperature.",
+  },
+  {
+    title: "Sustainability",
+    content: "Made using eco-friendly materials and sustainable process.",
+  },
+];
   // Product Images Array
 
   
@@ -48,6 +70,10 @@ const ProductDetails = () => {
     setMainImage(products.img);
   }
 }, [products]);
+
+  if (isLoading) {
+    return <PremiumLoader></PremiumLoader>;
+  }
 
   return (
     <div className="min-h-screen bg-[#f2f2f2] pt-28 pb-20 font-sans">
@@ -95,9 +121,18 @@ const ProductDetails = () => {
                 <p className="text-[10px] font-black uppercase tracking-[0.2em] text-gray-400 mb-1 italic">
                   XIV Exclusive
                 </p>
+                
                 <h1 className="text-4xl font-black uppercase tracking-tighter italic text-gray-900 leading-tight">
                   {products?.title}
                 </h1>
+
+                <div className=" ">
+
+                   <span className="text-[10px] font-bold uppercase  text-gray-500">
+                     CATEGORY: {products?.category}
+                    </span>
+                  
+                </div>
                 <div className="flex items-center gap-4 mt-4">
                   <span className="text-2xl font-black text-gray-900">
                     ${products?.totalPrice}
@@ -109,7 +144,25 @@ const ProductDetails = () => {
                       {products?.rating || "4.0"} ({products?.reviewsCount || 0})
                     </span>
                   </div>
+                  
                 </div>
+                <div className="flex mt-3 gap-3">
+
+                  <div className="flex items-center gap-1">
+                    <GoPackage size={14} className="fill-black" />
+                    <span className="text-[10px] font-bold uppercase tracking-widest text-gray-500">
+                      Stock ({products?.stock || 0})
+                    </span>
+                  </div>
+                  <div className="flex items-center gap-1">
+                    <HiShoppingBag size={14} className="fill-black" />
+                    <span className="text-[10px] font-bold uppercase tracking-widest text-gray-500">
+                      Total Sell ({products?.totalSell || 0})
+                    </span>
+                  </div>
+                </div>
+
+                
               </div>
 
               {/* Size Selector */}
@@ -118,14 +171,14 @@ const ProductDetails = () => {
                   Select Size
                 </p>
                 <div className="grid grid-cols-6 gap-2">
-                  {products?.inventory?.size.map((size) => (
+                  {products?.inventory?.map((size) => (
                     <button
                       key={size}
                       onClick={() => setSelectedSize(size)}
                       className={`py-3 text-[11px] font-bold border transition-all
                         ${selectedSize === size ? "bg-black text-white border-black shadow-lg" : "bg-white border-gray-200 text-gray-400 hover:border-black hover:text-black"}`}
                     >
-                      {size}
+                      {size.size}
                     </button>
                   ))}
                 </div>
@@ -168,20 +221,34 @@ const ProductDetails = () => {
 
               {/* Details Toggles */}
               <div className="border-t border-gray-200 pt-2">
-                {["Description", "Care Instructions", "Sustainability"].map(
-                  (item) => (
-                    <div
-                      key={item}
-                      className="flex justify-between items-center py-4 border-b border-gray-200 cursor-pointer hover:px-2 transition-all"
-                    >
-                      <span className="text-[11px] font-black uppercase tracking-widest text-gray-700">
-                        {item}
-                      </span>
-                      <ChevronDown size={16} />
-                    </div>
-                  ),
-                )}
-              </div>
+  {detailsData.map((item, index) => (
+    <div key={item.title} className="border-b border-gray-200">
+      
+      {/* Header */}
+      <div
+        onClick={() => setActive(active === index ? null : index)}
+        className="flex justify-between items-center py-4 cursor-pointer hover:px-2 transition-all"
+      >
+        <span className="text-[11px] font-black uppercase tracking-widest text-gray-700">
+          {item.title}
+        </span>
+        <ChevronDown
+          size={16}
+          className={`transition-transform ${
+            active === index ? "rotate-180" : ""
+          }`}
+        />
+      </div>
+
+      {/* Dropdown Content */}
+      {active === index && (
+        <div className="pb-4 text-[12px] text-gray-500">
+          {item.content}
+        </div>
+      )}
+    </div>
+  ))}
+</div>
 
               {/* Social Share */}
               <div className="flex items-center gap-4 opacity-50 hover:opacity-100 transition-opacity cursor-pointer">

@@ -11,6 +11,8 @@ import NewPage from "../Pages/New/NewPage";
 import WishlistPage from "../Pages/WishList/WishlistPage";
 import MyOrders from "../Pages/User/MyOrders/MyOrders";
 import AccountSettings from "../Pages/User/AccountSettings/AccountSettings";
+import Register from "../Pages/Register/Register";
+import Login from "../Pages/LogIn/Login";
 
 
 export const router = createBrowserRouter(
@@ -21,6 +23,9 @@ export const router = createBrowserRouter(
             children: [
                 { index: true, element: <Home></Home> },
                 { path: "services", element: <Services></Services> },
+                { path: "register", element: <Register></Register>},
+                { path: "login", element: <Login></Login>},
+                { path: "register", element: <Register></Register>},
                 { path: "collections", element: <CollectionPage></CollectionPage> },
                 { path: "products/:id", element: <ProductDetails></ProductDetails> },
                 { path: "checkout", element: <CheckoutPage></CheckoutPage> },
