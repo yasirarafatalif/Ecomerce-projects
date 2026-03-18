@@ -8,7 +8,7 @@ import { useQuery } from "@tanstack/react-query";
 const Collections = () => {
   const axiosSecure = useAxios();
     const [category, setCategory] = useState("all");
-    console.log(category)
+    
 
   const {
     data: homeCollections = [],
@@ -85,9 +85,9 @@ const Collections = () => {
               </button>
 
               <button
-                onClick={() => setCategory("Men")}
+                onClick={() => setCategory("MEN")}
                 className={
-                  category === "Men"
+                  category === "MEN"
                     ? "text-black border-b-2 border-black pb-1"
                     : "hover:text-black"
                 }
@@ -96,9 +96,9 @@ const Collections = () => {
               </button>
 
               <button
-                onClick={() => setCategory("Women")}
+                onClick={() => setCategory("WOMEN")}
                 className={
-                  category === "Women"
+                  category === "WOMEN"
                     ? "text-black border-b-2 border-black pb-1"
                     : "hover:text-black"
                 }
@@ -107,9 +107,9 @@ const Collections = () => {
               </button>
 
               <button
-                onClick={() => setCategory("Unisex")}
+                onClick={() => setCategory("T-SHIRTS")}
                 className={
-                  category === "Unisex"
+                  category === "T-SHIRTS"
                     ? "text-black border-b-2 border-black pb-1"
                     : "hover:text-black"
                 }

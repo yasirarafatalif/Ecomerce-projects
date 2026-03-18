@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Heart,
   ShoppingBag,
@@ -8,22 +8,46 @@ import {
   ChevronDown,
   Share2,
 } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
+import useAxios from "../../Hooks/useAxios";
 
 const ProductDetails = () => {
+  const {id} = useParams()
+  const axois= useAxios()
+
+  const {data : products=[] }= useQuery({
+    queryKey:["products-detalis", id],
+    queryFn: async()=>{
+      const res= await  axois.get(`/products/${id}`)
+      return res.data
+
+    }
+  })
+
+  console.log(products)
   // Product Images Array
+
+  
+
+
   const productImages = [
-    "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?q=80&w=800",
-    "https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?q=80&w=800",
+
     "https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?q=80&w=800",
+     `${products?.img}`,
   ];
 
   // States
-  const [mainImage, setMainImage] = useState(productImages[0]);
+  const [mainImage, setMainImage] = useState(productImages[3]);
   const [selectedSize, setSelectedSize] = useState("M");
   const [quantity, setQuantity] = useState(1);
 
   const sizes = ["XS", "S", "M", "L", "XL", "2X"];
+  useEffect(() => {
+  if (products?.img) {
+    setMainImage(products.img);
+  }
+}, [products]);
 
   return (
     <div className="min-h-screen bg-[#f2f2f2] pt-28 pb-20 font-sans">
@@ -72,17 +96,17 @@ const ProductDetails = () => {
                   XIV Exclusive
                 </p>
                 <h1 className="text-4xl font-black uppercase tracking-tighter italic text-gray-900 leading-tight">
-                  Embroidered <br /> Seersucker Shirt
+                  {products?.title}
                 </h1>
                 <div className="flex items-center gap-4 mt-4">
                   <span className="text-2xl font-black text-gray-900">
-                    $199.00
+                    ${products?.totalPrice}
                   </span>
                   <div className="h-4 w-[1px] bg-gray-300"></div>
                   <div className="flex items-center gap-1">
                     <Star size={14} className="fill-black" />
                     <span className="text-[10px] font-bold uppercase tracking-widest text-gray-500">
-                      4.8 (120)
+                      {products?.rating || "4.0"} ({products?.reviewsCount || 0})
                     </span>
                   </div>
                 </div>
@@ -94,7 +118,7 @@ const ProductDetails = () => {
                   Select Size
                 </p>
                 <div className="grid grid-cols-6 gap-2">
-                  {sizes.map((size) => (
+                  {products?.inventory?.size.map((size) => (
                     <button
                       key={size}
                       onClick={() => setSelectedSize(size)}

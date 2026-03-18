@@ -1,18 +1,25 @@
-import React from "react";
+import React, { useState } from "react";
 import { Search, ChevronDown, ChevronRight, Plus } from "lucide-react";
 import { Link } from "react-router";
+import { useQuery } from "@tanstack/react-query";
+import useAxios from "../../Hooks/useAxios";
+import PremiumLoader from "../../Components/Shared/PremiumSpinner";
+import ProductsCard from "../../Components/Items/Card/ProductsCard";
 const ProductsPage = () => {
+  const axiosSecure = useAxios();
   const categories = [
     "NEW",
     "BEST SELLERS",
     "SHIRTS",
+    "MEN",
+    "WOMEN",
     "T-SHIRTS",
     "POLO SHIRTS",
     "JEANS",
     "SHORTS",
     "JACKETS",
   ];
-  const sizes = ["XS", "S", "M", "L", "XL", "2X"];
+  const sizes = ["XS", "S", "M", "L", "XL"];
   const filterGroups = [
     "Category",
     "Colors",
@@ -21,66 +28,35 @@ const ProductsPage = () => {
     "Tags",
     "Ratings",
   ];
+  const [category, setCategory] = useState("all");
+  const [size, setSize] = useState("all");
 
-  const products = [
-    {
-      id: 1,
-      category: "Cotton T-Shirt",
-      title: "Basic Heavy Weight T-Shirt",
-      price: "$199",
-      img: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=600&auto=format&fit=crop&q=80",
+  const {
+    data: products = [],
+    isLoading,
+    refetch,
+  } = useQuery({
+    queryKey: ["Collections-page", category, size],
+    queryFn: async () => {
+      let url = "/products-collections?";
+
+      if (category !== "all") {
+        url += `category=${category}&`;
+      }
+
+      if (size !== "all") {
+        url += `size=${size}`;
+      }
+
+      const res = await axiosSecure.get(url);
+      return res.data;
     },
-    {
-      id: 2,
-      category: "Denim Jeans",
-      title: "Soft Wash Straight Fit Jeans",
-      price: "$249",
-      img: "https://images.unsplash.com/photo-1541099649105-f69ad21f3246?w=600&auto=format&fit=crop&q=80",
-      featured: true,
-    },
-    {
-      id: 3,
-      category: "Oversized T-Shirt",
-      title: "Street Style Graphic Tee",
-      price: "$179",
-      img: "https://www.instyle.com/thmb/Fg9bRyG208DgYr8A8tYebRXZthk=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/Screenshot2024-04-14at12.08.25PM-6a9acafef1ef491580eafa2de9d20994.png",
-    },
-    {
-      id: 4,
-      category: "Hoodie",
-      title: "Premium Cotton Hoodie",
-      price: "$299",
-      img: "https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=600&auto=format&fit=crop&q=80",
-    },
-    {
-      id: 5,
-      category: "Sneakers",
-      title: "Urban Casual Sneakers",
-      price: "$320",
-      img: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=600&auto=format&fit=crop&q=80",
-    },
-    {
-      id: 6,
-      category: "Jacket",
-      title: "Winter Casual Jacket",
-      price: "$399",
-      img: "https://images.unsplash.com/photo-1516826957135-700dedea698c?w=600&auto=format&fit=crop&q=80",
-    },
-    {
-      id: 7,
-      category: "Cap",
-      title: "Minimal Cotton Cap",
-      price: "$79",
-      img: "https://images.unsplash.com/photo-1521369909029-2afed882baee?w=600&auto=format&fit=crop&q=80",
-    },
-    {
-      id: 8,
-      category: "Shirt",
-      title: "Classic White Formal Shirt",
-      price: "$210",
-      img: "https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=600&auto=format&fit=crop&q=80",
-    },
-  ];
+  });
+  console.log(products);
+
+  if (isLoading) {
+    return <PremiumLoader></PremiumLoader>;
+  }
 
   return (
     <div className="min-h-screen bg-[#f2f2f2] pt-28 pb-20 px-4 md:px-12 font-sans">
@@ -106,12 +82,13 @@ const ProductsPage = () => {
             <div className="mb-8">
               <p className="text-[11px] font-black uppercase mb-3">Size</p>
               <div className="grid grid-cols-4 gap-2">
-                {sizes.map((size) => (
+                {sizes.map((s) => (
                   <button
-                    key={size}
-                    className="border border-gray-300 py-2 text-[10px] font-bold hover:bg-black hover:text-white transition-colors uppercase"
+                    key={s}
+                    onClick={() => setSize(s)}
+                    className={`border border-gray-300 hover:cursor-pointer py-2 text-[10px] font-bold hover:bg-black hover:text-white transition-colors uppercase ${size === s ? "bg-black text-white border-gray-400" : "bg-transparent "}`}
                   >
-                    {size}
+                    {s}
                   </button>
                 ))}
               </div>
@@ -130,7 +107,7 @@ const ProductsPage = () => {
                     className="w-4 h-4 accent-black rounded-none"
                   />
                   Availability{" "}
-                  <span className="text-blue-700 ml-auto">(450)</span>
+                  <span className="text-blue-700 ml-auto">({products?.length})</span>
                 </label>
                 <label className="flex items-center gap-3 text-[11px] font-bold text-gray-600 uppercase cursor-pointer">
                   <input
@@ -180,8 +157,9 @@ const ProductsPage = () => {
               {categories.map((cat, index) => (
                 <button
                   key={cat}
-                  className={`px-5 py-3 text-[9px] font-black uppercase tracking-widest border border-gray-200 transition-all
-                  ${index === 0 ? "bg-white border-gray-400" : "bg-transparent hover:bg-white"}`}
+                  onClick={() => setCategory(cat)}
+                  className={`px-5 py-3 hover:cursor-pointer hover:bg-black hover:text-white  text-[9px] font-black uppercase tracking-widest border border-gray-200 transition-all
+                  ${category === cat ? "bg-black text-white border-gray-400" : "bg-transparent "}`}
                 >
                   {cat}
                 </button>
@@ -192,40 +170,7 @@ const ProductsPage = () => {
           {/* Product Grid */}
           <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
             {products.map((product) => (
-              <Link
-                key={product.id}
-                to={`/products/${product.id}`}
-                className="group cursor-pointer"
-              >
-                <div key={product.id} className="group cursor-pointer">
-                  <div className="relative aspect-[3/4] bg-white overflow-hidden border border-transparent group-hover:border-gray-300 transition-all shadow-sm">
-                    <img
-                      src={product.img}
-                      alt={product.title}
-                      className="w-full h-full object-cover grayscale-[10%] group-hover:grayscale-0 transition-all duration-700 group-hover:scale-105"
-                    />
-                    <div className="absolute bottom-4 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity">
-                      <div className="bg-white/90 p-2 shadow-xl border border-gray-100">
-                        <Plus size={22} />
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="mt-4 flex flex-col gap-1 px-1">
-                    <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">
-                      {product.category}
-                    </p>
-                    <div className="flex justify-between items-baseline">
-                      <h3 className="text-[13px] font-black uppercase tracking-tighter text-gray-800">
-                        {product.title}
-                      </h3>
-                      <span className="text-[13px] font-black text-gray-900">
-                        {product.price}
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              </Link>
+              <ProductsCard product={product}></ProductsCard>
             ))}
           </div>
         </main>
