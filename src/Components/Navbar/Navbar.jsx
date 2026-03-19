@@ -1,13 +1,16 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Menu, Heart, ShoppingBag, User, X, ChevronRight } from "lucide-react";
 import Logo from "../Shared/Logo";
 import { Link } from "react-router";
 import UserMenu from "../Items/User/UserMenu";
+import { AuthContext } from "../../Provider/AuthContext";
 
 const Navbar = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+     const { user:users } = useContext(AuthContext);
+     console.log(users)
 
-  const navLinks = ["Home", "Collections", "New", "Offers", "About" ,"Login","Register","Profile"];
+  const navLinks = ["Home", "Collections", "Profile", "New", "Offers", "About" ,"Login","Register"];
   const user = {
     name: "Yasir Arafat",
     email: "email.com",

@@ -19,7 +19,7 @@ const Login = () => {
       const res = await axois.post(`/login`, formData,{
         withCredentials: true
       });
-      console.log(res)
+
       if (res.data.message ==="Wrong password") {
         return (Swal.fire({
         icon: "error",

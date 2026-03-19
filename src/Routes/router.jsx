@@ -14,6 +14,7 @@ import AccountSettings from "../Pages/User/AccountSettings/AccountSettings";
 import Register from "../Pages/Register/Register";
 import Login from "../Pages/LogIn/Login";
 import UserProfile from "../Pages/Profile/UserProfile";
+import PrivateRoute from "./Privateroute";
 
 
 export const router = createBrowserRouter(
@@ -36,7 +37,8 @@ export const router = createBrowserRouter(
                 { path: "my-orders", element: <MyOrders></MyOrders>  },
                 { path: "wishlist", element: <WishlistPage></WishlistPage> },
                 { path: "account-settings", element: <AccountSettings></AccountSettings> },
-                { path: "profile", element: <UserProfile></UserProfile> },
+                // { path: "profile", element: <UserProfile></UserProfile>   },
+                { path: "profile", element: <PrivateRoute><UserProfile></UserProfile> </PrivateRoute>  },
             ]
         }
     ]
