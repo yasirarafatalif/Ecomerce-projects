@@ -7,7 +7,7 @@ import UserMenu from "../Items/User/UserMenu";
 const Navbar = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
-  const navLinks = ["Home", "Collections", "New", "Offers", "About"];
+  const navLinks = ["Home", "Collections", "New", "Offers", "About" ,"Login","Register","Profile"];
   const user = {
     name: "Yasir Arafat",
     email: "email.com",
