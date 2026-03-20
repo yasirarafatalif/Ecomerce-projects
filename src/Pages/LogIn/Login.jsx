@@ -49,7 +49,6 @@ const Login = () => {
           icon: "success",
           title: "Successfully Logged In",
           showConfirmButton: false,
-          text: res.data.message,
           timer: 1500,
         }).then(() => {
           window.location.href = "/";
