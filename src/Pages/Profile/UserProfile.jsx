@@ -13,10 +13,11 @@ import {
 import PremiumSpinner from "../../Components/Shared/PremiumSpinner";
 import BgImg from "../../assets/bg-home1.png";
 import { AuthContext } from "../../Provider/AuthContext";
+import useAuth from "../../Hooks/useAuth";
 
 const UserProfile = () => {
-  const { user: user, loading } = useContext(AuthContext);
-  console.log(loading)
+  // const { user: user, loading } = useContext(AuthContext);
+  const { user: user, loading } = useAuth();
 
   const handleLogout = () => {
     console.log("Logging out...");
