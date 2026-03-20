@@ -12,12 +12,11 @@ import {
 
 import PremiumSpinner from "../../Components/Shared/PremiumSpinner";
 import BgImg from "../../assets/bg-home1.png";
-import { AuthContext } from "../../Provider/AuthContext";
 import useAuth from "../../Hooks/useAuth";
 
 const UserProfile = () => {
-  // const { user: user, loading } = useContext(AuthContext);
-  const { user: user, loading } = useAuth();
+  const { user, loading } = useAuth();
+  console.log(user)
 
   const handleLogout = () => {
     console.log("Logging out...");
@@ -43,6 +42,7 @@ const UserProfile = () => {
 
   return (
     <div className="relative min-h-screen bg-[#f2f2f2] pt-32 pb-20 font-sans overflow-hidden">
+      <title>{user.name} Profile</title>
       {/* 1. Background Aesthetic Layer */}
       <div
         className="absolute inset-0 z-0 bg-cover bg-center pointer-events-none opacity-[0.05]"
@@ -55,7 +55,11 @@ const UserProfile = () => {
         <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
           <div className="text-left">
             <p className="text-[10px] font-black uppercase tracking-[0.4em] text-blue-700 mb-2 italic">
-              XIV Collective / Member Dashboard
+              XIV Collective /
+              {
+                user?.role ==="user" && "Member Dashboard"
+              }
+               
             </p>
           </div>
           <button

@@ -7,7 +7,6 @@ const AuthProvider = ({ children }) => {
 
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(false);
-  console.log(loading)
   useEffect(() => {
     axios
       .get("/profile", { withCredentials: true })

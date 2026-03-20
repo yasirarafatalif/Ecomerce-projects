@@ -1,11 +1,20 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Eye, EyeOff, Mail, Lock, LogIn, ArrowRight } from "lucide-react";
-import { Link } from "react-router-dom";
-import BgImg from "../../assets/bg-home1.png"; 
+import { Link, useNavigate } from "react-router-dom";
+import BgImg from "../../assets/bg-home1.png";
 import useAxios from "../../Hooks/useAxios";
 import Swal from "sweetalert2";
+import useAuth from "../../Hooks/useAuth";
 
 const Login = () => {
+  const { user } = useAuth();
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (user) {
+      navigate("/");
+    }
+  }, [user]);
+
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
     email: "",
@@ -16,30 +25,36 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axois.post(`/login`, formData,{
-        withCredentials: true
+      const res = await axois.post(`/login`, formData, {
+        withCredentials: true,
       });
 
-      if (res.data.message ==="Wrong password") {
-        return (Swal.fire({
-        icon: "error",
-        title: `${res.data.message}`,
-        text: res.data.message || "Something went wrong",
-      }))
+      if (res.data.message === "Wrong password") {
+        return Swal.fire({
+          icon: "error",
+          title: `${res.data.message}`,
+          text: res.data.message || "Something went wrong",
+        });
       }
-      if (res.data.message ==="User not found") {
-        return (Swal.fire({
-        icon: "error",
-        title: `This Email Not Register Our Website`,
-        text: res.data.message || "Something went wrong",
-      }))
+      if (res.data.message === "User not found") {
+        return Swal.fire({
+          icon: "error",
+          title: `This Email Not Register Our Website`,
+          text: res.data.message || "Something went wrong",
+        });
       }
       if (res.data.message) {
-        return (Swal.fire({
-        icon: "success",
-        title: `SuccessFully Log In`,
-        text: res.data.message || "Something went wrong",
-      }))
+        Swal.fire({
+          position: "top-end",
+          icon: "success",
+          title: "Successfully Logged In",
+          showConfirmButton: false,
+          text: res.data.message,
+          timer: 1500,
+        }).then(() => {
+          window.location.href = "/";
+          // navigate("/");
+        });
       }
     } catch (error) {
       Swal.fire({
@@ -49,7 +64,6 @@ const Login = () => {
       });
     }
   };
-
   return (
     <div className="relative min-h-screen w-full flex items-center justify-center bg-[#f2f2f2] font-sans overflow-hidden py-20 px-6">
       {/* 1. Background Image Layer */}

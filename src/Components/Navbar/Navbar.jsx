@@ -1,20 +1,31 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import { Menu, Heart, ShoppingBag, User, X, ChevronRight } from "lucide-react";
 import Logo from "../Shared/Logo";
 import { Link } from "react-router";
 import UserMenu from "../Items/User/UserMenu";
-import { AuthContext } from "../../Provider/AuthContext";
+import useAuth from "../../Hooks/useAuth";
 
 const Navbar = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-     const { user:users } = useContext(AuthContext);
-     console.log(users)
 
-  const navLinks = ["Home", "Collections", "Profile", "New", "Offers", "About" ,"Login","Register"];
-  const user = {
-    name: "Yasir Arafat",
-    email: "email.com",
-  };
+  const { user } = useAuth();
+
+  const navLinks = [
+    { name: "Home", path: "/", public: true },
+    { name: "Collections", path: "/collections", public: true },
+    { name: "New", path: "/new", public: true },
+    { name: "Offers", path: "/offers", public: true },
+    { name: "About", path: "/about", public: true },
+    { name: "Login", path: "/login", publicOnly: true },
+    { name: "Register", path: "/register", publicOnly: true },
+    { name: "Profile", path: "/profile", private: true },
+    { name: "Dashboard", path: "/dashboard", private: true },
+  ];
+  const filteredLinks = navLinks.filter((link) => {
+    if (link.private && !user) return false;
+    if (link.publicOnly && user) return false;
+    return true;
+  });
 
   return (
     <>
@@ -31,12 +42,12 @@ const Navbar = () => {
           <div className="hidden md:flex items-center gap-8 text-[13px] font-semibold uppercase tracking-tight text-gray-700">
             {navLinks.slice(0, 5).map((link) => (
               <Link
-                key={link}
-                to={link === "Home" ? "/" : `/${link.toLowerCase()}`}
+                key={link.name}
+                to={link.path}
                 // href="#"
                 className="hover:text-black transition-colors"
               >
-                {link}
+                {link.name}
               </Link>
             ))}
           </div>
@@ -60,14 +71,14 @@ const Navbar = () => {
             </div>
           </div>
           {user ? (
-            
-            <UserMenu />
+            <UserMenu user={user} />
           ) : (
-          
-            <button className="flex items-center gap-2 px-6 py-2.5 bg-[#1A1A1A] text-white text-[11px] font-black uppercase tracking-[0.2em] hover:bg-black transition-all active:scale-95 rounded-full shadow-lg">
-              <User size={14} />
-              Log In
-            </button>
+            <Link to={"/login"}>
+              <button className="flex items-center gap-2 px-6 py-2.5 bg-[#1A1A1A] text-white text-[11px] font-black uppercase tracking-[0.2em] hover:bg-black transition-all active:scale-95 rounded-full shadow-lg">
+                <User size={14} />
+                Log In
+              </button>
+            </Link>
           )}
           {/* <UserMenu ></UserMenu> */}
         </div>
@@ -101,14 +112,14 @@ const Navbar = () => {
           </div>
 
           <div className="flex flex-col gap-6">
-            {navLinks.map((link) => (
+            {filteredLinks.map((link) => (
               <Link
-                key={link}
-                to={link === "Home" ? "/" : `/${link.toLowerCase()}`}
+                key={link.name}
+                to={link.path}
                 className="group flex items-center justify-between text-lg font-medium text-gray-800 hover:text-black transition-colors"
                 onClick={() => setIsDrawerOpen(false)}
               >
-                {link}
+                {link.name}
                 <ChevronRight
                   size={18}
                   className="opacity-0 group-hover:opacity-100 transition-all -translate-x-2 group-hover:translate-x-0"
