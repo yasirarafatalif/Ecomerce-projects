@@ -6,8 +6,8 @@ const AuthProvider = ({ children }) => {
   const axios = useAxios();
 
   const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true); // ✅ start true
-
+  const [loading, setLoading] = useState(false);
+  console.log(loading)
   useEffect(() => {
     axios
       .get("/profile", { withCredentials: true })
@@ -18,9 +18,9 @@ const AuthProvider = ({ children }) => {
         setUser(null);
       })
       .finally(() => {
-        setLoading(false); // ✅ end false
+        setLoading(true);
       });
-  }, []);
+  }, [axios]);
 
   return (
     <AuthContext.Provider value={{ user, setUser, loading }}>

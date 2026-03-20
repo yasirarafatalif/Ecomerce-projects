@@ -16,12 +16,13 @@ import { AuthContext } from "../../Provider/AuthContext";
 
 const UserProfile = () => {
   const { user: user, loading } = useContext(AuthContext);
+  console.log(loading)
 
   const handleLogout = () => {
     console.log("Logging out...");
   };
 
-  if (loading) return <PremiumSpinner />;
+  if (!loading) return <PremiumSpinner />;
 
   if (!user) {
     return (
