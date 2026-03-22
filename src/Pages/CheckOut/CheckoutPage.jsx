@@ -8,7 +8,6 @@ const CheckoutPage = () => {
   const { id } = useParams();
   const location = useLocation();
   const data = location.state;
-  console.log(data)
   const navigate = useNavigate();
   const handelsubmit = (e) => {
     e.preventDefault();

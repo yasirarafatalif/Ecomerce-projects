@@ -16,6 +16,7 @@ import { GoPackage } from "react-icons/go";
 import PremiumLoader from "../../Components/Shared/PremiumSpinner";
 import useAuth from "../../Hooks/useAuth";
 import Swal from "sweetalert2";
+import { title } from "framer-motion/m";
 
 const ProductDetails = () => {
   const { id } = useParams();
@@ -135,6 +136,11 @@ const ProductDetails = () => {
     const wishdata = {
       userEmail: user?.email,
       productId: id,
+      productTitle:products.title,
+      productImg:products.img,
+      productPrice:products.price,
+      productCategory:products?.category
+      
     };
     try {
       const res = await axois.post("/wishlist", wishdata);
