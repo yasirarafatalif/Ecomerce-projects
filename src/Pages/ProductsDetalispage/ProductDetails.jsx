@@ -8,7 +8,7 @@ import {
   ChevronDown,
   Share2,
 } from "lucide-react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import useAxios from "../../Hooks/useAxios";
 import { HiShoppingBag } from "react-icons/hi";
@@ -21,6 +21,7 @@ const ProductDetails = () => {
   const { id } = useParams();
   const axois = useAxios();
   const [active, setActive] = useState(null);
+  const navigate = useNavigate();
 
   const { user } = useAuth();
   const { data: products = [], isLoading } = useQuery({
@@ -78,6 +79,8 @@ const ProductDetails = () => {
       productType: product?.gender,
       size: selectedSize,
     };
+    // navigate(`/checkout/${product?._id}`,{ state: cartData })
+    
     const res = await axois.post("/orders", cartData);
     console.log(res);
     if (res.data.success) {
@@ -88,6 +91,7 @@ const ProductDetails = () => {
         showConfirmButton: false,
         timer: 1500,
       });
+      navigate(`/checkout/${product?._id}`,{ state: cartData })
     } else{
        Swal.fire({
         position: "top-end",
@@ -226,9 +230,9 @@ const ProductDetails = () => {
                   </button>
                 </div>
 
-                <Link
-                //  to={"/checkout"}
-                >
+                {/* <Link
+                 to={"/checkout"}
+                > */}
                   <button
                     onClick={() => hanadelAddToCart(products)}
                     className="w-full bg-[#1A1A1A] text-white py-5 flex items-center justify-center gap-4 hover:bg-black transition-all group active:scale-[0.98] shadow-xl"
@@ -242,7 +246,7 @@ const ProductDetails = () => {
                       Add to Bag
                     </span>
                   </button>
-                </Link>
+                {/* </Link> */}
               </div>
 
               {/* Details Toggles */}

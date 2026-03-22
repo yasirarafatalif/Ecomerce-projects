@@ -1,9 +1,10 @@
 import React, { useState } from "react";
-import { Menu, Heart, ShoppingBag, User, X, ChevronRight } from "lucide-react";
+import { Menu, Heart, ShoppingBag, User, X, ChevronRight, ShoppingCart } from "lucide-react";
 import Logo from "../Shared/Logo";
 import { Link } from "react-router";
 import UserMenu from "../Items/User/UserMenu";
 import useAuth from "../../Hooks/useAuth";
+import CartShowBtn from "./CartShowBtn";
 
 const Navbar = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
@@ -61,15 +62,10 @@ const Navbar = () => {
           <button className="hidden sm:flex p-2.5 bg-[#1A1A1A] text-white rounded-full hover:bg-black transition-transform active:scale-95">
             <Heart size={16} />
           </button>
-
-          <div className="flex items-center bg-[#1A1A1A] rounded-full p-1 pl-3 md:pl-5 pr-1 gap-2 md:gap-4 cursor-pointer hover:bg-black transition-all active:scale-95">
-            <span className="text-white text-[10px] md:text-xs font-bold uppercase tracking-widest hidden xs:block">
-              Cart
-            </span>
-            <div className="bg-white p-1.5 rounded-full shadow-sm">
-              <ShoppingBag size={14} className="text-black" />
-            </div>
-          </div>
+          <CartShowBtn user={user}></CartShowBtn>
+          {/* <button className="hidden sm:flex p-2.5 bg-[#1A1A1A] text-white rounded-full hover:bg-black transition-transform active:scale-95">
+            <ShoppingCart size={16} className="text-white" />
+          </button> */}
           {user ? (
             <UserMenu user={user} />
           ) : (

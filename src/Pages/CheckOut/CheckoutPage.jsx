@@ -1,10 +1,14 @@
 import React, { useState } from "react";
 import { CreditCard, Truck, ChevronLeft, Lock, Info } from "lucide-react";
 import Swal from "sweetalert2";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 
 const CheckoutPage = () => {
   const [paymentMethod, setPaymentMethod] = useState("card");
+  const { id } = useParams();
+  const location = useLocation();
+  const data = location.state;
+  console.log(data)
   const navigate = useNavigate();
   const handelsubmit = (e) => {
     e.preventDefault();

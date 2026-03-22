@@ -15,6 +15,7 @@ import Register from "../Pages/Register/Register";
 import Login from "../Pages/LogIn/Login";
 import UserProfile from "../Pages/Profile/UserProfile";
 import PrivateRoute from "./Privateroute";
+import CartPage from "../Pages/CartPage/CartPage";
 
 
 export const router = createBrowserRouter(
@@ -30,8 +31,9 @@ export const router = createBrowserRouter(
                 { path: "register", element: <Register></Register>},
                 { path: "collections", element: <CollectionPage></CollectionPage> },
                 { path: "products/:id", element: <ProductDetails></ProductDetails> },
-                { path: "checkout", element: <CheckoutPage></CheckoutPage> },
+                { path: "checkout/:id", element: <CheckoutPage></CheckoutPage> },
                 { path: "offers", element: <OffersPage></OffersPage> },
+                { path: "cart", element: <CartPage></CartPage> },
                 { path: "about", element: <AboutUs></AboutUs> },
                 { path: "new", element: <NewPage></NewPage> },
                 { path: "my-orders", element: <MyOrders></MyOrders>  },
