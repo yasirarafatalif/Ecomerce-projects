@@ -32,8 +32,7 @@ const ProductDetails = () => {
     },
   });
 
-  const titie = products.category;
-  console.log(titie);
+;
 
   const detailsData = [
     {

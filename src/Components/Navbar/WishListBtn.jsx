@@ -8,7 +8,7 @@ const WishListBtn = ({ user }) => {
   const axios = useAxios();
   const email = user?.email;
 
-  const { data: wishlist = [], isLoading } = useQuery({
+  const { data: wishlist = [] } = useQuery({
     queryKey: ["wish-list-show", email],
     enabled: !!email,
     queryFn: async () => {
