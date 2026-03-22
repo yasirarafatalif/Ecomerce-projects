@@ -14,6 +14,7 @@ import useAuth from "../../Hooks/useAuth";
 import useAxios from "../../Hooks/useAxios";
 import { useQuery } from "@tanstack/react-query";
 import Swal from "sweetalert2";
+import { Link } from "react-router-dom";
 
 const WishlistPage = () => {
   const [cols, setCols] = useState(4);
@@ -57,10 +58,9 @@ const WishlistPage = () => {
         });
       }
     } catch (error) {
-      console.log(error);
-
       Swal.fire({
         icon: "error",
+        text: `${error}`,
         title: "Something went wrong",
       });
     }
@@ -68,6 +68,7 @@ const WishlistPage = () => {
 
   return (
     <div className="relative min-h-screen bg-[#F2F2F2] pt-32 pb-20 font-sans overflow-hidden">
+      <title>WishList-Page</title>
       {/* Background Layer */}
       <div
         className="absolute inset-0 z-0 bg-cover bg-center pointer-events-none"
@@ -112,8 +113,9 @@ const WishlistPage = () => {
                 />
               </button>
               <button
-              onClick={() => handelDeleteWishlist(null, true)}
-               className="text-[10px] font-black uppercase tracking-widest text-red-500 flex items-center gap-2">
+                onClick={() => handelDeleteWishlist(null, true)}
+                className="text-[10px] font-black uppercase tracking-widest text-red-500 flex items-center gap-2"
+              >
                 <Trash2 size={12} /> Clear List
               </button>
             </div>
@@ -121,6 +123,7 @@ const WishlistPage = () => {
         </div>
 
         {/* --- 2. WISHLIST DYNAMIC GRID --- */}
+        {/* <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-16"> */}
         <div
           className={`grid gap-x-8 gap-y-16 transition-all duration-500 ${
             cols === 2
@@ -128,48 +131,78 @@ const WishlistPage = () => {
               : "grid-cols-1 sm:grid-cols-2 lg:grid-cols-4"
           }`}
         >
-          {wishlistItems.map((item) => (
-            <div key={item.id} className="group flex flex-col">
-              {/* Product Card Container */}
-              <div className="relative aspect-[3/4] bg-white overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-700">
-                {/* Remove Trigger */}
-                <button
-                  onClick={() => handelDeleteWishlist(item._id)}
-                  className="absolute top-4 right-4 z-30 p-2.5 bg-white/60 backdrop-blur-md opacity-0 group-hover:opacity-100 transition-all hover:bg-black hover:text-white"
-                >
-                  <X size={16} />
-                </button>
+          {wishlistItems.length > 0 ? (
+            wishlistItems.map((item) => (
+              <div key={item.id} className="group flex flex-col">
+                {/* Product Card Container */}
+                <div className="relative aspect-[3/4] bg-white overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-700">
+                  {/* Remove Trigger */}
+                  <button
+                    onClick={() => handelDeleteWishlist(item._id)}
+                    className="absolute top-4 right-4 z-30 p-2.5 bg-white/60 backdrop-blur-md opacity-0 group-hover:opacity-100 transition-all hover:bg-black hover:text-white"
+                  >
+                    <X size={16} />
+                  </button>
 
-                <img
-                  src={item.productImg}
-                  alt={item.productTitle}
-                  className="w-full h-full object-cover grayscale-[30%] group-hover:grayscale-0 group-hover:scale-110 transition-all duration-1000 ease-out"
+                  <img
+                    src={item.productImg}
+                    alt={item.productTitle}
+                    className="w-full h-full object-cover grayscale-[30%] group-hover:grayscale-0 group-hover:scale-110 transition-all duration-1000 ease-out"
+                  />
+                </div>
+
+                {/* Information & Details */}
+                <div className="mt-6 flex flex-col gap-2">
+                  <div className="flex justify-between items-baseline">
+                    <p className="text-[9px] font-black text-gray-400 uppercase tracking-[0.2em]">
+                      {item?.productCategory}
+                    </p>
+                    <span className="text-sm font-black text-gray-900">
+                      ${item?.productPrice}
+                    </span>
+                  </div>
+                  <h3 className="text-lg font-black uppercase tracking-tighter italic text-gray-800 leading-none group-hover:underline">
+                    {item?.productTitle}
+                  </h3>
+                  <div className="mt-4 flex gap-1 items-center">
+                    <div className="w-1.5 h-1.5 rounded-full bg-black"></div>
+                    <div className="w-1.5 h-1.5 rounded-full bg-gray-300"></div>
+                    <span className="text-[9px] font-bold text-gray-400 uppercase ml-2">
+                      + More Colors
+                    </span>
+                  </div>
+                </div>
+              </div>
+            ))
+          ) : (
+            /* --- EMPTY STATE SECTION --- */
+            <div className="col-span-full flex flex-col items-center justify-center py-10 text-center">
+              <div className="relative mb-8">
+                <Heart
+                  size={80}
+                  className="text-gray-100 absolute -top-10 -left-10 -rotate-12"
                 />
+                <h2 className="text-6xl md:text-7xl font-black italic uppercase tracking-tighter text-gray-200 leading-none">
+                  EMPTY <br /> VAULT.
+                </h2>
               </div>
 
-              {/* Information & Details */}
-              <div className="mt-6 flex flex-col gap-2">
-                <div className="flex justify-between items-baseline">
-                  <p className="text-[9px] font-black text-gray-400 uppercase tracking-[0.2em]">
-                    {item?.productCategory}
-                  </p>
-                  <span className="text-sm font-black text-gray-900">
-                    {item?.productPrice}
-                  </span>
-                </div>
-                <h3 className="text-lg font-black uppercase tracking-tighter italic text-gray-800 leading-none group-hover:underline">
-                  {item?.productTitle}
-                </h3>
-                <div className="mt-4 flex gap-1 items-center">
-                  <div className="w-1.5 h-1.5 rounded-full bg-black"></div>
-                  <div className="w-1.5 h-1.5 rounded-full bg-gray-300"></div>
-                  <span className="text-[9px] font-bold text-gray-400 uppercase ml-2">
-                    + More Colors
-                  </span>
-                </div>
-              </div>
+              <p className="max-w-xs text-[10px] font-black uppercase tracking-[0.3em] text-gray-400 leading-relaxed mb-10">
+                Your curated selection is empty. Explore the XIV collection to
+                add items to your wishlist.
+              </p>
+
+              <Link to="/collections">
+                <button className="bg-black text-white px-10 py-5 text-[11px] font-black uppercase tracking-[0.3em] hover:bg-blue-700 transition-all active:scale-95 shadow-2xl flex items-center gap-3 group">
+                  Back to Collections
+                  <ArrowRight
+                    size={16}
+                    className="group-hover:translate-x-2 transition-transform"
+                  />
+                </button>
+              </Link>
             </div>
-          ))}
+          )}
         </div>
 
         {/* --- 3. EMPTY STATE HELP --- */}
@@ -190,9 +223,11 @@ const WishlistPage = () => {
             </div>
           </div>
 
-          <button className="px-12 py-5 bg-black text-white text-[11px] font-black uppercase tracking-widest hover:bg-gray-800 transition-all shadow-2xl active:scale-95">
-            Continue Shopping
-          </button>
+          <Link to={"/collections"}>
+            <button className="px-12 py-5 bg-black text-white text-[11px] font-black uppercase tracking-widest hover:bg-gray-800 transition-all shadow-2xl active:scale-95">
+              Continue Shopping
+            </button>
+          </Link>
         </div>
       </div>
     </div>
