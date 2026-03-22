@@ -27,9 +27,6 @@ const CartPage = () => {
       return res.data;
     },
   });
-  //   console.log(cartItems)
-  // const [quantity, setQuantity] = useState(item.totalQuantity||1);
-
   const subtotal = cartItems.reduce(
     (acc, item) => acc + item.productPrice * item.totalQuantity,
     0,

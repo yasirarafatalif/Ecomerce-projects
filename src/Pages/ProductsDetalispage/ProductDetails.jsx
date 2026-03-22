@@ -32,6 +32,9 @@ const ProductDetails = () => {
     },
   });
 
+  const titie = products.category;
+  console.log(titie);
+
   const detailsData = [
     {
       title: "Description",
@@ -78,31 +81,90 @@ const ProductDetails = () => {
       productPrice: product?.price,
       productType: product?.gender,
       size: selectedSize,
-      img: mainImage
+      img: mainImage,
     };
-
-    // navigate(`/checkout/${product?._id}`,{ state: cartData })
-    
-    const res = await axois.post("/orders", cartData);
-    if (res.data.success) {
-      Swal.fire({
-        position: "top-end",
-        icon: "success",
-        title: `${res.data.message}`,
-        showConfirmButton: false,
-        timer: 1500,
-      });
-      // navigate(`/checkout/${product?._id}`,{ state: cartData })
-    } else{
-       Swal.fire({
+    if (!user) {
+      return Swal.fire({
         position: "top-end",
         icon: "error",
-        title: `${res.data.message}`,
+        title: "Please LogIn First",
         showConfirmButton: false,
         timer: 1500,
       });
     }
-    
+    try {
+      const res = await axois.post("/orders", cartData);
+      if (res.data.success) {
+        Swal.fire({
+          position: "top-end",
+          icon: "success",
+          title: `${res.data.message}`,
+          showConfirmButton: false,
+          timer: 1500,
+        });
+        // navigate(`/checkout/${product?._id}`,{ state: cartData })
+      } else {
+        Swal.fire({
+          position: "top-end",
+          icon: "error",
+          title: `${res.data.message}`,
+          showConfirmButton: false,
+          timer: 1500,
+        });
+      }
+    } catch (error) {
+      Swal.fire({
+        position: "top-end",
+        icon: "error",
+        title: `${error}`,
+        showConfirmButton: false,
+        timer: 1500,
+      });
+    }
+  };
+
+  const handelWishlist = async (id) => {
+    if (!user) {
+      return Swal.fire({
+        position: "top-end",
+        icon: "error",
+        title: "Please LogIn First",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+    }
+    const wishdata = {
+      userEmail: user?.email,
+      productId: id,
+    };
+    try {
+      const res = await axois.post("/wishlist", wishdata);
+      if (res.data.success) {
+        Swal.fire({
+          position: "top-end",
+          icon: "success",
+          title: `${res.data.message}`,
+          showConfirmButton: false,
+          timer: 1500,
+        });
+      } else {
+        Swal.fire({
+          position: "top-end",
+          icon: "error",
+          title: `${res.data.message}`,
+          showConfirmButton: false,
+          timer: 1500,
+        });
+      }
+    } catch (error) {
+      Swal.fire({
+        position: "top-end",
+        icon: "error",
+        title: `${error}`,
+        showConfirmButton: false,
+        timer: 1500,
+      });
+    }
   };
 
   if (isLoading) {
@@ -111,8 +173,8 @@ const ProductDetails = () => {
 
   return (
     <div className="min-h-screen bg-[#f2f2f2] pt-28 pb-20 font-sans">
-      <title>Product Details {products.title}</title>
       <div className="max-w-[1440px] mx-auto px-4 md:px-12">
+        <title>{` ${products.title}`}</title>
         <div className="flex flex-col lg:flex-row gap-12 items-start">
           {/* --- LEFT: IMAGE SECTION --- */}
           <div className="w-full lg:flex-1 flex flex-col md:flex-row gap-4">
@@ -135,13 +197,16 @@ const ProductDetails = () => {
             </div>
 
             {/* Main Featured Image */}
-            <div className="order-1 md:order-2 flex-1 bg-white aspect-[3/4] overflow-hidden shadow-sm relative group">
+            <div className="order-1 md:order-2 flex-1 bg-white aspect-[4/5] overflow-hidden shadow-sm relative group">
               <img
                 src={mainImage}
                 alt="Main Product"
                 className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
               />
-              <button className="absolute top-4 right-4 p-3 bg-white/80 backdrop-blur-sm rounded-full hover:bg-white transition-all shadow-md">
+              <button
+                onClick={() => handelWishlist(products._id)}
+                className="absolute top-4 right-4 p-3 bg-white/80 backdrop-blur-sm rounded-full hover:bg-white transition-all shadow-md"
+              >
                 <Heart size={20} className="text-gray-900" />
               </button>
             </div>
@@ -234,19 +299,19 @@ const ProductDetails = () => {
                 {/* <Link
                  to={"/checkout"}
                 > */}
-                  <button
-                    onClick={() => hanadelAddToCart(products)}
-                    className="w-full bg-[#1A1A1A] text-white py-5 flex items-center justify-center gap-4 hover:bg-black transition-all group active:scale-[0.98] shadow-xl"
-                  >
-                    <ShoppingBag
-                      size={20}
-                      className="group-hover:rotate-12 transition-transform"
-                    />
+                <button
+                  onClick={() => hanadelAddToCart(products)}
+                  className="w-full bg-[#1A1A1A] text-white py-5 flex items-center justify-center gap-4 hover:bg-black transition-all group active:scale-[0.98] shadow-xl"
+                >
+                  <ShoppingBag
+                    size={20}
+                    className="group-hover:rotate-12 transition-transform"
+                  />
 
-                    <span className="text-sm font-black uppercase tracking-[0.25em]">
-                      Add to Bag
-                    </span>
-                  </button>
+                  <span className="text-sm font-black uppercase tracking-[0.25em]">
+                    Add to Bag
+                  </span>
+                </button>
                 {/* </Link> */}
               </div>
 
