@@ -30,15 +30,21 @@ const WishlistPage = () => {
       return res.data;
     },
   });
-  const handelDeleteWishlist = async (id) => {
+  const handelDeleteWishlist = async (id = null, isAll = false) => {
     try {
-      const res = await axois.delete(`/wishlist-data?id=${id}&email=${email}`);
+      const url = isAll
+        ? `/wishlist-data?email=${email}&all=true`
+        : `/wishlist-data?id=${id}&email=${email}`;
+
+      const res = await axois.delete(url);
 
       if (res.data.deletedCount > 0) {
         Swal.fire({
           position: "top-end",
           icon: "success",
-          title: res.data.message || "Removed from wishlist",
+          title: isAll
+            ? "All wishlist items removed"
+            : res.data.message || "Removed from wishlist",
           showConfirmButton: false,
           timer: 1500,
         });
@@ -105,7 +111,9 @@ const WishlistPage = () => {
                   className="group-hover:translate-x-1 transition-transform"
                 />
               </button>
-              <button className="text-[10px] font-black uppercase tracking-widest text-red-500 flex items-center gap-2">
+              <button
+              onClick={() => handelDeleteWishlist(null, true)}
+               className="text-[10px] font-black uppercase tracking-widest text-red-500 flex items-center gap-2">
                 <Trash2 size={12} /> Clear List
               </button>
             </div>
