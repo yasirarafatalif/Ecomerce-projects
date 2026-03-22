@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Trash2,
   Plus,
@@ -11,36 +11,22 @@ import { Link } from "react-router-dom";
 import useAuth from "../../Hooks/useAuth";
 import useAxios from "../../Hooks/useAxios";
 import { useQuery } from "@tanstack/react-query";
+import Swal from "sweetalert2";
 
 const CartPage = () => {
-    const {user} = useAuth();
+  const { user } = useAuth();
   const axois = useAxios();
   const email = user?.email;
 
-  const { data = [] } = useQuery({
-    queryKey: ["cart-data", email],
+  const { data: cartItems = [], refetch } = useQuery({
+    queryKey: ["cart-page", email],
     enabled: !!email,
     queryFn: async () => {
       const res = await axois.get(`/cartpage?email=${email}`);
       return res.data;
     },
   });
-  // Aponar deya data dynamic vabe ekhane map hobe
-  const cartItems = [
-    {
-      id: "69bfb8768cc045efca05882e",
-      productId: "69b9b03e2ee4bad70172b265",
-      productName: "Silk Floral Wrap Dress",
-      productCategory: "BEST SELLERS",
-      productType: "WOMEN",
-      productPrice: 280,
-      size: "XS",
-      totalQuantity: 1,
-      img: "https://images.unsplash.com/photo-1572804013309-59a88b7e92f1?q=80&w=800", // Sample Img
-      paymentStatus: "Unpaid",
-      deliveryStatus: "Pending",
-    },
-  ];
+  //   console.log(cartItems)
 
   const subtotal = cartItems.reduce(
     (acc, item) => acc + item.productPrice * item.totalQuantity,
@@ -48,6 +34,36 @@ const CartPage = () => {
   );
   const shipping = 15.0;
 
+  const handelDelete = (id) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          const res = await axois.delete(`/cartpage?id=${id}`);
+    
+
+          if (res.data.data.deletedCount > 0) {
+            Swal.fire({
+              title: "Deleted!",
+              text: "Item removed from cart.",
+              icon: "success",
+            });
+
+            refetch();
+          }
+        } catch (error) {
+          console.error(error);
+        }
+      }
+    });
+  };
   return (
     <div className="min-h-screen bg-[#f2f2f2] pt-32 pb-20 font-sans">
       <div className="max-w-[1440px] mx-auto px-6 md:px-12">
@@ -66,7 +82,7 @@ const CartPage = () => {
           <div className="w-full lg:flex-1 space-y-8">
             {cartItems.map((item) => (
               <div
-                key={item.id}
+                key={item._id}
                 className="group relative bg-white/50 backdrop-blur-sm p-6 md:p-8 flex flex-col md:flex-row gap-8 border border-transparent hover:border-black transition-all shadow-sm"
               >
                 {/* Image Container */}
@@ -101,7 +117,10 @@ const CartPage = () => {
                         </p>
                       </div>
                     </div>
-                    <button className="text-gray-300 hover:text-red-500 transition-colors">
+                    <button
+                      onClick={() => handelDelete(item?._id)}
+                      className="text-gray-300 hover:text-red-500 transition-colors"
+                    >
                       <Trash2 size={20} />
                     </button>
                   </div>

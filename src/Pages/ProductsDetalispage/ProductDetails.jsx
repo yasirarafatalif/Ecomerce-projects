@@ -78,11 +78,12 @@ const ProductDetails = () => {
       productPrice: product?.price,
       productType: product?.gender,
       size: selectedSize,
+      img: mainImage
     };
+
     // navigate(`/checkout/${product?._id}`,{ state: cartData })
     
     const res = await axois.post("/orders", cartData);
-    console.log(res);
     if (res.data.success) {
       Swal.fire({
         position: "top-end",
