@@ -18,17 +18,19 @@ const CartShowBtn = ({ user }) => {
   });
 
   return (
-    <div className="relative hidden sm:flex">
-      <button className="p-2.5 bg-[#1A1A1A] text-white rounded-full hover:bg-black transition-transform active:scale-95">
-        <ShoppingCart size={16} className="text-white" />
-      </button>
+    <Link to='/cart'>
+      <div className="relative hidden sm:flex">
+        <button className="p-2.5 bg-[#1A1A1A] text-white rounded-full hover:bg-black transition-transform active:scale-95">
+          <ShoppingCart size={16} className="text-white" />
+        </button>
 
-      {data.length > 0 && (
-        <span className="absolute -top-1 -right-1 bg-red-500 text-white text-[10px] w-5 h-5 flex items-center justify-center rounded-full font-bold">
-          {data.length}
-        </span>
-      )}
-    </div>
+        {data.length > 0 && (
+          <span className="absolute -top-1 -right-1 bg-red-500 text-white text-[10px] w-5 h-5 flex items-center justify-center rounded-full font-bold">
+            {data.length}
+          </span>
+        )}
+      </div>
+    </Link>
   );
 };
 

@@ -12,6 +12,7 @@ import useAuth from "../../Hooks/useAuth";
 import useAxios from "../../Hooks/useAxios";
 import { useQuery } from "@tanstack/react-query";
 import Swal from "sweetalert2";
+import QuantityBox from "../../Components/Items/Cart/QuantityBox";
 
 const CartPage = () => {
   const { user } = useAuth();
@@ -27,6 +28,7 @@ const CartPage = () => {
     },
   });
   //   console.log(cartItems)
+  // const [quantity, setQuantity] = useState(item.totalQuantity||1);
 
   const subtotal = cartItems.reduce(
     (acc, item) => acc + item.productPrice * item.totalQuantity,
@@ -47,7 +49,6 @@ const CartPage = () => {
       if (result.isConfirmed) {
         try {
           const res = await axois.delete(`/cartpage?id=${id}`);
-    
 
           if (res.data.data.deletedCount > 0) {
             Swal.fire({
@@ -59,20 +60,44 @@ const CartPage = () => {
             refetch();
           }
         } catch (error) {
-          console.error(error);
+          Swal.fire({
+            title: "Error!",
+            text: `${error}`,
+            icon: "error",
+          });
         }
       }
     });
   };
+
+  const handleQuantity = async (id, type, currentQty) => {
+    const newQty = type === "inc" ? currentQty + 1 : Math.max(1, currentQty - 1);
+
+    try {
+      await axois.patch(`/cart/${id}`, {
+        quantity: newQty,
+      });
+
+      refetch();
+    } catch (error) {
+      Swal.fire({
+        title: "Error!",
+        text: `${error}`,
+        icon: "error",
+      });
+    }
+  };
+
   return (
     <div className="min-h-screen bg-[#f2f2f2] pt-32 pb-20 font-sans">
+      <title>Cart-Checkout</title>
       <div className="max-w-[1440px] mx-auto px-6 md:px-12">
         {/* Header */}
         <div className="mb-12">
           <p className="text-[10px] font-black uppercase tracking-[0.4em] text-blue-700 italic mb-2">
             XIV Collective / Inventory
           </p>
-          <h1 className="text-5xl md:text-7xl font-black italic tracking-tighter uppercase leading-none text-gray-900">
+          <h1 className="text-4xl md:text-5xl font-black italic tracking-tighter uppercase leading-none text-gray-900">
             YOUR SELECTIONS.
           </h1>
         </div>
@@ -83,7 +108,7 @@ const CartPage = () => {
             {cartItems.map((item) => (
               <div
                 key={item._id}
-                className="group relative bg-white/50 backdrop-blur-sm p-6 md:p-8 flex flex-col md:flex-row gap-8 border border-transparent hover:border-black transition-all shadow-sm"
+                className="group hover:cursor-pointer relative bg-white/50 backdrop-blur-sm p-6 md:p-8 flex flex-col md:flex-row gap-8 border border-transparent  hover:shadow-2xl transition-all shadow-sm"
               >
                 {/* Image Container */}
                 <div className="w-full md:w-40 aspect-[3/4] bg-white overflow-hidden shadow-lg">
@@ -128,16 +153,28 @@ const CartPage = () => {
                   <div className="flex flex-col md:flex-row justify-between items-end md:items-center mt-8 gap-6">
                     {/* Quantity Selector */}
                     <div className="flex items-center border border-gray-300 bg-white">
-                      <button className="p-3 hover:bg-black hover:text-white transition-colors">
+                      <button
+                        disabled={item.totalQuantity === 1}
+                        onClick={() =>
+                          handleQuantity(item._id, "dec", item.totalQuantity)
+                        }
+                        className="p-3 hover:bg-black hover:text-white transition-colors"
+                      >
                         <Minus size={14} />
                       </button>
                       <span className="px-6 font-black text-sm">
                         {item.totalQuantity}
                       </span>
-                      <button className="p-3 hover:bg-black hover:text-white transition-colors">
+                      <button
+                        onClick={() =>
+                          handleQuantity(item._id, "inc", item.totalQuantity)
+                        }
+                        className="p-3 hover:bg-black hover:text-white transition-colors"
+                      >
                         <Plus size={14} />
                       </button>
                     </div>
+                    {/* <QuantityBox key={item._id} item={item} /> */}
 
                     {/* Status Badges */}
                     <div className="flex gap-3">

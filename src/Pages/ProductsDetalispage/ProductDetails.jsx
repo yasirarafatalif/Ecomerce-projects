@@ -92,7 +92,7 @@ const ProductDetails = () => {
         showConfirmButton: false,
         timer: 1500,
       });
-      navigate(`/checkout/${product?._id}`,{ state: cartData })
+      // navigate(`/checkout/${product?._id}`,{ state: cartData })
     } else{
        Swal.fire({
         position: "top-end",
