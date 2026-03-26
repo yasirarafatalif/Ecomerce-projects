@@ -9,11 +9,13 @@ import {
   AlertCircle,
   ArrowUpRight,
   Filter,
+  ArrowRight,
 } from "lucide-react";
 import useAxios from "../../../Hooks/useAxios";
 import useAuth from "../../../Hooks/useAuth";
 import { useQuery } from "@tanstack/react-query";
 import PremiumLoader from "../../../Components/Shared/PremiumSpinner";
+import { Link } from "react-router-dom";
 
 const AdvancedOrders = () => {
   const axois = useAxios();
@@ -21,8 +23,8 @@ const AdvancedOrders = () => {
   const email = user?.email;
   const [activeTab, setActiveTab] = useState("All");
   const tabs = ["All", "Processing", "In Transit", "Delivered", "Cancelled"];
-  const { data: orders = [] , isLoading } = useQuery({
-    queryKey: ["My-orders", email,activeTab],
+  const { data: orders = [], isLoading } = useQuery({
+    queryKey: ["My-orders", email, activeTab],
     enabled: !!email,
     queryFn: async () => {
       let url = `/orders?email=${email}`;
@@ -37,8 +39,8 @@ const AdvancedOrders = () => {
     },
   });
 
-  if(isLoading){
-    return <PremiumLoader></PremiumLoader>
+  if (isLoading) {
+    return <PremiumLoader></PremiumLoader>;
   }
 
   return (
@@ -98,113 +100,148 @@ const AdvancedOrders = () => {
 
         {/* --- 3. ORDERS LIST --- */}
         <div className="flex flex-col gap-10">
-          {orders.map((order) => (
-            <div
-              key={order.id}
-              className="bg-white group transition-all duration-500 hover:shadow-2xl"
-            >
-              {/* Order Info Header */}
-              <div className="p-6 md:p-8 flex flex-col md:flex-row justify-between gap-8 border-b border-gray-50">
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-8 flex-1">
-                  <InfoBlock
-                    label="Order Reference"
-                    value={`${order?.orderId}`}
-                  />
-                  <InfoBlock
-                    label="Order Placed"
-                    value={new Date(order?.createdAt).toLocaleDateString(
-                      "en-GB",
-                      {
-                        day: "2-digit",
-                        month: "short",
-                        year: "numeric",
-                      },
-                    )}
-                  />
-                  <InfoBlock
-                    label="Payment Method"
-                    value={order?.paymentMethod}
-                  />
-                  <InfoBlock
-                    label="Total Amount"
-                    value={`BDT ${order.totalAmount}`}
-                    isBold
-                  />
+          {orders.length > 0 ? (
+            orders.map((order) => (
+              <div
+                key={order.id}
+                className="bg-white group transition-all duration-500 hover:shadow-2xl border border-transparent hover:border-black/5"
+              >
+                {/* Order Info Header */}
+                <div className="p-6 md:p-8 flex flex-col md:flex-row justify-between gap-8 border-b border-gray-50">
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-8 flex-1">
+                    <InfoBlock
+                      label="Order Reference"
+                      value={`${order?.orderId}`}
+                    />
+                    <InfoBlock
+                      label="Order Placed"
+                      value={new Date(order?.createdAt).toLocaleDateString(
+                        "en-GB",
+                        {
+                          day: "2-digit",
+                          month: "short",
+                          year: "numeric",
+                        },
+                      )}
+                    />
+                    <InfoBlock
+                      label="Payment Method"
+                      value={order?.paymentMethod?.toUpperCase()}
+                    />
+                    <InfoBlock
+                      label="Total Amount"
+                      value={`BDT ${order.totalAmount}`}
+                      isBold
+                    />
+                  </div>
+
+                  <div className="flex items-center gap-4">
+                    <StatusBadge status={order?.deliveryStatus} />
+                    <button className="p-3 bg-gray-50 hover:bg-black hover:text-white transition-all rounded-sm">
+                      <ArrowUpRight size={18} />
+                    </button>
+                  </div>
                 </div>
 
-                <div className="flex items-center gap-4">
-                  <StatusBadge status={order?.deliveryStatus} />
-                  <button className="p-3 bg-gray-50 hover:bg-black hover:text-white transition-all rounded-sm">
-                    <ArrowUpRight size={18} />
-                  </button>
-                </div>
-              </div>
-
-              {/* Order Items Section */}
-              <div className="p-6 md:p-8">
-                <div className="space-y-8">
-                  {order?.products?.map((item, i) => (
-                    <div
-                      key={i}
-                      className="flex flex-col md:flex-row md:items-center justify-between gap-6 group/item"
-                    >
-                      <div className="flex items-center gap-6">
-                        <div className="w-20 h-24 bg-gray-100 overflow-hidden relative">
-                          <img
-                            src={item.img}
-                            alt={item.productName}
-                            className="w-full h-full object-cover grayscale-[30%] group-hover/item:grayscale-0 group-hover/item:scale-110 transition-all duration-700"
-                          />
-                        </div>
-                        <div>
-                          <h4 className="text-sm font-black uppercase tracking-tighter text-gray-900 italic">
-                            {item.productName}
-                          </h4>
-                          <div className="flex gap-4 mt-2 text-[10px] font-bold text-gray-400 uppercase tracking-widest">
-                            <span>Size: {item?.size}</span>
-                            <span>Qty: {item.totalQuantity}</span>
-                            <span>Price: {item.productPrice}</span>
+                {/* Order Items Section */}
+                <div className="p-6 md:p-8">
+                  <div className="space-y-8">
+                    {order?.products?.map((item, i) => (
+                      <div
+                        key={i}
+                        className="flex flex-col md:flex-row md:items-center justify-between gap-6 group/item"
+                      >
+                        <div className="flex items-center gap-6">
+                          <div className="w-20 h-24 bg-gray-100 overflow-hidden relative shadow-sm">
+                            <img
+                              src={item.img}
+                              alt={item.productName}
+                              className="w-full h-full object-cover grayscale-[30%] group-hover/item:grayscale-0 group-hover/item:scale-110 transition-all duration-700"
+                            />
+                          </div>
+                          <div>
+                            <h4 className="text-sm font-black uppercase tracking-tighter text-gray-900 italic leading-none">
+                              {item.productName}
+                            </h4>
+                            <div className="flex gap-4 mt-3 text-[10px] font-bold text-gray-400 uppercase tracking-widest">
+                              <span>Size: {item?.size}</span>
+                              <span>Qty: {item.totalQuantity}</span>
+                              <span className="text-black font-black italic">
+                                Price: ${item.productPrice}
+                              </span>
+                            </div>
                           </div>
                         </div>
-                      </div>
 
-                      <div className="flex gap-3">
-                        <button className="px-5 py-2.5 border border-gray-200 text-[9px] font-black uppercase tracking-widest hover:border-black transition-colors">
-                          Return Item
-                        </button>
-                        <button className="px-5 py-2.5 border border-gray-200 text-[9px] font-black uppercase tracking-widest hover:border-black transition-colors">
-                          Buy It Again
-                        </button>
+                        <div className="flex gap-3">
+                          <button className="px-5 py-2.5 border border-gray-200 text-[9px] font-black uppercase tracking-widest hover:border-black transition-colors">
+                            Return Item
+                          </button>
+                          <button className="px-5 py-2.5 border border-gray-200 text-[9px] font-black uppercase tracking-widest hover:bg-black hover:text-white transition-colors">
+                            Buy It Again
+                          </button>
+                        </div>
                       </div>
-                    </div>
-                  ))}
+                    ))}
+                  </div>
+                </div>
+
+                {/* Order Footer / Tracking Progress */}
+                <div className="px-6 md:px-8 py-6 bg-gray-50/50 flex flex-col md:flex-row justify-between items-center gap-6">
+                  <div className="flex items-center gap-6 text-[10px] font-black uppercase tracking-widest text-gray-400">
+                    <span
+                      className={`flex items-center gap-2 ${order.paymentStatus === "Paid" ? "text-green-600" : "text-orange-500"}`}
+                    >
+                      <CheckCircle2 size={14} /> {order.paymentStatus}
+                    </span>
+                    <span className="flex items-center gap-2 text-black font-bold">
+                      <Package size={14} />{" "}
+                      {order.deliveryStatus === "Delivered"
+                        ? "Delivered to Home"
+                        : `Logistics: ${order.deliveryStatus}`}
+                    </span>
+                  </div>
+                  <div className="flex gap-4 w-full md:w-auto">
+                    <button className="flex-1 md:flex-none px-8 py-3 bg-white border border-gray-200 text-[10px] font-black uppercase tracking-widest hover:bg-black hover:text-white transition-all shadow-sm">
+                      Track Parcel
+                    </button>
+                    <button className="flex-1 md:flex-none px-8 py-3 bg-black text-white text-[10px] font-black uppercase tracking-widest hover:bg-blue-700 transition-all shadow-lg">
+                      Review Product
+                    </button>
+                  </div>
+                </div>
+              </div>
+            ))
+          ) : (
+            /* --- EMPTY ORDER STATE --- */
+            <div className="flex flex-col items-center justify-center py-32 px-6 bg-white/50 backdrop-blur-sm border-2 border-dashed border-gray-200">
+              <div className="relative mb-8">
+                <Package size={80} className="text-gray-100" />
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <Clock size={24} className="text-gray-300 animate-pulse" />
                 </div>
               </div>
 
-              {/* Order Footer / Tracking Progress */}
-              <div className="px-6 md:px-8 py-6 bg-gray-50/50 flex flex-col md:flex-row justify-between items-center gap-6">
-                <div className="flex items-center gap-6 text-[10px] font-black uppercase tracking-widest text-gray-400">
-                  <span className="flex items-center gap-2 text-green-600">
-                    <CheckCircle2 size={14} /> Paid
-                  </span>
-                  <span className="flex items-center gap-2">
-                    <Package size={14} />{" "}
-                    {order.status === "Delivered"
-                      ? "Delivered to Home"
-                      : "At Sorting Center"}
-                  </span>
-                </div>
-                <div className="flex gap-4 w-full md:w-auto">
-                  <button className="flex-1 md:flex-none px-8 py-3 bg-white border border-gray-200 text-[10px] font-black uppercase tracking-widest hover:bg-black hover:text-white hover:border-black transition-all shadow-sm">
-                    Track Parcel
-                  </button>
-                  <button className="flex-1 md:flex-none px-8 py-3 bg-black text-white text-[10px] font-black uppercase tracking-widest hover:bg-gray-800 transition-all shadow-lg">
-                    Review Product
-                  </button>
-                </div>
-              </div>
+              <h2 className="text-4xl md:text-6xl font-black italic uppercase tracking-tighter text-gray-900 text-center leading-none">
+                NO RECENT <br /> ACQUISITIONS.
+              </h2>
+
+              <p className="mt-6 text-[10px] md:text-[11px] font-black uppercase tracking-[0.3em] text-gray-400 text-center max-w-sm leading-relaxed italic">
+                Your order vault is currently empty. Start your aesthetic
+                journey today.
+              </p>
+
+              <Link to="/collections" className="mt-10">
+                <button className="bg-black text-white px-12 py-5 text-[11px] font-black uppercase tracking-[0.3em] hover:bg-blue-700 transition-all flex items-center gap-4 group shadow-2xl">
+                  Browse Collections
+                  <ArrowRight
+                    size={18}
+                    className="group-hover:translate-x-2 transition-transform"
+                  />
+                </button>
+              </Link>
             </div>
-          ))}
+          )}
         </div>
 
         {/* Empty Style Help */}
