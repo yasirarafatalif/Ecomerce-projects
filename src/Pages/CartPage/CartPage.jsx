@@ -6,6 +6,7 @@ import {
   ArrowRight,
   ShieldCheck,
   Truck,
+  ShoppingBag,
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import useAuth from "../../Hooks/useAuth";
@@ -68,7 +69,8 @@ const CartPage = () => {
   };
 
   const handleQuantity = async (id, type, currentQty) => {
-    const newQty = type === "inc" ? currentQty + 1 : Math.max(1, currentQty - 1);
+    const newQty =
+      type === "inc" ? currentQty + 1 : Math.max(1, currentQty - 1);
 
     try {
       await axois.patch(`/cart/${id}`, {
@@ -102,90 +104,124 @@ const CartPage = () => {
         <div className="flex flex-col lg:flex-row gap-16 items-start">
           {/* --- LEFT: CART ITEMS LIST --- */}
           <div className="w-full lg:flex-1 space-y-8">
-            {cartItems.map((item) => (
-              <div
-                key={item._id}
-                className="group hover:cursor-pointer relative bg-white/50 backdrop-blur-sm p-6 md:p-8 flex flex-col md:flex-row gap-8 border border-transparent  hover:shadow-2xl transition-all shadow-sm"
-              >
-                {/* Image Container */}
-                <div className="w-full md:w-40 aspect-[3/4] bg-white overflow-hidden shadow-lg">
-                  <img
-                    src={item.img}
-                    alt={item.productName}
-                    className="w-full h-full object-cover grayscale-[20%] group-hover:grayscale-0 transition-all duration-700"
-                  />
-                </div>
+            {cartItems.length > 0 ? (
+              cartItems.map((item) => (
+                <div
+                  key={item._id}
+                  className="group hover:cursor-pointer relative bg-white/50 backdrop-blur-sm p-6 md:p-8 flex flex-col md:flex-row gap-8 border border-transparent hover:shadow-2xl transition-all shadow-sm"
+                >
+                  {/* Image Container */}
+                  <div className="w-full md:w-40 aspect-[3/4] bg-white overflow-hidden shadow-lg">
+                    <img
+                      src={item.img}
+                      alt={item.productName}
+                      className="w-full h-full object-cover grayscale-[20%] group-hover:grayscale-0 transition-all duration-700"
+                    />
+                  </div>
 
-                {/* Details Container */}
-                <div className="flex-1 flex flex-col justify-between py-2">
-                  <div className="flex justify-between items-start">
-                    <div>
-                      <p className="text-[10px] font-black uppercase tracking-widest text-gray-400 mb-1">
-                        {item.productCategory} / {item.productType}
-                      </p>
-                      <h3 className="text-2xl font-black uppercase italic tracking-tighter text-gray-900 leading-tight">
-                        {item.productName}
-                      </h3>
-                      <div className="flex gap-6 mt-4 text-[11px] font-black uppercase tracking-widest text-gray-500">
-                        <p>
-                          Size:{" "}
-                          <span className="text-black italic">{item.size}</span>
+                  {/* Details Container */}
+                  <div className="flex-1 flex flex-col justify-between py-2">
+                    <div className="flex justify-between items-start">
+                      <div>
+                        <p className="text-[10px] font-black uppercase tracking-widest text-gray-400 mb-1">
+                          {item.productCategory} / {item.productType}
                         </p>
-                        <p>
-                          Price:{" "}
-                          <span className="text-black italic">
-                            ${item.productPrice}
-                          </span>
-                        </p>
+                        <h3 className="text-2xl font-black uppercase italic tracking-tighter text-gray-900 leading-tight">
+                          {item.productName}
+                        </h3>
+                        <div className="flex gap-6 mt-4 text-[11px] font-black uppercase tracking-widest text-gray-500">
+                          <p>
+                            Size:{" "}
+                            <span className="text-black italic">
+                              {item.size}
+                            </span>
+                          </p>
+                          <p>
+                            Price:{" "}
+                            <span className="text-black italic">
+                              ${item.productPrice}
+                            </span>
+                          </p>
+                        </div>
+                      </div>
+                      <button
+                        onClick={() => handelDelete(item?._id)}
+                        className="text-gray-300 hover:text-red-500 transition-colors"
+                      >
+                        <Trash2 size={20} />
+                      </button>
+                    </div>
+
+                    <div className="flex flex-col md:flex-row justify-between items-end md:items-center mt-8 gap-6">
+                      {/* Quantity Selector */}
+                      <div className="flex items-center border border-gray-300 bg-white">
+                        <button
+                          disabled={item.totalQuantity === 1}
+                          onClick={() =>
+                            handleQuantity(item._id, "dec", item.totalQuantity)
+                          }
+                          className="p-3 hover:bg-black hover:text-white transition-colors disabled:opacity-20"
+                        >
+                          <Minus size={14} />
+                        </button>
+                        <span className="px-6 font-black text-sm">
+                          {item.totalQuantity}
+                        </span>
+                        <button
+                          onClick={() =>
+                            handleQuantity(item._id, "inc", item.totalQuantity)
+                          }
+                          className="p-3 hover:bg-black hover:text-white transition-colors"
+                        >
+                          <Plus size={14} />
+                        </button>
+                      </div>
+
+                      {/* Status Badges */}
+                      <div className="flex gap-3">
+                        <span className="text-[9px] font-black uppercase tracking-widest px-3 py-1 bg-gray-100 text-gray-400 border border-gray-200">
+                          Payment: {item.paymentStatus}
+                        </span>
+                        <span className="text-[9px] font-black uppercase tracking-widest px-3 py-1 bg-blue-50 text-blue-700 border border-blue-100 italic">
+                          Logistics: {item.deliveryStatus}
+                        </span>
                       </div>
                     </div>
-                    <button
-                      onClick={() => handelDelete(item?._id)}
-                      className="text-gray-300 hover:text-red-500 transition-colors"
-                    >
-                      <Trash2 size={20} />
-                    </button>
-                  </div>
-
-                  <div className="flex flex-col md:flex-row justify-between items-end md:items-center mt-8 gap-6">
-                    {/* Quantity Selector */}
-                    <div className="flex items-center border border-gray-300 bg-white">
-                      <button
-                        disabled={item.totalQuantity === 1}
-                        onClick={() =>
-                          handleQuantity(item._id, "dec", item.totalQuantity)
-                        }
-                        className="p-3 hover:bg-black hover:text-white transition-colors"
-                      >
-                        <Minus size={14} />
-                      </button>
-                      <span className="px-6 font-black text-sm">
-                        {item.totalQuantity}
-                      </span>
-                      <button
-                        onClick={() =>
-                          handleQuantity(item._id, "inc", item.totalQuantity)
-                        }
-                        className="p-3 hover:bg-black hover:text-white transition-colors"
-                      >
-                        <Plus size={14} />
-                      </button>
-                    </div>
-                    {/* <QuantityBox key={item._id} item={item} /> */}
-
-                    {/* Status Badges */}
-                    <div className="flex gap-3">
-                      <span className="text-[9px] font-black uppercase tracking-widest px-3 py-1 bg-gray-100 text-gray-400 border border-gray-200">
-                        Payment: {item.paymentStatus}
-                      </span>
-                      <span className="text-[9px] font-black uppercase tracking-widest px-3 py-1 bg-blue-50 text-blue-700 border border-blue-100 italic">
-                        Logistics: {item.deliveryStatus}
-                      </span>
-                    </div>
                   </div>
                 </div>
+              ))
+            ) : (
+              /* --- EMPTY CART STATE --- */
+              <div className="flex flex-col items-center justify-center py-24 px-6 bg-white/30 backdrop-blur-sm border-2 border-dashed border-gray-200">
+                <div className="relative mb-8">
+                  <ShoppingBag size={100} className="text-gray-100" />
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <span className="text-[10px] font-black text-gray-400 uppercase tracking-widest">
+                      Empty
+                    </span>
+                  </div>
+                </div>
+
+                <h2 className="text-4xl md:text-6xl font-black italic uppercase tracking-tighter text-gray-900 text-center leading-none">
+                  YOUR BAG IS <br /> VACANT.
+                </h2>
+
+                <p className="mt-6 text-[10px] md:text-[11px] font-bold uppercase tracking-[0.3em] text-gray-400 text-center max-w-sm leading-relaxed">
+                  It seems you haven't selected any pieces for your collection
+                  yet.
+                </p>
+
+                <Link to="/collections" className="mt-10">
+                  <button className="bg-black text-white px-12 py-5 text-[11px] font-black uppercase tracking-[0.3em] hover:bg-blue-700 transition-all flex items-center gap-4 group shadow-2xl">
+                    Browse Collections
+                    <ArrowRight
+                      size={18}
+                      className="group-hover:translate-x-2 transition-transform"
+                    />
+                  </button>
+                </Link>
               </div>
-            ))}
+            )}
           </div>
 
           {/* --- RIGHT: SUMMARY CARD --- */}

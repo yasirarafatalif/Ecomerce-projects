@@ -45,7 +45,7 @@ const WishlistPage = () => {
           icon: "success",
           title: isAll
             ? "All wishlist items removed"
-            : res.data.message || "Removed from wishlist",
+            :  "Removed from wishlist",
           showConfirmButton: false,
           timer: 1500,
         });

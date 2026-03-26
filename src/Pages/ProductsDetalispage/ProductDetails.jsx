@@ -93,7 +93,7 @@ const ProductDetails = () => {
       });
     }
     try {
-      const res = await axois.post("/orders", cartData);
+      const res = await axois.post("/add-to-cart", cartData);
       if (res.data.success) {
         Swal.fire({
           position: "top-end",

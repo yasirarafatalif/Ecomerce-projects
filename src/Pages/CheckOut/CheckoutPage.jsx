@@ -1,37 +1,145 @@
-import React, { useState } from "react";
-import { CreditCard, Truck, ChevronLeft, Lock, Info } from "lucide-react";
+import React, { useContext, useState } from "react";
+import {
+  CreditCard,
+  Truck,
+  ChevronLeft,
+  Lock,
+  Info,
+  Trash,
+} from "lucide-react";
 import Swal from "sweetalert2";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
+import useAxios from "../../Hooks/useAxios";
+import useAuth from "../../Hooks/useAuth";
+import PremiumLoader from "../../Components/Shared/PremiumSpinner";
+import { CartContext } from "../../Provider/CartContext";
 
 const CheckoutPage = () => {
-  const [paymentMethod, setPaymentMethod] = useState("card");
-  const { id } = useParams();
+  const { user } = useAuth();
+  const axois = useAxios();
+  const {cartData}= useContext(CartContext)
+  console.log(cartData)
+  const userEmail = user?.email;
   const location = useLocation();
   const data = location.state;
   const navigate = useNavigate();
-  const handelsubmit = (e) => {
+  // const { id } = useParams();
+
+  const [paymentMethod, setPaymentMethod] = useState("card");
+
+  const {
+    data: cartItems = [],
+    refetch,
+    isLoading,
+  } = useQuery({
+    queryKey: ["cart-page", userEmail],
+    enabled: !!userEmail,
+    queryFn: async () => {
+      const res = await axois.get(`/cartpage?email=${userEmail}`);
+      return res.data;
+    },
+  });
+  // console.log(cartItems);
+  const subtotal = cartItems.reduce(
+    (acc, item) => acc + item.productPrice * item.totalQuantity,
+    0,
+  );
+
+  const handelsubmit = async (e) => {
     e.preventDefault();
+    const first_name = e.target.first_name.value;
+    const last_name = e.target.last_name.value;
+    const address = e.target.address.value;
+    const orderEmail = e.target.email.value;
+    const postalcode = e.target.postal_code.value;
+    const city = e.target.city.value;
+    const name = first_name + " " + last_name;
+    const odersData = {
+      name,
+      address,
+      userEmail,
+      orderEmail,
+      postalcode,
+      city,
+      products: cartItems,
+      totalAmount: subtotal + 15,
+      paymentMethod,
+    };
+    
 
     if (paymentMethod === "card") {
       Swal.fire({
-        position: "top-end", 
+        position: "top-end",
         icon: "error",
         title: "this is a demo website, so card payment is not available",
         showConfirmButton: false,
         timer: 1500,
-        });
-        return;}
+      });
+      return;
+    }
 
-    Swal.fire({
-      position: "top-end",
-      icon: "success",
-      title: "Your order has been placed successfully!",
-      showConfirmButton: false,
-      timer: 1500,
-    });
+    const res = await axois.post("/orders", odersData);
+
+    if (res.data.success) {
+      return Swal.fire({
+        position: "top-end",
+        icon: "success",
+        title: "Your order has been placed successfully!",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+    } else {
+      Swal.fire({
+        position: "top-end",
+        icon: "error",
+        title: "Your order already placed",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+    }
+
     e.target.reset();
-    navigate("/");
+    // navigate("/");
   };
+
+  const handelDelete = (id) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          const res = await axois.delete(`/cartpage?id=${id}`);
+
+          if (res.data.data.deletedCount > 0) {
+            Swal.fire({
+              title: "Deleted!",
+              text: "Item removed from cart.",
+              icon: "success",
+            });
+
+            refetch();
+          }
+        } catch (error) {
+          Swal.fire({
+            title: "Error!",
+            text: `${error}`,
+            icon: "error",
+          });
+        }
+      }
+    });
+  };
+
+  if (isLoading) {
+    return <PremiumLoader></PremiumLoader>;
+  }
 
   return (
     <div className="min-h-screen bg-[#f2f2f2] pt-28 pb-20 font-sans">
@@ -43,7 +151,10 @@ const CheckoutPage = () => {
           Back to Bag
         </button>
 
-        <form onSubmit={handelsubmit} className="flex flex-col lg:flex-row gap-16 items-start">
+        <form
+          onSubmit={handelsubmit}
+          className="flex flex-col lg:flex-row gap-16 items-start"
+        >
           {/* --- LEFT: SHIPPING & PAYMENT (Forms) --- */}
           <div className="flex-1 w-full flex flex-col gap-12">
             {/* 1. Shipping Address */}
@@ -61,18 +172,21 @@ const CheckoutPage = () => {
                 <input
                   type="text"
                   required
+                  name="first_name"
                   placeholder="FIRST NAME"
                   className="bg-white border-none py-4 px-5 text-[11px] font-bold tracking-widest uppercase focus:ring-1 focus:ring-black outline-none"
                 />
                 <input
                   type="text"
                   required
+                  name="last_name"
                   placeholder="LAST NAME"
                   className="bg-white border-none py-4 px-5 text-[11px] font-bold tracking-widest uppercase focus:ring-1 focus:ring-black outline-none"
                 />
                 <input
                   type="text"
                   required
+                  name="address"
                   placeholder="ADDRESS"
                   className="md:col-span-2 bg-white border-none py-4 px-5 text-[11px] font-bold tracking-widest uppercase focus:ring-1 focus:ring-black outline-none"
                 />
@@ -80,11 +194,13 @@ const CheckoutPage = () => {
                   type="text"
                   required
                   placeholder="CITY"
+                  name="city"
                   className="bg-white border-none py-4 px-5 text-[11px] font-bold tracking-widest uppercase focus:ring-1 focus:ring-black outline-none"
                 />
                 <input
                   type="text"
                   required
+                  name="postal_code"
                   placeholder="POSTAL CODE"
                   className="bg-white border-none py-4 px-5 text-[11px] font-bold tracking-widest uppercase focus:ring-1 focus:ring-black outline-none"
                 />
@@ -92,6 +208,7 @@ const CheckoutPage = () => {
                   type="email"
                   required
                   placeholder="EMAIL ADDRESS"
+                  name="email"
                   className="md:col-span-2 bg-white border-none py-4 px-5 text-[11px] font-bold tracking-widest uppercase focus:ring-1 focus:ring-black outline-none"
                 />
               </div>
@@ -184,37 +301,51 @@ const CheckoutPage = () => {
 
               {/* Product List */}
               <div className="flex flex-col gap-6 mb-8">
-                <div className="flex gap-4">
-                  <div className="w-16 h-20 bg-gray-100 overflow-hidden">
-                    <img
-                      src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?q=80&w=200"
-                      alt="prod"
-                      className="w-full h-full object-cover"
-                    />
+                {cartItems?.map((item) => (
+                  <div key={item._id} className="flex gap-4">
+                    <div className="w-16 h-20 bg-gray-100 overflow-hidden">
+                      <img
+                        src={`${item?.img}`}
+                        alt="prod"
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+                    <div className="flex-1 flex flex-col justify-center">
+                      <div className="flex  items-center justify-between">
+                        <h4 className="text-[11px] font-black uppercase tracking-tight">
+                          {item?.productName}
+                        </h4>
+                        <button onClick={() => handelDelete(item?._id)}>
+                          <Trash
+                            size={14}
+                            className=" text-black hover:cursor-pointer"
+                          />{" "}
+                        </button>
+                      </div>
+                      <p className="text-[9px] font-bold text-gray-400 uppercase mt-1">
+                        Size: {item?.size} | Qty: {item?.totalQuantity}
+                      </p>
+                      <span className="text-xs font-black mt-2">
+                        $ {item?.productPrice}
+                      </span>
+                    </div>
                   </div>
-                  <div className="flex-1 flex flex-col justify-center">
-                    <h4 className="text-[11px] font-black uppercase tracking-tight">
-                      Basic Slim Fit T-Shirt
-                    </h4>
-                    <p className="text-[9px] font-bold text-gray-400 uppercase mt-1">
-                      Size: M | Qty: 1
-                    </p>
-                    <span className="text-xs font-black mt-2">$ 199</span>
-                  </div>
-                </div>
+                ))}
               </div>
-                {/* --- COUPON INPUT SECTION --- */}
+              {/* --- COUPON INPUT SECTION --- */}
               <div className="mb-8 p-4 bg-gray-50 border border-dashed border-gray-300">
-                <p className="text-[9px] font-black uppercase tracking-widest text-gray-400 mb-2">Discount Coupon</p>
+                <p className="text-[9px] font-black uppercase tracking-widest text-gray-400 mb-2">
+                  Discount Coupon
+                </p>
                 <div className="flex gap-2">
-                  <input 
-                    type="text" 
+                  <input
+                    type="text"
                     // value={couponCode}
                     // onChange={(e) => setCouponCode(e.target.value)}
                     placeholder="ENTER CODE"
                     className="flex-1 bg-white border border-gray-200 py-2 px-3 text-[10px] font-bold uppercase focus:ring-1 focus:ring-black outline-none"
                   />
-                  <button 
+                  <button
                     type="button"
                     // onClick={handleApplyCoupon}
                     className="bg-black text-white px-4 py-2 text-[10px] font-black uppercase hover:bg-gray-800 transition-all"
@@ -222,22 +353,24 @@ const CheckoutPage = () => {
                     Apply
                   </button>
                 </div>
-                <p className="text-[8px] font-bold text-gray-400 mt-2 italic">Try: "SAVE10" for 10% off</p>
+                <p className="text-[8px] font-bold text-gray-400 mt-2 italic">
+                  Try: "SAVE10" for 10% off
+                </p>
               </div>
 
               {/* Pricing Breakdown */}
               <div className="flex flex-col gap-4 text-[11px] font-bold uppercase tracking-widest border-t border-b py-6 border-gray-100">
                 <div className="flex justify-between text-gray-500">
                   <span>Subtotal</span>
-                  <span>$ 199.00</span>
+                  <span>$ {subtotal}</span>
                 </div>
                 <div className="flex justify-between text-gray-500">
                   <span>Shipping</span>
-                  <span className="text-green-600">Free</span>
+                  <span className="text-green-600">$ 15</span>
                 </div>
                 <div className="flex justify-between items-center mt-2 text-gray-900 text-sm font-black italic">
                   <span>Total</span>
-                  <span>$ 199.00</span>
+                  <span>$ {subtotal + 15}</span>
                 </div>
               </div>
 

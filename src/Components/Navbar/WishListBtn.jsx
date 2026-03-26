@@ -16,11 +16,10 @@ const WishListBtn = ({ user }) => {
       return res.data;
     },
   });
-  console.log(wishlist);
 
   return (
-    <Link to="/wishlist" className="relative flex items-center">
-      <button className="p-2.5 bg-[#1A1A1A] text-white rounded-full hover:bg-black transition-all active:scale-95">
+    <Link to="/wishlist" className="relative flex items-center ">
+      <button className="p-2.5 hover:cursor-pointer bg-[#1A1A1A] text-white rounded-full hover:bg-black transition-all active:scale-95">
         <Heart size={16} />
       </button>
 

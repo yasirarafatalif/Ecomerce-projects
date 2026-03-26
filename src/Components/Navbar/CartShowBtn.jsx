@@ -1,21 +1,24 @@
 import { useQuery } from "@tanstack/react-query";
 import { ShoppingCart } from "lucide-react";
-import React from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import useAxios from "../../Hooks/useAxios";
+import { CartContext } from "../../Provider/CartContext";
 
 const CartShowBtn = ({ user }) => {
   const axois = useAxios();
   const email = user?.email;
+  const {cartData}= useContext(CartContext)
+    console.log(cartData)
 
-  const { data = [] } = useQuery({
-    queryKey: ["cart-data", email],
-    enabled: !!email,
-    queryFn: async () => {
-      const res = await axois.get(`/cart?email=${email}`);
-      return res.data;
-    },
-  });
+  // const { data = [] } = useQuery({
+  //   queryKey: ["cart-data", email],
+  //   enabled: !!email,
+  //   queryFn: async () => {
+  //     const res = await axois.get(`/cart?email=${email}`);
+  //     return res.data;
+  //   },
+  // });
 
   return (
     <Link to='/cart'>
@@ -24,9 +27,9 @@ const CartShowBtn = ({ user }) => {
           <ShoppingCart size={16} className="text-white" />
         </button>
 
-        {data.length > 0 && (
+        {cartData.length > 0 && (
           <span className="absolute -top-1 -right-1 bg-red-500 text-white text-[10px] w-5 h-5 flex items-center justify-center rounded-full font-bold">
-            {data.length}
+            {cartData.length}
           </span>
         )}
       </div>
