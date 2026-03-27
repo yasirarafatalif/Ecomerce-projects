@@ -17,32 +17,71 @@ import UserProfile from "../Pages/Profile/UserProfile";
 import PrivateRoute from "./Privateroute";
 import CartPage from "../Pages/CartPage/CartPage";
 
-
-export const router = createBrowserRouter(
-    [
-        {
-            path: "/",
-            element: <MainLayout></MainLayout>,
-            children: [
-                { index: true, element: <Home></Home> },
-                { path: "services", element: <Services></Services> },
-                { path: "register", element: <Register></Register>},
-                { path: "login", element: <Login></Login>},
-                { path: "register", element: <Register></Register>},
-                { path: "collections", element: <CollectionPage></CollectionPage> },
-                { path: "products/:id", element: <ProductDetails></ProductDetails> },
-                { path: "checkout", element: <CheckoutPage></CheckoutPage> },
-                // { path: "checkout/:id", element: <CheckoutPage></CheckoutPage> },
-                { path: "offers", element: <OffersPage></OffersPage> },
-                { path: "cart", element: <CartPage></CartPage> },
-                { path: "about", element: <AboutUs></AboutUs> },
-                { path: "new", element: <NewPage></NewPage> },
-                { path: "my-orders", element: <MyOrders></MyOrders>  },
-                { path: "wishlist", element: <WishlistPage></WishlistPage> },
-                { path: "account-settings", element: <AccountSettings></AccountSettings> },
-                // { path: "profile", element: <UserProfile></UserProfile>   },
-                { path: "profile", element: <PrivateRoute><UserProfile></UserProfile> </PrivateRoute>  },
-            ]
-        }
-    ]
-)
+export const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <MainLayout></MainLayout>,
+    children: [
+      { index: true, element: <Home></Home> },
+      { path: "services", element: <Services></Services> },
+      { path: "register", element: <Register></Register> },
+      { path: "login", element: <Login></Login> },
+      { path: "register", element: <Register></Register> },
+      { path: "collections", element: <CollectionPage></CollectionPage> },
+      { path: "products/:id", element: <ProductDetails></ProductDetails> },
+      {
+        path: "checkout",
+        element: (
+          <PrivateRoute>
+            <CheckoutPage></CheckoutPage>
+          </PrivateRoute>
+        ),
+      },
+      // { path: "checkout/:id", element: <CheckoutPage></CheckoutPage> },
+      { path: "offers", element: <OffersPage></OffersPage> },
+      {
+        path: "cart",
+        element: (
+          <PrivateRoute>
+            <CartPage></CartPage>
+          </PrivateRoute>
+        ),
+      },
+      { path: "about", element: <AboutUs></AboutUs> },
+      { path: "new", element: <NewPage></NewPage> },
+      {
+        path: "my-orders",
+        element: (
+          <PrivateRoute>
+            <MyOrders></MyOrders>
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "wishlist",
+        element: (
+          <PrivateRoute>
+            <WishlistPage></WishlistPage>
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "account-settings",
+        element: (
+          <PrivateRoute>
+            <AccountSettings></AccountSettings>
+          </PrivateRoute>
+        ),
+      },
+      // { path: "profile", element: <UserProfile></UserProfile>   },
+      {
+        path: "profile",
+        element: (
+          <PrivateRoute>
+            <UserProfile></UserProfile>
+          </PrivateRoute>
+        ),
+      },
+    ],
+  },
+]);

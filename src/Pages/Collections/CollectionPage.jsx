@@ -39,7 +39,6 @@ const ProductsPage = () => {
     queryKey: ["Collections-page", category, size],
     queryFn: async () => {
       let url = "/products-collections?";
-
       if (category !== "all") {
         url += `category=${category}&`;
       }
@@ -47,12 +46,10 @@ const ProductsPage = () => {
       if (size !== "all") {
         url += `size=${size}`;
       }
-
       const res = await axiosSecure.get(url);
       return res.data;
     },
   });
-  console.log(products);
 
   if (isLoading) {
     return <PremiumLoader></PremiumLoader>;

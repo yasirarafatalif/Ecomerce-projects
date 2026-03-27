@@ -65,6 +65,8 @@ const Login = () => {
   };
   return (
     <div className="relative min-h-screen w-full flex items-center justify-center bg-[#f2f2f2] font-sans overflow-hidden py-20 px-6">
+
+      <title>LogIn-Page</title>
       {/* 1. Background Image Layer */}
       <div
         className="absolute inset-0 z-0 bg-cover bg-center pointer-events-none"

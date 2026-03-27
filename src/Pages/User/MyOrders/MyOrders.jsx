@@ -16,24 +16,25 @@ import useAuth from "../../../Hooks/useAuth";
 import { useQuery } from "@tanstack/react-query";
 import PremiumLoader from "../../../Components/Shared/PremiumSpinner";
 import { Link } from "react-router-dom";
+import useRole from "../../../Hooks/useRole";
 
 const AdvancedOrders = () => {
   const axois = useAxios();
+  const {role}= useRole();
+  console.log(role)
   const { user } = useAuth();
   const email = user?.email;
   const [activeTab, setActiveTab] = useState("All");
   const tabs = ["All", "Processing", "In Transit", "Delivered", "Cancelled"];
+  const [searchOrderId, setSearchOrderId] = useState("");
   const { data: orders = [], isLoading } = useQuery({
     queryKey: ["My-orders", email, activeTab],
     enabled: !!email,
     queryFn: async () => {
       let url = `/orders?email=${email}`;
-
       if (activeTab !== "All") {
         url += `&status=${activeTab}`;
       }
-
-      // const res = await axois.get(`/orders?email=${email}`);
       const res = await axois.get(url);
       return res.data.result;
     },
@@ -46,6 +47,7 @@ const AdvancedOrders = () => {
   return (
     <div className="min-h-screen bg-[#F2F2F2] pt-28 pb-20 font-sans">
       <div className="max-w-[1200px] mx-auto px-4 md:px-12">
+        <title>My Orders Page</title>
         {/* --- 1. HEADER & SEARCH --- */}
         <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-8 mb-12">
           <div>
@@ -65,6 +67,8 @@ const AdvancedOrders = () => {
               />
               <input
                 type="text"
+                value={searchOrderId}
+                onChange={(e) => setSearchOrderId(e.target.value)}
                 placeholder="SEARCH ORDER ID..."
                 className="w-full bg-white border-none py-4 pl-12 pr-4 text-[10px] font-black uppercase tracking-widest focus:ring-1 focus:ring-black outline-none shadow-sm transition-all"
               />
@@ -103,7 +107,7 @@ const AdvancedOrders = () => {
           {orders.length > 0 ? (
             orders.map((order) => (
               <div
-                key={order.id}
+                key={order._id}
                 className="bg-white group transition-all duration-500 hover:shadow-2xl border border-transparent hover:border-black/5"
               >
                 {/* Order Info Header */}
