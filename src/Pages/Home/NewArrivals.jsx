@@ -2,7 +2,7 @@ import React from "react";
 import { Plus, ChevronLeft, ChevronRight } from "lucide-react";
 import BgImg from "../../assets/bg-home1.png"; // Aponar image path
 
-import PremiumLoader from "../../Components/Shared/PremiumSpinner";
+import PremiumSpinner from "../../Components/Shared/PremiumSpinner";
 import NweArrivalsSkeletonCard from "../../Components/Shared/SkeletonCard/NweArrivalsSkeletonCard";
 import useAxios from "../../Hooks/useAxios";
 import { useQuery } from "@tanstack/react-query";

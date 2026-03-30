@@ -3,7 +3,7 @@ import { Search, ChevronDown, ChevronRight, Plus } from "lucide-react";
 import { Link } from "react-router";
 import { useQuery } from "@tanstack/react-query";
 import useAxios from "../../Hooks/useAxios";
-import PremiumLoader from "../../Components/Shared/PremiumSpinner";
+import PremiumSpinner from "../../Components/Shared/PremiumSpinner";
 import ProductsCard from "../../Components/Items/Card/ProductsCard";
 const ProductsPage = () => {
   const axiosSecure = useAxios();
@@ -52,7 +52,7 @@ const ProductsPage = () => {
   });
 
   if (isLoading) {
-    return <PremiumLoader></PremiumLoader>;
+    return <PremiumSpinner></PremiumSpinner>;
   }
 
   return (

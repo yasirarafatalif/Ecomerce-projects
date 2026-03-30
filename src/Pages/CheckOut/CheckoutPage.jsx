@@ -12,7 +12,7 @@ import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import useAxios from "../../Hooks/useAxios";
 import useAuth from "../../Hooks/useAuth";
-import PremiumLoader from "../../Components/Shared/PremiumSpinner";
+import PremiumSpinner from "../../Components/Shared/PremiumSpinner";
 import { CartContext } from "../../Provider/CartContext";
 
 const CheckoutPage = () => {
@@ -138,7 +138,7 @@ const CheckoutPage = () => {
   };
 
   if (isLoading) {
-    return <PremiumLoader></PremiumLoader>;
+    return <PremiumSpinner></PremiumSpinner>;
   }
 
   return (

@@ -14,7 +14,7 @@ import {
 import useAxios from "../../../Hooks/useAxios";
 import useAuth from "../../../Hooks/useAuth";
 import { useQuery } from "@tanstack/react-query";
-import PremiumLoader from "../../../Components/Shared/PremiumSpinner";
+import PremiumSpinner from "../../../Components/Shared/PremiumSpinner";
 import { Link } from "react-router-dom";
 import useRole from "../../../Hooks/useRole";
 
@@ -41,7 +41,7 @@ const AdvancedOrders = () => {
   });
 
   if (isLoading) {
-    return <PremiumLoader></PremiumLoader>;
+    return <PremiumSpinner></PremiumSpinner>;
   }
 
   return (

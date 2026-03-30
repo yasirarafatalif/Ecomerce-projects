@@ -2,7 +2,17 @@ import React from "react";
 import { Link, useLocation } from "react-router-dom";
 import { 
   LayoutDashboard, ShoppingBag, Users, PlusSquare, 
-  Settings, LogOut, Heart, Package, Activity 
+  Settings, LogOut, Heart, Package, Activity, 
+  RotateCcw,
+  PackagePlus,
+  Layers,
+  Shield,
+  CreditCard,
+  Ticket,
+  MessageSquare,
+  BarChart3,
+  Settings2,
+  Image
 } from "lucide-react";
 import useAuth from "../../../Hooks/useAuth"; 
 import useRole from "../../../Hooks/useRole";
@@ -13,12 +23,34 @@ const DashboardSidebar = ({ isOpen, setIsOpen }) => {
   // const role = user?.role; 
 
   // --- 1. Menu Items Configuration ---
-  const adminMenuItems = [
-    { name: "Command Center", path: "/dashboard", icon: <LayoutDashboard size={18} /> },
-    { name: "Order Vault", path: "/dashboard/orders", icon: <ShoppingBag size={18} /> },
-    { name: "Inventory", path: "/dashboard/products", icon: <PlusSquare size={18} /> },
-    { name: "Citizen List", path: "/dashboard/users", icon: <Users size={18} /> },
-  ];
+ const adminMenuItems = [
+  { name: "Command Center", path: "/dashboard", icon: <LayoutDashboard size={18} /> },
+
+  // Orders
+  { name: "Order Vault", path: "/dashboard/orders", icon: <ShoppingBag size={18} /> },
+  { name: "Return Requests", path: "/dashboard/returns", icon: <RotateCcw size={18} /> },
+
+  // Products
+  { name: "Inventory", path: "/dashboard/products", icon: <PlusSquare size={18} /> },
+  { name: "Add Artifact", path: "/dashboard/add-product", icon: <PackagePlus size={18} /> },
+  { name: "Collections", path: "/dashboard/categories", icon: <Layers size={18} /> },
+
+  // Users
+  { name: "Users List", path: "/dashboard/users", icon: <Users size={18} /> },
+  { name: "Access Control", path: "/dashboard/roles", icon: <Shield size={18} /> },
+
+  // Payments
+  { name: "Transaction Logs", path: "/dashboard/payments", icon: <CreditCard size={18} /> },
+
+  // Marketing
+  { name: "Promo Engine", path: "/dashboard/coupons", icon: <Ticket size={18} /> },
+  { name: "Banner Control", path: "/dashboard/banners", icon: <Image size={18} /> },
+
+  // Reviews
+  { name: "Feedback Hub", path: "/dashboard/reviews", icon: <MessageSquare size={18} /> },
+  { name: "Insight Reports", path: "/dashboard/reports", icon: <BarChart3 size={18} /> },
+  { name: "System Settings", path: "/dashboard/settings", icon: <Settings2 size={18} /> },
+];
   const staffMenuItems = [
     { name: "Command Center", path: "/dashboard", icon: <LayoutDashboard size={18} /> },
     { name: "Order Vault", path: "/dashboard/orders", icon: <ShoppingBag size={18} /> },

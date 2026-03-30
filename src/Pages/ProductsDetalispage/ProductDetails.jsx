@@ -13,7 +13,7 @@ import { useQuery } from "@tanstack/react-query";
 import useAxios from "../../Hooks/useAxios";
 import { HiShoppingBag } from "react-icons/hi";
 import { GoPackage } from "react-icons/go";
-import PremiumLoader from "../../Components/Shared/PremiumSpinner";
+import PremiumSpinner from "../../Components/Shared/PremiumSpinner";
 import useAuth from "../../Hooks/useAuth";
 import Swal from "sweetalert2";
 import { title } from "framer-motion/m";
@@ -173,7 +173,7 @@ const ProductDetails = () => {
   };
 
   if (isLoading) {
-    return <PremiumLoader></PremiumLoader>;
+    return <PremiumSpinner></PremiumSpinner>;
   }
 
   return (

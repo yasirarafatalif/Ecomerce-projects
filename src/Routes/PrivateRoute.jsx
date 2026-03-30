@@ -1,12 +1,12 @@
 import { useContext } from "react";
 import { AuthContext } from "../Provider/AuthContext";
 import { Navigate, useLocation } from "react-router-dom";
-import PremiumLoader from "../Components/Shared/PremiumSpinner";
+import PremiumSpinner from "../Components/Shared/PremiumSpinner";
 
 const PrivateRoute = ({ children }) => {
   const { user, loading } = useContext(AuthContext);
   const location = useLocation();
-  if (!loading) return <PremiumLoader />;
+  if (!loading) return <PremiumSpinner />;
 
   if (!user) {
     return <Navigate to="/login" state={{ from: location }} replace />;

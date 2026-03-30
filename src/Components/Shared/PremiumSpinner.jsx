@@ -1,6 +1,6 @@
 import React from 'react';
 
-const PremiumLoader = () => {
+const PremiumSpinner = () => {
   return (
     <div className="fixed inset-0 z-[999] flex items-center justify-center bg-[#F2F2F2]/90 backdrop-blur-md">
       <div className="relative flex flex-col items-center">
@@ -59,4 +59,4 @@ const PremiumLoader = () => {
   );
 };
 
-export default PremiumLoader;
+export default PremiumSpinner;
