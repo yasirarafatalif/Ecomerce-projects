@@ -116,7 +116,7 @@ const UsersList = () => {
                 <th className="p-8 text-[9px] font-black uppercase tracking-[0.2em] text-gray-400 text-right">Terminal Actions</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-gray-50">
+            <tbody className="divide-y divide-gray-50 ">
               {users.map((user) => (
                 <tr key={user._id} className="group/row hover:bg-gray-50/80 transition-all duration-300">
                   {/* Name & Avatar */}
@@ -130,7 +130,7 @@ const UsersList = () => {
                           {user.name}
                         </h4>
                         <p className="text-[9px] font-bold text-gray-300 uppercase mt-1 tracking-widest">
-                          UID: {user._id.slice(-8).toUpperCase()}
+                          UID: {user._id.toUpperCase()}
                         </p>
                       </div>
                     </div>
@@ -164,14 +164,14 @@ const UsersList = () => {
 
                   {/* Action Buttons */}
                   <td className="p-8 text-right">
-                    <div className="flex justify-end gap-3 translate-x-4 opacity-0 group-hover/row:translate-x-0 group-hover/row:opacity-100 transition-all duration-500">
+                    <div className="flex justify-end gap-3 translate-x-4   group-hover/row:translate-x-0 group-hover/row:opacity-100 transition-all duration-500">
                       <button 
                         onClick={() => handleDeleteUser(user._id)}
-                        className="p-3 bg-white text-gray-400 border border-gray-100 hover:bg-red-500 hover:text-white hover:border-red-500 transition-all shadow-sm"
+                        className="p-3 bg-white text-gray-400 border border-gray-100 hover:cursor-pointer hover:bg-red-500 hover:text-white hover:border-red-500 transition-all shadow-sm"
                       >
                         <Trash2 size={16} />
                       </button>
-                      <button className="p-3 bg-white text-gray-400 border border-gray-100 hover:bg-black hover:text-white transition-all shadow-sm">
+                      <button className="p-3 bg-white text-gray-400 border border-gray-100 hover:cursor-pointer hover:bg-black hover:text-white transition-all shadow-sm">
                         <ArrowUpRight size={16} />
                       </button>
                     </div>

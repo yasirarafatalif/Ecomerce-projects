@@ -20,6 +20,8 @@ import DashboardLayout from "../Layouts/DashboardLayout";
 import Dashboard from "../Pages/DashBoard/pages/Dashboard";
 import AdminRoute from "./AdminRoute";
 import UsersList from "../Pages/DashBoard/Admin/Pages/UsersList";
+import AddProduct from "../Pages/DashBoard/Admin/Pages/AddProducts";
+
 
 export const router = createBrowserRouter([
   {
@@ -94,6 +96,7 @@ export const router = createBrowserRouter([
     children: [
       { path:'/dashboard', element: <Dashboard></Dashboard>},
       { path:'/dashboard/users', element: <UsersList></UsersList>},
+      { path:'/dashboard/add-product', element: <AddProduct></AddProduct>},
 
     ]
 

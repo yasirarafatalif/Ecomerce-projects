@@ -32,8 +32,7 @@ const ProductDetails = () => {
       return res.data;
     },
   });
-
-;
+console.log(products)
 
   const detailsData = [
     {
