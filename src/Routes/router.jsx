@@ -16,6 +16,9 @@ import Login from "../Pages/LogIn/Login";
 import UserProfile from "../Pages/Profile/UserProfile";
 import PrivateRoute from "./Privateroute";
 import CartPage from "../Pages/CartPage/CartPage";
+import DashboardLayout from "../Layouts/DashboardLayout";
+import Dashboard from "../Pages/DashBoard/pages/Dashboard";
+import AdminRoute from "./AdminRoute";
 
 export const router = createBrowserRouter([
   {
@@ -84,4 +87,13 @@ export const router = createBrowserRouter([
       },
     ],
   },
+  {
+    path:"/dashboard",
+      element: <PrivateRoute><DashboardLayout></DashboardLayout></PrivateRoute>,
+    children: [
+      { path:'/dashboard', element: <Dashboard></Dashboard>},
+
+    ]
+
+  }
 ]);

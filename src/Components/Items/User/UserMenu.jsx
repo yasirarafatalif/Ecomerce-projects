@@ -6,15 +6,22 @@ import {
   Package,
   Heart,
   ChevronRight,
+  LayoutDashboard,
+  ShoppingBag,
+  Users,
+  PackageCheck,
+  Boxes,
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import useAxios from "../../../Hooks/useAxios";
 import Swal from "sweetalert2";
+import useRole from "../../../Hooks/useRole";
 
 const UserMenu = ({ user }) => {
   const axois = useAxios();
   const [isOpen, setIsOpen] = useState(false);
   const menuRef = useRef(null);
+  const { role } = useRole();
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -82,21 +89,78 @@ const UserMenu = ({ user }) => {
 
           {/* Links Section */}
           <div className="flex flex-col">
-            <DropdownLink
-              icon={<Package size={14} />}
-              label="My Orders"
-              to="/my-orders"
-            />
-            <DropdownLink
-              icon={<Heart size={14} />}
-              label="Wishlist"
-              to="/wishlist"
-            />
-            <DropdownLink
-              icon={<Settings size={14} />}
-              label="Account Settings"
-              to="/account-settings"
-            />
+            {/* USER MENU */}
+            {role === "user" && (
+              <>
+                <DropdownLink
+                  icon={<Package size={14} />}
+                  label="My Orders"
+                  to="/my-orders"
+                />
+                <DropdownLink
+                  icon={<Heart size={14} />}
+                  label="Wishlist"
+                  to="/wishlist"
+                />
+                <DropdownLink
+                  icon={<Settings size={14} />}
+                  label="Account Settings"
+                  to="/account-settings"
+                />
+              </>
+            )}
+
+            {/* ADMIN MENU */}
+            {role === "admin" && (
+              <>
+                <DropdownLink
+                  icon={<LayoutDashboard size={14} />}
+                  label="Dashboard"
+                  to="/dashboard"
+                />
+                <DropdownLink
+                  icon={<ShoppingBag size={14} />}
+                  label="Manage Orders"
+                  to="/dashboard/manage-orders"
+                />
+                <DropdownLink
+                  icon={<Users size={14} />}
+                  label="Manage Users"
+                  to="/dashboard/manage-users"
+                />
+                <DropdownLink
+                  icon={<Settings size={14} />}
+                  label="Admin Settings"
+                  to="/dashboard/admin-settings"
+                />
+              </>
+            )}
+
+            {/* STAFF MENU */}
+            {role === "staff" && (
+              <>
+                <DropdownLink
+                  icon={<LayoutDashboard size={14} />}
+                  label="Staff Dashboard"
+                  to="/dashboard"
+                />
+                <DropdownLink
+                  icon={<PackageCheck size={14} />}
+                  label="Process Orders"
+                  to="/dashboard/process-orders"
+                />
+                <DropdownLink
+                  icon={<Boxes size={14} />}
+                  label="Manage Products"
+                  to="/dashboard/manage-products"
+                />
+                <DropdownLink
+                  icon={<Settings size={14} />}
+                  label="Staff Settings"
+                  to="/dashboard/staff-settings"
+                />
+              </>
+            )}
 
             <hr className="my-2 border-gray-50" />
 
