@@ -25,15 +25,16 @@ const DashboardSidebar = ({ isOpen, setIsOpen }) => {
   // --- 1. Menu Items Configuration ---
  const adminMenuItems = [
   { name: "Command Center", path: "/dashboard", icon: <LayoutDashboard size={18} /> },
+    // Products
+  { name: "Collections", path: "/dashboard/collections", icon: <Layers size={18} /> },
+  { name: "Add Artifact", path: "/dashboard/add-product", icon: <PackagePlus size={18} /> },
+  
 
   // Orders
   { name: "Order Vault", path: "/dashboard/orders", icon: <ShoppingBag size={18} /> },
   { name: "Return Requests", path: "/dashboard/returns", icon: <RotateCcw size={18} /> },
 
-  // Products
-  { name: "Inventory", path: "/dashboard/products", icon: <PlusSquare size={18} /> },
-  { name: "Add Artifact", path: "/dashboard/add-product", icon: <PackagePlus size={18} /> },
-  { name: "Collections", path: "/dashboard/categories", icon: <Layers size={18} /> },
+
 
   // Users
   { name: "Users List", path: "/dashboard/users", icon: <Users size={18} /> },

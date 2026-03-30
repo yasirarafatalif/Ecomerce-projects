@@ -21,6 +21,8 @@ import Dashboard from "../Pages/DashBoard/pages/Dashboard";
 import AdminRoute from "./AdminRoute";
 import UsersList from "../Pages/DashBoard/Admin/Pages/UsersList";
 import AddProduct from "../Pages/DashBoard/Admin/Pages/AddProducts";
+import CollectionsPage from "../Pages/DashBoard/Admin/Pages/CollectionsPage";
+import UpdateProduct from "../Pages/DashBoard/Admin/Pages/UpdateProduct";
 
 
 export const router = createBrowserRouter([
@@ -97,6 +99,8 @@ export const router = createBrowserRouter([
       { path:'/dashboard', element: <Dashboard></Dashboard>},
       { path:'/dashboard/users', element: <UsersList></UsersList>},
       { path:'/dashboard/add-product', element: <AddProduct></AddProduct>},
+      { path:'/dashboard/collections', element: <CollectionsPage></CollectionsPage>},
+      { path:'/dashboard/update-products', element: <UpdateProduct></UpdateProduct>},
 
     ]
 

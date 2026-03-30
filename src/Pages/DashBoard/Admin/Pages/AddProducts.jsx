@@ -10,7 +10,7 @@ import Swal from "sweetalert2";
 const AddProduct = () => {
   const axiosSecure = useAxios();
   
-  // --- Form State Management ---
+  
   const [formData, setFormData] = useState({
     productName: "",
     productPrice: "",
@@ -21,8 +21,8 @@ const AddProduct = () => {
     img: "", 
     thumbnails: [], 
     inventory: [{ size: "M", quantity: 10 }], 
-    colors: ["Black"], // Added Colors Array
-    onSale: false,      // Added On Sale Toggle
+    colors: ["Black"], 
+    onSale: false,      
   });
 
   // --- Inventory Logic ---
@@ -69,12 +69,10 @@ const AddProduct = () => {
     e.preventDefault();
     const totalStock = formData.inventory.reduce((acc, curr) => acc + curr.quantity, 0);
     
-    // Exact JSON match prepare kora
     const finalProduct = { 
       ...formData, 
       stock: totalStock, 
       createdAt: new Date(),
-      // Price calculation logics
       onSale: formData.onSale 
     };
 
@@ -98,7 +96,7 @@ const AddProduct = () => {
 
   return (
     <div className="max-w-[1400px] mx-auto animate-in fade-in slide-in-from-bottom-6 duration-1000 space-y-12 pb-20">
-      
+      <title>ADMIN ADD TO PRODUCTS PAGE</title>
       {/* HEADER */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-6 border-b border-gray-200 pb-10">
         <h1 className="text-4xl md:text-5xl font-black italic tracking-tighter uppercase text-gray-900 leading-none">
