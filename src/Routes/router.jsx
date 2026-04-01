@@ -24,6 +24,7 @@ import AddProduct from "../Pages/DashBoard/Admin/Pages/AddProducts";
 import CollectionsPage from "../Pages/DashBoard/Admin/Pages/CollectionsPage";
 import UpdateProduct from "../Pages/DashBoard/Admin/Pages/UpdateProduct";
 import OrdersPage from "../Pages/DashBoard/Admin/Pages/OrdersPage";
+import PaymentsPage from "../Pages/DashBoard/Admin/Pages/PaymentsPage";
 
 
 export const router = createBrowserRouter([
@@ -103,6 +104,7 @@ export const router = createBrowserRouter([
       { path:'/dashboard/collections', element: <CollectionsPage></CollectionsPage>},
       { path:'/dashboard/update-products', element: <UpdateProduct></UpdateProduct>},
       { path:'/dashboard/orders', element: <OrdersPage></OrdersPage>},
+      { path:'/dashboard/payments', element: <PaymentsPage></PaymentsPage>},
 
     ]
 
