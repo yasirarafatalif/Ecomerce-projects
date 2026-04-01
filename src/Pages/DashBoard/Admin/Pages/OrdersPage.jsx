@@ -76,12 +76,12 @@ const OrdersPage = () => {
 
   return (
     <div className="animate-in fade-in duration-700 space-y-10 pb-20">
+
+        <title>ORDERS STATUS PAGE</title>
       {/* --- HEADER SECTION --- */}
       <div className="flex flex-col xl:flex-row justify-between items-start xl:items-end gap-6 border-b border-gray-200 pb-10">
         <div className="space-y-2 mt-2">
-          <p className="text-[10px] font-black uppercase tracking-[0.4em] text-blue-700 italic">
-            Logistics / Order Control
-          </p>
+          
           <h1 className="text-4xl md:text-5xl font-black italic tracking-tighter uppercase text-gray-900 leading-none">
             ORDER VAULT.
           </h1>
