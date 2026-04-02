@@ -16,6 +16,7 @@ import { Link } from "react-router-dom";
 import useAxios from "../../../Hooks/useAxios";
 import Swal from "sweetalert2";
 import useRole from "../../../Hooks/useRole";
+import { FiRotateCcw } from "react-icons/fi";
 
 const UserMenu = ({ user }) => {
   const axois = useAxios();
@@ -106,6 +107,11 @@ const UserMenu = ({ user }) => {
                   icon={<Settings size={14} />}
                   label="Account Settings"
                   to="/account-settings"
+                />
+                <DropdownLink
+                  icon={<FiRotateCcw size={14} />}
+                  label="Returns Orders"
+                  to="/returns-orders"
                 />
               </>
             )}

@@ -26,6 +26,7 @@ import UpdateProduct from "../Pages/DashBoard/Admin/Pages/UpdateProduct";
 import OrdersPage from "../Pages/DashBoard/Admin/Pages/OrdersPage";
 import PaymentsPage from "../Pages/DashBoard/Admin/Pages/PaymentsPage";
 import AccessControl from "../Pages/DashBoard/Admin/Pages/AccessControl";
+import MyReturns from "../Pages/Returns/MyReturns";
 
 
 export const router = createBrowserRouter([
@@ -45,6 +46,14 @@ export const router = createBrowserRouter([
         element: (
           <PrivateRoute>
             <CheckoutPage></CheckoutPage>
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "returns-orders",
+        element: (
+          <PrivateRoute>
+            <MyReturns></MyReturns>
           </PrivateRoute>
         ),
       },
