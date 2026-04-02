@@ -17,13 +17,17 @@ import { useQuery } from "@tanstack/react-query";
 import PremiumSpinner from "../../../Components/Shared/PremiumSpinner";
 import { Link } from "react-router-dom";
 import useRole from "../../../Hooks/useRole";
+import ReturnModal from "../../../Components/Dashboard/Users/ReturnModal";
+import Swal from "sweetalert2";
+import { ShowProtocolUpdatedAlert } from "../../../Components/Shared/ShowProtocolUpdatedAlert";
 
 const AdvancedOrders = () => {
   const axois = useAxios();
-  const {role}= useRole();
-  console.log(role)
+  const { role } = useRole();
   const { user } = useAuth();
   const email = user?.email;
+  const [selectedItem, setSelectedItem] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [activeTab, setActiveTab] = useState("All");
   const tabs = ["All", "Processing", "In Transit", "Delivered", "Cancelled"];
   const [searchOrderId, setSearchOrderId] = useState("");
@@ -39,6 +43,25 @@ const AdvancedOrders = () => {
       return res.data.result;
     },
   });
+
+  const handleReturnSubmit = async (returnData) => {
+  try {
+    const res = await axois.post("/returns", {
+      ...returnData,
+      userEmail: email,
+      orderId: selectedItem.orderId,
+      status: "Request Pending"
+    });
+     ShowProtocolUpdatedAlert("RETURNS REQUEST" ,"Your return request is being reviewed by Logistics.")
+    
+    if (res.data.success) {
+    ShowProtocolUpdatedAlert("RETURNS REQUEST" ,"Your return request is being reviewed by Logistics.")
+      setIsModalOpen(false);
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
 
   if (isLoading) {
     return <PremiumSpinner></PremiumSpinner>;
@@ -178,8 +201,24 @@ const AdvancedOrders = () => {
                         </div>
 
                         <div className="flex gap-3">
-                          <button className="px-5 py-2.5 border border-gray-200 text-[9px] font-black uppercase tracking-widest hover:border-black transition-colors">
-                            Return Item
+                          <button
+                            disabled={order.deliveryStatus === "Delivered"}
+                            onClick={() => {
+                              setSelectedItem({
+                                ...item,
+                                orderId: order.orderId,
+                              });
+                              setIsModalOpen(true);
+                            }}
+                            className={`px-5 py-2.5 border text-[9px] font-black uppercase tracking-widest transition-colors ${
+                              order.deliveryStatus === "Delivered"
+                                ? "border-gray-100 text-gray-200 cursor-not-allowed italic"
+                                : "border-gray-200 text-black hover:border-black"
+                            }`}
+                          >
+                            {order.deliveryStatus === "Delivered"
+                              ? "Return Period Over"
+                              : "Return Item"}
                           </button>
                           <button className="px-5 py-2.5 border border-gray-200 text-[9px] font-black uppercase tracking-widest hover:bg-black hover:text-white transition-colors">
                             Buy It Again
@@ -266,6 +305,13 @@ const AdvancedOrders = () => {
           </div>
         </div>
       </div>
+      <ReturnModal
+        isOpen={isModalOpen}
+        email={email}
+        onClose={() => setIsModalOpen(false)}
+        // onSubmit={handleReturnSubmit}
+        item={selectedItem}
+      />
     </div>
   );
 };

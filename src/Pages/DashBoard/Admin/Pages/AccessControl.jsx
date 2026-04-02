@@ -4,7 +4,7 @@ import {
   Search, Filter, CheckCircle2, 
   MoreVertical, Lock, Unlock, Activity
 } from "lucide-react";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQuery} from "@tanstack/react-query";
 import useAxios from "../../../../Hooks/useAxios";
 import PremiumSpinner from "../../../../Components/Shared/PremiumSpinner";
 import Swal from "sweetalert2";
@@ -12,11 +12,8 @@ import useRole from "../../../../Hooks/useRole";
 
 const AccessControl = () => {
   const axiosSecure = useAxios();
-  const queryClient = useQueryClient();
   const [searchTerm, setSearchTerm] = useState("");
   const {role}= useRole();
-
-  // --- 1. Fetching All Citizens ---
   const { data: users = [], isLoading } = useQuery({
     queryKey: ["access-users"],
     queryFn: async () => {
@@ -26,7 +23,7 @@ const AccessControl = () => {
   });
   console.log(users)
 
-  // --- 2. Dynamic Role Update Logic ---
+ 
   const handleRoleToggle = (user, newRole) => {
     Swal.fire({
       title: "AUTHORIZE CHANGE?",
@@ -47,7 +44,7 @@ const AccessControl = () => {
       if (result.isConfirmed) {
         axiosSecure.patch(`/users/role/${user._id}`, { role: newRole }).then((res) => {
           if (res.data.modifiedCount > 0) {
-            queryClient.invalidateQueries(["access-users"]);
+        
             Swal.fire({
               title: "PROTOCOL UPDATED",
               text: "Permissions synchronized successfully.",

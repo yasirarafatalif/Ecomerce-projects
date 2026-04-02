@@ -33,6 +33,7 @@ const OrdersPage = () => {
     },
   });
 
+
   const statusOptions = ["All", "Pending", "Shipped", "Delivered"];
 
   const filteredOrders = orders.filter((order) =>
@@ -194,7 +195,7 @@ const OrdersPage = () => {
                         </div>
                         <div>
                           <p className="text-[10px] font-black uppercase italic tracking-tighter text-gray-900">
-                            {order.userName || "Guest Citizen"}
+                            {order.customerName || "Guest User"}
                           </p>
                           <p className="text-[8px] font-bold text-gray-400 uppercase tracking-widest">
                             {order.userEmail}

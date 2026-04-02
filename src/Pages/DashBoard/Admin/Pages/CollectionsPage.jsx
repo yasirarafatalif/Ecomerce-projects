@@ -13,7 +13,7 @@ const CollectionsPage = () => {
   const axiosSecure = useAxios();
   const navigate = useNavigate();
   const [selectedCategory, setSelectedCategory] = useState("All");
-  const [selectedProducs, setselectedProducs]= useState([])
+  // const [selectedProducs, setselectedProducs]= useState([])
 
   const { data: products = [], isLoading } = useQuery({
     queryKey: ["admin-inventory",selectedCategory],
