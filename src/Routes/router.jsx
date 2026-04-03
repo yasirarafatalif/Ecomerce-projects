@@ -27,6 +27,7 @@ import OrdersPage from "../Pages/DashBoard/Admin/Pages/OrdersPage";
 import PaymentsPage from "../Pages/DashBoard/Admin/Pages/PaymentsPage";
 import AccessControl from "../Pages/DashBoard/Admin/Pages/AccessControl";
 import MyReturns from "../Pages/Returns/MyReturns";
+import AdminReturns from "../Pages/DashBoard/Admin/Pages/AdminReturns";
 
 
 export const router = createBrowserRouter([
@@ -111,6 +112,7 @@ export const router = createBrowserRouter([
       { path:'/dashboard', element: <Dashboard></Dashboard>},
       { path:'/dashboard/users', element: <UsersList></UsersList>},
       { path:'/dashboard/add-product', element: <AddProduct></AddProduct>},
+      { path:'/dashboard/returns', element: <AdminReturns></AdminReturns>},
       { path:'/dashboard/collections', element: <CollectionsPage></CollectionsPage>},
       { path:'/dashboard/update-products', element: <UpdateProduct></UpdateProduct>},
       { path:'/dashboard/orders', element: <OrdersPage></OrdersPage>},
