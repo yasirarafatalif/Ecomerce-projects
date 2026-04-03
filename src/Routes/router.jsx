@@ -28,12 +28,15 @@ import PaymentsPage from "../Pages/DashBoard/Admin/Pages/PaymentsPage";
 import AccessControl from "../Pages/DashBoard/Admin/Pages/AccessControl";
 import MyReturns from "../Pages/Returns/MyReturns";
 import AdminReturns from "../Pages/DashBoard/Admin/Pages/AdminReturns";
+import ErrorPage from "../Pages/Error/ErrorPage";
+import CouponsPage from "../Pages/DashBoard/Admin/Pages/CouponsPage";
 
 
 export const router = createBrowserRouter([
   {
     path: "/",
     element: <MainLayout></MainLayout>,
+    errorElement: <ErrorPage></ErrorPage>,
     children: [
       { index: true, element: <Home></Home> },
       { path: "services", element: <Services></Services> },
@@ -108,15 +111,17 @@ export const router = createBrowserRouter([
   {
     path:"/dashboard",
       element: <PrivateRoute><DashboardLayout></DashboardLayout></PrivateRoute>,
+      errorElement: <ErrorPage></ErrorPage>,
     children: [
       { path:'/dashboard', element: <Dashboard></Dashboard>},
-      { path:'/dashboard/users', element: <UsersList></UsersList>},
-      { path:'/dashboard/add-product', element: <AddProduct></AddProduct>},
-      { path:'/dashboard/returns', element: <AdminReturns></AdminReturns>},
-      { path:'/dashboard/collections', element: <CollectionsPage></CollectionsPage>},
-      { path:'/dashboard/update-products', element: <UpdateProduct></UpdateProduct>},
-      { path:'/dashboard/orders', element: <OrdersPage></OrdersPage>},
-      { path:'/dashboard/payments', element: <PaymentsPage></PaymentsPage>},
+      { path:'/dashboard/users', element: <AdminRoute><UsersList></UsersList></AdminRoute>},
+      { path:'/dashboard/add-product', element: <AdminRoute><AddProduct></AddProduct></AdminRoute>},
+      { path:'/dashboard/returns', element: <AdminRoute><AdminReturns></AdminReturns></AdminRoute>},
+      { path:'/dashboard/manage-orders', element: <AdminRoute><CollectionsPage></CollectionsPage></AdminRoute>},
+      { path:'/dashboard/update-products', element: <AdminRoute><UpdateProduct></UpdateProduct></AdminRoute>},
+      { path:'/dashboard/orders', element: <AdminRoute><OrdersPage></OrdersPage></AdminRoute>},
+      { path:'/dashboard/payments', element: <AdminRoute><PaymentsPage></PaymentsPage></AdminRoute>},
+      { path:'/dashboard/coupons', element: <AdminRoute><CouponsPage></CouponsPage></AdminRoute>},
       { path:'/dashboard/roles', element: <AccessControl></AccessControl>},
 
     ]

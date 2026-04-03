@@ -26,7 +26,7 @@ const DashboardSidebar = ({ isOpen, setIsOpen }) => {
  const adminMenuItems = [
   { name: "Command Center", path: "/dashboard", icon: <LayoutDashboard size={18} /> },
     // Products
-  { name: "Collections", path: "/dashboard/collections", icon: <Layers size={18} /> },
+  { name: "Collections", path: "/dashboard/manage-orders", icon: <Layers size={18} /> },
   { name: "Add Artifact", path: "/dashboard/add-product", icon: <PackagePlus size={18} /> },
   
 

@@ -124,16 +124,12 @@ const UserMenu = ({ user }) => {
                   label="Dashboard"
                   to="/dashboard"
                 />
-                <DropdownLink
+                {/* <DropdownLink
                   icon={<ShoppingBag size={14} />}
                   label="Manage Orders"
                   to="/dashboard/manage-orders"
-                />
-                <DropdownLink
-                  icon={<Users size={14} />}
-                  label="Manage Users"
-                  to="/dashboard/manage-users"
-                />
+                /> */}
+                
                 <DropdownLink
                   icon={<Settings size={14} />}
                   label="Admin Settings"

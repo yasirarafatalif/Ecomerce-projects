@@ -15,7 +15,6 @@ const MyReturns = () => {
   const { user } = useAuth();
   const email = user?.email;
 
-  // --- 1. Fetching Return Products Only ---
   const { data: returns = [], isLoading } = useQuery({
     queryKey: ["my-returns", email],
     enabled: !!email,
@@ -25,7 +24,7 @@ const MyReturns = () => {
     },
   });
 
-//   if (isLoading) return <PremiumSpinner />;
+  if (isLoading) return <PremiumSpinner />;
 
   return (
     <div className="min-h-screen bg-[#F2F2F2] pt-28 pb-20 font-sans">
