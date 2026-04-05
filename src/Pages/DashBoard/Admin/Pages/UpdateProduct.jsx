@@ -15,14 +15,14 @@ import {
 import useAxios from "../../../../Hooks/useAxios";
 import Swal from "sweetalert2";
 import PremiumSpinner from "../../../../Components/Shared/PremiumSpinner";
+import { ShowProtocolUpdatedAlert } from "../../../../Components/Shared/ShowProtocolUpdatedAlert";
+import { ShowProtocolErrorAlert } from "../../../../Components/Shared/ShowProtocolErrorAlert";
 
 const UpdateProduct = () => {
   const { id } = useParams();
   const axiosSecure = useAxios();
   const navigate = useNavigate();
   const { state } = useLocation();
-  console.log(state)
-
   const [formData, setFormData] = useState(null);
   const [loading, setLoading] = useState(true);
 
@@ -51,7 +51,7 @@ const UpdateProduct = () => {
         inventory: data.inventory || [],
       });
     } catch (error) {
-      Swal.fire("ERROR", "Product load failed", "error");
+      ShowProtocolErrorAlert("Load Failed", "An error occurred while loading the product.");
       navigate("/dashboard/collections");
     } finally {
       setLoading(false);
@@ -82,11 +82,11 @@ const UpdateProduct = () => {
     try {
       const res = await axiosSecure.put(`/products/${id}`, updatedProduct);
       if (res.data.modifiedCount > 0 || res.data.success) {
-        Swal.fire({ title: "VAULT UPDATED", text: "Synchronized successfully.", icon: "success", background: "#fff", confirmButtonColor: "#000" });
+        ShowProtocolUpdatedAlert("Product Updated", "The product details have been successfully updated.");
         navigate("/dashboard/collections");
       }
     } catch (err) {
-      Swal.fire("ERROR", "Update failed.", "error");
+      ShowProtocolErrorAlert("Update Failed", "An error occurred while updating the product.");
     }
   };
 

@@ -9,6 +9,7 @@ import useAxios from "../../../../Hooks/useAxios";
 import PremiumSpinner from "../../../../Components/Shared/PremiumSpinner";
 import Swal from "sweetalert2";
 import { ShowProtocolUpdatedAlert } from "../../../../Components/Shared/ShowProtocolUpdatedAlert";
+import { ShowProtocolErrorAlert } from "../../../../Components/Shared/ShowProtocolErrorAlert";
 
 const CouponsPage = () => {
   const axiosSecure = useAxios();
@@ -69,11 +70,14 @@ const CouponsPage = () => {
       setEditingCoupon(null);
       refetch();
     } catch (err) {
-      Swal.fire("ERROR", "System failed to sync protocol.", "error");
+     ShowProtocolErrorAlert("Operation Failed", err.response?.data?.message || err.message || "An unexpected error occurred.");
+     setIsModalOpen(false);
+
     }
   };
 
   const handleDelete = (id) => {
+
     Swal.fire({
       title: "EXTRACT FROM VAULT?",
       icon: "warning",
@@ -167,9 +171,9 @@ const CouponsPage = () => {
             
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                <div className="space-y-6">
-                  <Input label="Coupon Code" name="couponCode" defaultValue={editingCoupon?.couponCode} placeholder="E.G. HOODIE50" />
+                  <Input label="Coupon Code" required name="couponCode" defaultValue={editingCoupon?.couponCode} placeholder="E.G. HOODIE50" />
                   <div className="grid grid-cols-2 gap-4">
-                    <Input label="Discount Value" name="discountValue" type="number" defaultValue={editingCoupon?.discountValue} placeholder="50" />
+                    <Input label="Discount Value" required name="discountValue" type="number" defaultValue={editingCoupon?.discountValue} placeholder="50" />
                     <div className="space-y-1">
                       <label className="text-[9px] font-black uppercase text-gray-400">Type</label>
                       <select name="discountType" defaultValue={editingCoupon?.discountType || "fixed"} className="w-full bg-gray-50 py-4 px-4 text-xs font-black outline-none border-none">
@@ -178,16 +182,16 @@ const CouponsPage = () => {
                       </select>
                     </div>
                   </div>
-                  <Input label="Expiry Date" name="expiryDate" type="datetime-local" defaultValue={editingCoupon?.expiryDate ? new Date(editingCoupon.expiryDate).toISOString().slice(0, 16) : ""} />
+                  <Input label="Expiry Date" required name="expiryDate" type="datetime-local" defaultValue={editingCoupon?.expiryDate ? new Date(editingCoupon.expiryDate).toISOString().slice(0, 16) : ""} />
                </div>
 
                <div className="space-y-6">
-                  <Input label="Min. Order Amount" name="minimumOrderAmount" type="number" defaultValue={editingCoupon?.minimumOrderAmount} placeholder="1200" />
+                  <Input label="Min. Order Amount" required name="minimumOrderAmount" type="number" defaultValue={editingCoupon?.minimumOrderAmount} placeholder="1200" />
                   <div className="grid grid-cols-2 gap-4">
-                    <Input label="Total Usage Limit" name="usageLimit" type="number" defaultValue={editingCoupon?.usageLimit} placeholder="80" />
-                    <Input label="Per User Limit" name="perUserLimit" type="number" defaultValue={editingCoupon?.perUserLimit} placeholder="2" />
+                    <Input label="Total Usage Limit" required name="usageLimit" type="number" defaultValue={editingCoupon?.usageLimit} placeholder="80" />
+                    <Input label="Per User Limit" required name="perUserLimit" type="number" defaultValue={editingCoupon?.perUserLimit} placeholder="2" />
                   </div>
-                  <Input label="Categories (Comma Separated)" name="applicableCategories" defaultValue={editingCoupon?.applicableCategories?.join(", ")} placeholder="HOODIES, T-SHIRTS" />
+                  <Input label="Categories (Comma Separated)" required name="applicableCategories" defaultValue={editingCoupon?.applicableCategories?.join(", ")} placeholder="HOODIES, T-SHIRTS" />
                </div>
             </div>
 
