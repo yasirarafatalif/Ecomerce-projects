@@ -30,6 +30,7 @@ import MyReturns from "../Pages/Returns/MyReturns";
 import AdminReturns from "../Pages/DashBoard/Admin/Pages/AdminReturns";
 import ErrorPage from "../Pages/Error/ErrorPage";
 import CouponsPage from "../Pages/DashBoard/Admin/Pages/CouponsPage";
+import SettingsPage from "../Pages/DashBoard/Common/SettingsPage";
 
 
 export const router = createBrowserRouter([
@@ -123,6 +124,7 @@ export const router = createBrowserRouter([
       { path:'/dashboard/payments', element: <AdminRoute><PaymentsPage></PaymentsPage></AdminRoute>},
       { path:'/dashboard/coupons', element: <AdminRoute><CouponsPage></CouponsPage></AdminRoute>},
       { path:'/dashboard/roles', element: <AccessControl></AccessControl>},
+      { path:'/dashboard/settings', element: <SettingsPage></SettingsPage>},
 
     ]
 

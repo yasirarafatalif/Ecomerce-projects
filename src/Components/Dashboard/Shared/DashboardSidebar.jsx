@@ -50,7 +50,6 @@ const DashboardSidebar = ({ isOpen, setIsOpen }) => {
   // Reviews
   { name: "Feedback Hub", path: "/dashboard/reviews", icon: <MessageSquare size={18} /> },
   { name: "Insight Reports", path: "/dashboard/reports", icon: <BarChart3 size={18} /> },
-  { name: "System Settings", path: "/dashboard/settings", icon: <Settings2 size={18} /> },
 ];
   const staffMenuItems = [
     { name: "Command Center", path: "/dashboard", icon: <LayoutDashboard size={18} /> },
