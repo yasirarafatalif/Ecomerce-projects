@@ -25,7 +25,7 @@ const SettingsPage = () => {
   const handleUpdateSettings = async (e) => {
     e.preventDefault();
     try {
-      // Mocking an API call
+    
       // const res = await axiosSecure.patch("/admin/settings", siteSettings);
       ShowProtocolUpdatedAlert("CORE SETTINGS", "SYNCHRONIZED");
     } catch (err) {
