@@ -157,7 +157,7 @@ const NewArrivals = () => {
 
         {/* Product Slider Container */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6 relative z-10 md:gap-6 overflow-x-auto no-scrollbar pb-10">
-          {newArrivals?.map((product) => <HomeProductsCard product={product} key={product._id}></HomeProductsCard>)}
+          {newArrivals?.slice(0, 4).map((product) => <HomeProductsCard product={product} key={product._id}></HomeProductsCard>)}
         </div>
 
         {/* Slider Controls */}
