@@ -15,7 +15,6 @@ const AdminReviews = () => {
   const axiosSecure = useAxios();
   const [selectedStatus, setSelectedStatus] = useState("All");
 
-  // --- 1. Fetching All Reviews ---
   const { data: reviews = [], isLoading } = useQuery({
     queryKey: ["admin-reviews"],
     queryFn: async () => {
@@ -24,7 +23,6 @@ const AdminReviews = () => {
     },
   });
 
-  // --- 2. Update Review Status (Toggle Visibility) ---
   const handleToggleStatus = (id, currentStatus) => {
     const newStatus = currentStatus === "Approved" ? "Hidden" : "Approved";
     

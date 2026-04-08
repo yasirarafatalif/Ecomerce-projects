@@ -5,6 +5,7 @@ import BgImg from "../../assets/bg-home1.png";
 import useAxios from "../../Hooks/useAxios";
 import Swal from "sweetalert2";
 import useAuth from "../../Hooks/useAuth";
+import { LogToast } from "../../Components/Shared/LogToast";
 
 const Login = () => {
   const { user } = useAuth();
@@ -20,52 +21,48 @@ const Login = () => {
     email: "",
     password: "",
   });
-  const axois = useAxios();
+  const axios = useAxios();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     try {
-      const res = await axois.post(`/login`, formData, {
+      const res = await axios.post("/login", formData, {
         withCredentials: true,
       });
 
-      if (res.data.message === "Wrong password") {
+      const { success, message } = res.data;
+
+      if (message === "Wrong password") {
         return Swal.fire({
           icon: "error",
-          title: `${res.data.message}`,
-          text: res.data.message || "Something went wrong",
+          title: "Wrong Password",
+          text: message || "Something went wrong",
         });
       }
-      if (res.data.message === "User not found") {
+
+      if (message === "User not found") {
         return Swal.fire({
           icon: "error",
-          title: `This Email Not Register Our Website`,
-          text: res.data.message || "Something went wrong",
+          title: "This Email Is Not Registered On Our Website",
+          text: message || "Something went wrong",
         });
       }
-      if (res.data.message) {
-        Swal.fire({
-          position: "top-end",
-          icon: "success",
-          title: "Successfully Logged In",
-          showConfirmButton: false,
-          timer: 1500,
-        }).then(() => {
-          window.location.href = "/";
-          // navigate("/");
-        });
+
+      if (success) {
+        LogToast("Log In Successful", "ACTIVE");
+        navigate("/");
       }
     } catch (error) {
       Swal.fire({
         icon: "error",
         title: "Log In Failed",
-        text: error.response?.data || "Something went wrong",
+        text: error?.response?.data?.message || "Something went wrong",
       });
     }
   };
   return (
     <div className="relative min-h-screen w-full flex items-center justify-center bg-[#f2f2f2] font-sans overflow-hidden py-20 px-6">
-
       <title>LogIn-Page</title>
       {/* 1. Background Image Layer */}
       <div
