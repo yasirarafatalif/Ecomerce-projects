@@ -12,17 +12,19 @@ import {
   PackageCheck,
   Boxes,
 } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import useAxios from "../../../Hooks/useAxios";
 import Swal from "sweetalert2";
 import useRole from "../../../Hooks/useRole";
 import { FiRotateCcw } from "react-icons/fi";
+import { LogToast } from "../../Shared/LogToast";
 
 const UserMenu = ({ user }) => {
   const axois = useAxios();
   const [isOpen, setIsOpen] = useState(false);
   const menuRef = useRef(null);
   const { role } = useRole();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -37,15 +39,9 @@ const UserMenu = ({ user }) => {
     try {
       await axois.post("/logout", {}, { withCredentials: true });
 
-      Swal.fire({
-        position: "top-end",
-        icon: "success",
-        title: "Log Out Successfully",
-        showConfirmButton: false,
-        timer: 1500,
-      }).then(() => {
-        window.location.href = "/";
-      });
+     LogToast("Logout Successful", "INACTIVE");
+      navigate("/");
+    //  window.location.href = "/";
     } catch (error) {
       Swal.fire({
         icon: "error",
