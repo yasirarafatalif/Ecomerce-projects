@@ -85,19 +85,57 @@ const OrdersPage = () => {
       </div>
 
       {/* --- STATUS FILTER TABS --- */}
-      <div className="flex items-center gap-8 overflow-x-auto no-scrollbar border-b border-gray-100 pb-2">
-        {statusOptions.map((status) => (
-          <button
-            key={status}
-            onClick={() => setSelectedStatus(status)}
-            className={`text-[10px] font-black uppercase tracking-[0.2em] transition-all relative pb-2 whitespace-nowrap ${selectedStatus === status ? "text-black italic" : "text-gray-300 hover:text-black"}`}
-          >
-            {status}{" "}
-            {selectedStatus === status && (
-              <div className="absolute bottom-0 left-0 w-full h-[2px] bg-blue-700 animate-in slide-in-from-left" />
-            )}
-          </button>
-        ))}
+      <div className="flex items-center gap-10 overflow-x-auto no-scrollbar border-b border-gray-100 pb-4 mb-10">
+        {/* --- FILTER LABEL --- */}
+        <div className="flex items-center gap-3 pr-8 border-r border-gray-100 shrink-0">
+          <div className="w-2 h-2 bg-blue-700 animate-pulse rounded-full"></div>
+          <span className="text-[11px] font-black uppercase tracking-[0.4em] text-gray-900 italic">
+            Filter Intel:
+          </span>
+        </div>
+
+        {/* --- DYNAMIC STATUS TABS --- */}
+        <div className="flex items-center gap-8">
+          {statusOptions.map((status) => {
+            // Logic to count orders for each status (Optional but Premium)
+            const count = orders.filter((o) => o.orderStatus === status).length;
+
+            return (
+              <button
+                key={status}
+                onClick={() => setSelectedStatus(status)}
+                className={`group hover:cursor-pointer relative flex items-center gap-3 pb-3 transition-all duration-500 whitespace-nowrap ${
+                  selectedStatus === status
+                    ? "text-black opacity-100 scale-105"
+                    : "text-gray-400 hover:text-gray-500 opacity-60"
+                }`}
+              >
+                {/* Status Name */}
+                <span
+                  className={`text-[10px] font-black uppercase tracking-[0.2em] ${selectedStatus === status ? "italic" : ""}`}
+                >
+                  {status}
+                </span>
+
+                {/* Dynamic Count Badge (Premium Detail) */}
+                <span
+                  className={`text-[8px] font-black px-1.5 py-0.5 border ${
+                    selectedStatus === status
+                      ? "bg-black text-white border-black"
+                      : "bg-gray-50 text-gray-400 border-gray-100 group-hover:border-gray-300"
+                  } transition-all`}
+                >
+                  {count.toString().padStart(2, "0")}
+                </span>
+
+                {/* Animated Active Line */}
+                {selectedStatus === status && (
+                  <div className="absolute bottom-0 left-0 w-full h-[2px] bg-blue-700 animate-in slide-in-from-left duration-700 shadow-[0_2px_10px_rgba(29,78,216,0.4)]" />
+                )}
+              </button>
+            );
+          })}
+        </div>
       </div>
 
       {/* --- ORDERS TABLE --- */}
@@ -132,7 +170,7 @@ const OrdersPage = () => {
                     className="group/row hover:bg-gray-50/80 transition-all duration-300"
                   >
                     <td className="p-8 font-black text-xs">
-                      #{order._id.toUpperCase().slice(-8)}
+                      ID: {order._id.toUpperCase()}
                     </td>
                     <td className="p-8">
                       <p className="text-[10px] font-black uppercase italic tracking-tighter text-gray-900">

@@ -93,26 +93,47 @@ const CollectionsPage = () => {
       </div>
 
       {/* --- CATEGORY FILTER BAR --- */}
-      <div className="flex items-center gap-4 md:gap-8 overflow-x-auto no-scrollbar pb-2 border-b border-gray-100">
-        <div className="flex items-center gap-2 pr-6 border-r border-gray-200">
-           <LayoutGrid size={14} className="text-gray-400" />
-           <span className="text-[10px] font-black uppercase tracking-widest text-gray-400">Filter:</span>
+      <div className="flex items-center  gap-8">
+          {categories.map((category) => {
+            // Logic to count products for each category (Optional but Premium)
+            const count = products.filter((p) => p.category === category).length;
+
+            return (
+              <button
+                key={category}
+                onClick={() => setSelectedCategory(category)}
+                className={`group hover:cursor-pointer ms-5 relative flex items-center gap-3 pb-3 transition-all duration-500 whitespace-nowrap ${
+                  selectedCategory === category
+                    ? "text-black opacity-100 scale-105"
+                    : "text-gray-400 hover:text-gray-500 opacity-60"
+                }`}
+              >
+                {/* Status Name */}
+                <span
+                  className={`text-[10px] font-black uppercase tracking-[0.2em] ${selectedCategory === category ? "italic" : ""}`}
+                >
+                  {category}
+                </span>
+
+                {/* Dynamic Count Badge (Premium Detail) */}
+                <span
+                  className={`text-[8px] font-black px-1.5 py-0.5 border ${
+                    selectedCategory === category
+                      ? "bg-black text-white border-black"
+                      : "bg-gray-50 text-gray-400 border-gray-100 group-hover:border-gray-300"
+                  } transition-all`}
+                >
+                  {count.toString().padStart(2, "0")}
+                </span>
+
+                {/* Animated Active Line */}
+                {selectedCategory === category && (
+                  <div className="absolute bottom-0 left-0 w-full h-[2px] bg-blue-700 animate-in slide-in-from-left duration-700 shadow-[0_2px_10px_rgba(29,78,216,0.4)]" />
+                )}
+              </button>
+            );
+          })}
         </div>
-        {categories.map((cat) => (
-          <button
-            key={cat}
-            onClick={() => setSelectedCategory(cat)}
-            className={`text-[10px] font-black uppercase tracking-[0.2em] whitespace-nowrap transition-all relative pb-2 ${
-              selectedCategory === cat ? "text-black italic" : "text-gray-300 hover:text-black"
-            }`}
-          >
-            {cat}
-            {selectedCategory === cat && (
-              <div className="absolute bottom-0 left-0 w-full h-[2px] bg-blue-700 animate-in slide-in-from-left duration-500" />
-            )}
-          </button>
-        ))}
-      </div>
 
       {/* --- DATA TABLE --- */}
       <div className="bg-white shadow-[0_20px_50px_rgba(0,0,0,0.05)] relative overflow-hidden group">
