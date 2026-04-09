@@ -50,10 +50,10 @@ console.log(products)
   ];
   // Product Images Array
 
-  const productImages = [
-    "https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?q=80&w=800",
-    `${products?.img}`,
-  ];
+ const productImages = [
+  products?.img,
+  ...(products?.thumbnails || []),
+].filter(Boolean);
 
   // States
   const [mainImage, setMainImage] = useState(productImages[3]);

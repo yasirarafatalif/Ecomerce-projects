@@ -105,7 +105,7 @@ const UpdateProduct = () => {
           "Product Updated",
           "The product details have been successfully updated.",
         );
-        navigate("/dashboard/collections");
+        navigate("/dashboard/manage-orders");
       }
     } catch (err) {
       console.error(err);
