@@ -39,9 +39,10 @@ const UserMenu = ({ user }) => {
     try {
       await axois.post("/logout", {}, { withCredentials: true });
 
-     LogToast("Logout Successful", "INACTIVE");
-      navigate("/");
-    //  window.location.href = "/";
+      LogToast("Logout Successful", "INACTIVE");
+      setTimeout(() => {
+        window.location.href = "/";
+      }, 1200);
     } catch (error) {
       Swal.fire({
         icon: "error",
@@ -125,7 +126,7 @@ const UserMenu = ({ user }) => {
                   label="Manage Orders"
                   to="/dashboard/manage-orders"
                 /> */}
-                
+
                 <DropdownLink
                   icon={<Settings size={14} />}
                   label="Admin Settings"

@@ -51,7 +51,9 @@ const Login = () => {
 
       if (success) {
         LogToast("Log In Successful", "ACTIVE");
-        navigate("/");
+        setTimeout(() => {
+        window.location.href = "/";
+      }, 1200);
       }
     } catch (error) {
       Swal.fire({
