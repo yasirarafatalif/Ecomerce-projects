@@ -9,17 +9,6 @@ const CartShowBtn = ({ user }) => {
   const axois = useAxios();
   const email = user?.email;
   const {cartData}= useContext(CartContext)
-    console.log(cartData)
-
-  // const { data = [] } = useQuery({
-  //   queryKey: ["cart-data", email],
-  //   enabled: !!email,
-  //   queryFn: async () => {
-  //     const res = await axois.get(`/cart?email=${email}`);
-  //     return res.data;
-  //   },
-  // });
-
   return (
     <Link to='/cart'>
       <div className="relative hidden sm:flex">

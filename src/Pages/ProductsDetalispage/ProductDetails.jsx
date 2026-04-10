@@ -9,7 +9,7 @@ import {
   Share2,
 } from "lucide-react";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import useAxios from "../../Hooks/useAxios";
 import { HiShoppingBag } from "react-icons/hi";
 import { GoPackage } from "react-icons/go";
@@ -25,6 +25,7 @@ const ProductDetails = () => {
   const axois = useAxios();
   const [active, setActive] = useState(null);
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
 
   const { user } = useAuth();
   const { data: products = [], isLoading } = useQuery({
@@ -86,12 +87,12 @@ const ProductDetails = () => {
     }
     try {
       const res = await axois.post("/add-to-cart", cartData);
+      queryClient.invalidateQueries(["cart-data", user?.email]);
       if (res.data.success) {
         LogToast("Product added to cart successfully", "success");
         setTimeout(() => {
           window.location.href = "/cart";
         }, 1200);
-        // navigate(`/checkout/${product?._id}`,{ state: cartData })
       } else {
         ShowProtocolErrorAlert(`${res.data.message}`, "error");
       }
@@ -102,13 +103,7 @@ const ProductDetails = () => {
 
   const handelWishlist = async (id) => {
     if (!user) {
-      return Swal.fire({
-        position: "top-end",
-        icon: "error",
-        title: "Please LogIn First",
-        showConfirmButton: false,
-        timer: 1500,
-      });
+      return ShowProtocolErrorAlert("Please LogIn First", "error");
     }
     const wishdata = {
       userEmail: user?.email,
@@ -120,6 +115,7 @@ const ProductDetails = () => {
     };
     try {
       const res = await axois.post("/wishlist", wishdata);
+      queryClient.invalidateQueries(["wish-list-show", user?.email]);
       if (res.data.success) {
         LogToast("Product added to wishlist successfully", "success");
       } else {

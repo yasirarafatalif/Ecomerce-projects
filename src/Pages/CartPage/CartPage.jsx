@@ -11,14 +11,17 @@ import {
 import { Link } from "react-router-dom";
 import useAuth from "../../Hooks/useAuth";
 import useAxios from "../../Hooks/useAxios";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import Swal from "sweetalert2";
 import QuantityBox from "../../Components/Items/Cart/QuantityBox";
+import { ShowProtocolUpdatedAlert } from "../../Components/Shared/ShowProtocolUpdatedAlert";
+import { ShowProtocolErrorAlert } from "../../Components/Shared/ShowProtocolErrorAlert";
 
 const CartPage = () => {
   const { user } = useAuth();
   const axois = useAxios();
   const email = user?.email;
+  const queryClient = useQueryClient();
 
   const { data: cartItems = [], refetch } = useQuery({
     queryKey: ["cart-page", email],
@@ -47,22 +50,14 @@ const CartPage = () => {
       if (result.isConfirmed) {
         try {
           const res = await axois.delete(`/cartpage?id=${id}`);
+          queryClient.invalidateQueries(["cart-data", user?.email]);
 
           if (res.data.data.deletedCount > 0) {
-            Swal.fire({
-              title: "Deleted!",
-              text: "Item removed from cart.",
-              icon: "success",
-            });
-
+           ShowProtocolUpdatedAlert("Item removed from cart successfully", "success");
             refetch();
           }
         } catch (error) {
-          Swal.fire({
-            title: "Error!",
-            text: `${error}`,
-            icon: "error",
-          });
+          ShowProtocolErrorAlert(`Error: ${error}`, "error");
         }
       }
     });
@@ -79,11 +74,7 @@ const CartPage = () => {
 
       refetch();
     } catch (error) {
-      Swal.fire({
-        title: "Error!",
-        text: `${error}`,
-        icon: "error",
-      });
+      ShowProtocolErrorAlert(`Error: ${error}`, "error");
     }
   };
 

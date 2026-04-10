@@ -1,7 +1,7 @@
 import React from "react";
 import useAxios from "../Hooks/useAxios";
 import useAuth from "../Hooks/useAuth";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery} from "@tanstack/react-query";
 import { CartContext } from "./CartContext";
 
 const CartProvider = ({ children }) => {
@@ -16,6 +16,8 @@ const CartProvider = ({ children }) => {
       const res = await axois.get(`/cart?email=${email}`);
       return res.data;
     },
+    
+    
   });
   return (
     <CartContext.Provider value={{ cartData }}>{children}</CartContext.Provider>

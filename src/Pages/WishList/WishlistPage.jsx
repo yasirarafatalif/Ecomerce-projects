@@ -12,9 +12,11 @@ import {
 import Img from "../../assets/bg-home1.png";
 import useAuth from "../../Hooks/useAuth";
 import useAxios from "../../Hooks/useAxios";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import Swal from "sweetalert2";
 import { Link } from "react-router-dom";
+import { ShowProtocolUpdatedAlert } from "../../Components/Shared/ShowProtocolUpdatedAlert";
+import { ShowProtocolErrorAlert } from "../../Components/Shared/ShowProtocolErrorAlert";
 
 const WishlistPage = () => {
   const [cols, setCols] = useState(4);
@@ -22,6 +24,7 @@ const WishlistPage = () => {
   const { user } = useAuth();
   const axois = useAxios();
   const email = user?.email;
+  const queryClient = useQueryClient();
 
   const { data: wishlistItems = [], refetch } = useQuery({
     queryKey: ["wishlist-show", email],
@@ -38,31 +41,17 @@ const WishlistPage = () => {
         : `/wishlist-data?id=${id}&email=${email}`;
 
       const res = await axois.delete(url);
+       queryClient.invalidateQueries(["wish-list-show", user?.email]);
 
       if (res.data.deletedCount > 0) {
-        Swal.fire({
-          position: "top-end",
-          icon: "success",
-          title: isAll
-            ? "All wishlist items removed"
-            :  "Removed from wishlist",
-          showConfirmButton: false,
-          timer: 1500,
-        });
+      ShowProtocolUpdatedAlert(isAll ? "All items removed from wishlist" : "Item removed from wishlist", "success");
 
         refetch();
       } else {
-        Swal.fire({
-          icon: "error",
-          title: "Failed to remove item",
-        });
+        ShowProtocolErrorAlert("Failed to remove item", "error");
       }
     } catch (error) {
-      Swal.fire({
-        icon: "error",
-        text: `${error}`,
-        title: "Something went wrong",
-      });
+      ShowProtocolErrorAlert(`Error: ${error}`, "error");
     }
   };
 
