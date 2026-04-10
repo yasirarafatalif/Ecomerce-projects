@@ -9,6 +9,7 @@ const CartShowBtn = ({ user }) => {
   const axois = useAxios();
   const email = user?.email;
   const {cartData}= useContext(CartContext)
+  console.log(cartData)
   return (
     <Link to='/cart'>
       <div className="relative hidden sm:flex">

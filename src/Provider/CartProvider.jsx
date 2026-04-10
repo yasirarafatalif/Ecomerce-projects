@@ -9,7 +9,7 @@ const CartProvider = ({ children }) => {
   const { user } = useAuth();
   const email = user?.email;
 
-  const { data: cartData = [] } = useQuery({
+  const { data: cartData = [] ,isLoading:cartLoading} = useQuery({
     queryKey: ["cart-data", email],
     enabled: !!email,
     queryFn: async () => {
@@ -20,7 +20,7 @@ const CartProvider = ({ children }) => {
     
   });
   return (
-    <CartContext.Provider value={{ cartData }}>{children}</CartContext.Provider>
+    <CartContext.Provider value={{ cartData ,cartLoading}}>{children}</CartContext.Provider>
   );
 };
 

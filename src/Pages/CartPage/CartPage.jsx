@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { use, useContext, useState } from "react";
 import {
   Trash2,
   Plus,
@@ -16,21 +16,26 @@ import Swal from "sweetalert2";
 import QuantityBox from "../../Components/Items/Cart/QuantityBox";
 import { ShowProtocolUpdatedAlert } from "../../Components/Shared/ShowProtocolUpdatedAlert";
 import { ShowProtocolErrorAlert } from "../../Components/Shared/ShowProtocolErrorAlert";
+import { CartContext } from "../../Provider/CartContext";
+import useCart from "../../Hooks/useCart";
+import PremiumSpinner from "../../Components/Shared/PremiumSpinner";
 
 const CartPage = () => {
   const { user } = useAuth();
   const axois = useAxios();
   const email = user?.email;
   const queryClient = useQueryClient();
+  const {cartData : cartItems = [], cartLoading} = useCart();
+  
 
-  const { data: cartItems = [], refetch } = useQuery({
-    queryKey: ["cart-page", email],
-    enabled: !!email,
-    queryFn: async () => {
-      const res = await axois.get(`/cartpage?email=${email}`);
-      return res.data;
-    },
-  });
+  // const { data: cartItems = [], refetch } = useQuery({
+  //   queryKey: ["cart-page", email],
+  //   enabled: !!email,
+  //   queryFn: async () => {
+  //     const res = await axois.get(`/cartpage?email=${email}`);
+  //     return res.data;
+  //   },
+  // });
   const subtotal = cartItems.reduce(
     (acc, item) => acc + item.productPrice * item.totalQuantity,
     0,
@@ -77,6 +82,7 @@ const CartPage = () => {
       ShowProtocolErrorAlert(`Error: ${error}`, "error");
     }
   };
+  if (cartLoading) return <PremiumSpinner></PremiumSpinner>
 
   return (
     <div className="min-h-screen bg-[#f2f2f2] pt-32 pb-20 font-sans">

@@ -71,7 +71,7 @@ const ProductDetails = () => {
     const cartData = {
       productName: product?.title,
       productCategory: product?.category,
-      buyerEmail: user?.email,
+      userEmail: user?.email,
       productId: product?._id,
       status: "Pending",
       deliveryStatus: "Pending",

@@ -14,32 +14,33 @@ import useAxios from "../../Hooks/useAxios";
 import useAuth from "../../Hooks/useAuth";
 import PremiumSpinner from "../../Components/Shared/PremiumSpinner";
 import { CartContext } from "../../Provider/CartContext";
+import { ShowProtocolUpdatedAlert } from "../../Components/Shared/ShowProtocolUpdatedAlert";
+import { ShowProtocolErrorAlert } from "../../Components/Shared/ShowProtocolErrorAlert";
 
 const CheckoutPage = () => {
   const { user } = useAuth();
   const axois = useAxios();
-  const {cartData}= useContext(CartContext)
-  console.log(cartData)
+  const {cartData:cartItems = [],}= useContext(CartContext)
   const userEmail = user?.email;
   const location = useLocation();
   const data = location.state;
   const navigate = useNavigate();
   // const { id } = useParams();
 
-  const [paymentMethod, setPaymentMethod] = useState("card");
+  const [paymentMethod, setPaymentMethod] = useState("cod");
 
-  const {
-    data: cartItems = [],
-    refetch,
-    isLoading,
-  } = useQuery({
-    queryKey: ["cart-page", userEmail],
-    enabled: !!userEmail,
-    queryFn: async () => {
-      const res = await axois.get(`/cartpage?email=${userEmail}`);
-      return res.data;
-    },
-  });
+  // const {
+  //   data: cartItems = [],
+  //   refetch,
+  //   isLoading,
+  // } = useQuery({
+  //   queryKey: ["cart-page", userEmail],
+  //   enabled: !!userEmail,
+  //   queryFn: async () => {
+  //     const res = await axois.get(`/cartpage?email=${userEmail}`);
+  //     return res.data;
+  //   },
+  // });
   // console.log(cartItems);
   const subtotal = cartItems.reduce(
     (acc, item) => acc + item.productPrice * item.totalQuantity,
@@ -82,25 +83,14 @@ const CheckoutPage = () => {
     const res = await axois.post("/orders", odersData);
 
     if (res.data.success) {
-      return Swal.fire({
-        position: "top-end",
-        icon: "success",
-        title: "Your order has been placed successfully!",
-        showConfirmButton: false,
-        timer: 1500,
-      });
+      return ShowProtocolUpdatedAlert("Your order has been placed successfully", "success");
+      
     } else {
-      Swal.fire({
-        position: "top-end",
-        icon: "error",
-        title: "Your order already placed",
-        showConfirmButton: false,
-        timer: 1500,
-      });
+      return ShowProtocolErrorAlert("Failed to place order. Please try again.", "error");
     }
 
-    e.target.reset();
-    // navigate("/");
+    
+    
   };
 
   const handelDelete = (id) => {
@@ -137,9 +127,7 @@ const CheckoutPage = () => {
     });
   };
 
-  if (isLoading) {
-    return <PremiumSpinner></PremiumSpinner>;
-  }
+  // if (isLoading) return <PremiumSpinner />;
 
   return (
     <div className="min-h-screen bg-[#f2f2f2] pt-28 pb-20 font-sans">
