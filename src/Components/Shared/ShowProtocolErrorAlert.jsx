@@ -19,7 +19,7 @@ export const ShowProtocolErrorAlert = (title, errorMessage) => {
     showConfirmButton: false,
     timer: 3000,
     timerProgressBar: true,
-    backdrop: `rgba(211, 47, 47, 0.1) backdrop-blur-sm`, // Subtle red tint with blur
+    backdrop: `rgba(211, 47, 47, 0.1) backdrop-blur-sm`, 
     customClass: {
       popup: "rounded-none border-t-8 border-red-600 shadow-2xl p-10",
       title: "font-black italic tracking-tighter uppercase text-2xl mb-2 text-black",

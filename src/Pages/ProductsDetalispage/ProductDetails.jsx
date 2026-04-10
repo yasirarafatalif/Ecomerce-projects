@@ -17,6 +17,8 @@ import PremiumSpinner from "../../Components/Shared/PremiumSpinner";
 import useAuth from "../../Hooks/useAuth";
 import Swal from "sweetalert2";
 import { title } from "framer-motion/m";
+import { LogToast } from "../../Components/Shared/LogToast";
+import { ShowProtocolErrorAlert } from "../../Components/Shared/ShowProtocolErrorAlert";
 
 const ProductDetails = () => {
   const { id } = useParams();
@@ -32,7 +34,6 @@ const ProductDetails = () => {
       return res.data;
     },
   });
-console.log(products)
 
   const detailsData = [
     {
@@ -48,12 +49,10 @@ console.log(products)
       content: "Made using eco-friendly materials and sustainable process.",
     },
   ];
-  // Product Images Array
 
- const productImages = [
-  products?.img,
-  ...(products?.thumbnails || []),
-].filter(Boolean);
+  const productImages = [products?.img, ...(products?.thumbnails || [])].filter(
+    Boolean,
+  );
 
   // States
   const [mainImage, setMainImage] = useState(productImages[3]);
@@ -83,42 +82,21 @@ console.log(products)
       img: mainImage,
     };
     if (!user) {
-      return Swal.fire({
-        position: "top-end",
-        icon: "error",
-        title: "Please LogIn First",
-        showConfirmButton: false,
-        timer: 1500,
-      });
+      return ShowProtocolErrorAlert("Please LogIn First", "error");
     }
     try {
       const res = await axois.post("/add-to-cart", cartData);
       if (res.data.success) {
-        Swal.fire({
-          position: "top-end",
-          icon: "success",
-          title: `${res.data.message}`,
-          showConfirmButton: false,
-          timer: 1500,
-        });
+        LogToast("Product added to cart successfully", "success");
+        setTimeout(() => {
+          window.location.href = "/cart";
+        }, 1200);
         // navigate(`/checkout/${product?._id}`,{ state: cartData })
       } else {
-        Swal.fire({
-          position: "top-end",
-          icon: "error",
-          title: `${res.data.message}`,
-          showConfirmButton: false,
-          timer: 1500,
-        });
+        ShowProtocolErrorAlert(`${res.data.message}`, "error");
       }
     } catch (error) {
-      Swal.fire({
-        position: "top-end",
-        icon: "error",
-        title: `${error}`,
-        showConfirmButton: false,
-        timer: 1500,
-      });
+      ShowProtocolErrorAlert(`${error}`, "error");
     }
   };
 
@@ -135,39 +113,20 @@ console.log(products)
     const wishdata = {
       userEmail: user?.email,
       productId: id,
-      productTitle:products.title,
-      productImg:products.img,
-      productPrice:products.price,
-      productCategory:products?.category
-      
+      productTitle: products.title,
+      productImg: products.img,
+      productPrice: products.price,
+      productCategory: products?.category,
     };
     try {
       const res = await axois.post("/wishlist", wishdata);
       if (res.data.success) {
-        Swal.fire({
-          position: "top-end",
-          icon: "success",
-          title: `${res.data.message}`,
-          showConfirmButton: false,
-          timer: 1500,
-        });
+        LogToast("Product added to wishlist successfully", "success");
       } else {
-        Swal.fire({
-          position: "top-end",
-          icon: "error",
-          title: `${res.data.message}`,
-          showConfirmButton: false,
-          timer: 1500,
-        });
+        ShowProtocolErrorAlert(`${res.data.message}`, "error");
       }
     } catch (error) {
-      Swal.fire({
-        position: "top-end",
-        icon: "error",
-        title: `${error}`,
-        showConfirmButton: false,
-        timer: 1500,
-      });
+      ShowProtocolErrorAlert(`${error}`, "error");
     }
   };
 
