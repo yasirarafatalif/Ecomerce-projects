@@ -14,7 +14,6 @@ import AccountSettings from "../Pages/User/AccountSettings/AccountSettings";
 import Register from "../Pages/Register/Register";
 import Login from "../Pages/LogIn/Login";
 import UserProfile from "../Pages/Profile/UserProfile";
-import PrivateRoute from "./Privateroute";
 import CartPage from "../Pages/CartPage/CartPage";
 import DashboardLayout from "../Layouts/DashboardLayout";
 import Dashboard from "../Pages/DashBoard/pages/Dashboard";
@@ -32,6 +31,7 @@ import ErrorPage from "../Pages/Error/ErrorPage";
 import CouponsPage from "../Pages/DashBoard/Admin/Pages/CouponsPage";
 import SettingsPage from "../Pages/DashBoard/Common/SettingsPage";
 import AdminReviews from "../Pages/DashBoard/Admin/Pages/AdminReviews";
+import PrivateRoute from "./PrivateRoute";
 
 
 export const router = createBrowserRouter([

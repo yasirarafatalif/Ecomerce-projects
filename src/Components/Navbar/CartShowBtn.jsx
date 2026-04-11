@@ -1,15 +1,11 @@
-import { useQuery } from "@tanstack/react-query";
 import { ShoppingCart } from "lucide-react";
-import React, { useContext } from "react";
+import React, {  } from "react";
 import { Link } from "react-router-dom";
-import useAxios from "../../Hooks/useAxios";
 import { CartContext } from "../../Provider/CartContext";
+import useCart from "../../Hooks/useCart";
 
 const CartShowBtn = ({ user }) => {
-  const axois = useAxios();
-  const email = user?.email;
-  const {cartData}= useContext(CartContext)
-  console.log(cartData)
+  const {cartData}= useCart();
   return (
     <Link to='/cart'>
       <div className="relative hidden sm:flex">

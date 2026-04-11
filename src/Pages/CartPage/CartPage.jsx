@@ -19,6 +19,7 @@ import { ShowProtocolErrorAlert } from "../../Components/Shared/ShowProtocolErro
 import { CartContext } from "../../Provider/CartContext";
 import useCart from "../../Hooks/useCart";
 import PremiumSpinner from "../../Components/Shared/PremiumSpinner";
+import { ShowDeleteConfirmation } from "../../Components/Shared/ShowDeleteConfirmation";
 
 const CartPage = () => {
   const { user } = useAuth();
@@ -26,16 +27,6 @@ const CartPage = () => {
   const email = user?.email;
   const queryClient = useQueryClient();
   const {cartData : cartItems = [], cartLoading} = useCart();
-  
-
-  // const { data: cartItems = [], refetch } = useQuery({
-  //   queryKey: ["cart-page", email],
-  //   enabled: !!email,
-  //   queryFn: async () => {
-  //     const res = await axois.get(`/cartpage?email=${email}`);
-  //     return res.data;
-  //   },
-  // });
   const subtotal = cartItems.reduce(
     (acc, item) => acc + item.productPrice * item.totalQuantity,
     0,
@@ -43,15 +34,10 @@ const CartPage = () => {
   const shipping = 15.0;
 
   const handelDelete = (id) => {
-    Swal.fire({
-      title: "Are you sure?",
-      text: "You won't be able to revert this!",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Yes, delete it!",
-    }).then(async (result) => {
+   ShowDeleteConfirmation(
+    "Delete Asset?", 
+    "Once extracted, this product protocol cannot be recovered from the archive."
+  ).then(async (result) => {
       if (result.isConfirmed) {
         try {
           const res = await axois.delete(`/cartpage?id=${id}`);
@@ -59,7 +45,7 @@ const CartPage = () => {
 
           if (res.data.data.deletedCount > 0) {
            ShowProtocolUpdatedAlert("Item removed from cart successfully", "success");
-            refetch();
+            queryClient.invalidateQueries(["cart-data", user?.email]);
           }
         } catch (error) {
           ShowProtocolErrorAlert(`Error: ${error}`, "error");
@@ -77,7 +63,7 @@ const CartPage = () => {
         quantity: newQty,
       });
 
-      refetch();
+        queryClient.invalidateQueries(["cart-data", user?.email]);
     } catch (error) {
       ShowProtocolErrorAlert(`Error: ${error}`, "error");
     }
@@ -136,7 +122,7 @@ const CartPage = () => {
                           <p>
                             Price:{" "}
                             <span className="text-black italic">
-                              ${item.productPrice}
+                              ৳ {item.productPrice} BDT
                             </span>
                           </p>
                         </div>
@@ -231,22 +217,22 @@ const CartPage = () => {
               <div className="space-y-6">
                 <div className="flex justify-between text-[11px] font-black uppercase tracking-widest text-gray-500">
                   <span>Subtotal</span>
-                  <span>${subtotal.toFixed(2)}</span>
+                  <span>৳ {subtotal.toFixed(2)} BDT</span>
                 </div>
                 <div className="flex justify-between text-[11px] font-black uppercase tracking-widest text-gray-500">
                   <span>Standard Shipping</span>
-                  <span>${shipping.toFixed(2)}</span>
+                  <span>৳ {shipping.toFixed(2)} BDT</span>
                 </div>
                 <div className="flex justify-between text-[11px] font-black uppercase tracking-widest text-gray-400 italic">
                   <span>Tax (Estimated)</span>
-                  <span>$0.00</span>
+                  <span>৳ 0.00 BDT</span>
                 </div>
 
                 <hr className="border-gray-100 mt-6" />
 
                 <div className="flex justify-between text-2xl font-black uppercase italic tracking-tighter text-gray-900 pt-4">
                   <span>Total Due</span>
-                  <span>${(subtotal + shipping).toFixed(2)}</span>
+                  <span>৳ {(subtotal + shipping).toFixed(2)} BDT</span>
                 </div>
               </div>
 

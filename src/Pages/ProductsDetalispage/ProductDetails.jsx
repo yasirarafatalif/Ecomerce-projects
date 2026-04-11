@@ -191,7 +191,7 @@ const ProductDetails = () => {
                 </div>
                 <div className="flex items-center gap-4 mt-4">
                   <span className="text-2xl font-black text-gray-900">
-                    ${products?.totalPrice}
+                    ৳ {products?.totalPrice} BDT
                   </span>
                   <div className="h-4 w-[1px] bg-gray-300"></div>
                   <div className="flex items-center gap-1">
