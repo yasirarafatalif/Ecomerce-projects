@@ -57,7 +57,7 @@ const AccountSettings = () => {
 
     try {
       const res = await fetch(
-        `https://api.imgbb.com/1/upload?key=36b12e6598989a18e98fa47220086add`,
+        `https://api.imgbb.com/1/upload?key=${import.meta.env.VITE_IMGBB_KEY}`,
         {
           method: "POST",
           body: formData,

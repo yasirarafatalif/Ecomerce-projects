@@ -140,7 +140,7 @@ const UserMenu = ({ user }) => {
                 <DropdownLink
                   icon={<Settings size={14} />}
                   label="Admin Settings"
-                  to="/dashboard/admin-settings"
+                  to="/account-settings"
                 />
               </>
             )}
