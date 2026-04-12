@@ -72,7 +72,7 @@ const OrdersPage = () => {
 
   return (
     <div className="animate-in fade-in duration-700 space-y-10 pb-20">
-      <title>ORDERS STATUS PAGE</title>
+      <title>ZERO FAISHON || ORDERS PAGE</title>
 
       {/* --- HEADER --- */}
       <div className="flex flex-col xl:flex-row justify-between items-start xl:items-end gap-6 border-b border-gray-200 pb-10">

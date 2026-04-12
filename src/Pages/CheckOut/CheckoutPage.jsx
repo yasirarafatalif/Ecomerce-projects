@@ -144,7 +144,7 @@ const CheckoutPage = () => {
 
   return (
     <div className="min-h-screen bg-[#f2f2f2] pt-28 pb-20 font-sans">
-      <title>CHECKOUT-PAGE</title>
+      <title>ZERO FAISHON || CHECKOUT-PAGE</title>
       <div className="max-w-[1200px] mx-auto px-4 md:px-12">
         {/* Back to Bag */}
         <button className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-gray-400 hover:text-black mb-8 transition-colors">

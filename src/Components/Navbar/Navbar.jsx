@@ -61,13 +61,7 @@ const Navbar = () => {
         {/* --- Right Section: Icons & Cart --- */}
         <div className="flex items-center gap-2 md:gap-4">
           <WishListBtn user={user}></WishListBtn>
-          {/* <button className="hidden sm:flex p-2.5 bg-[#1A1A1A] text-white rounded-full hover:bg-black transition-transform active:scale-95">
-            <Heart size={16} />
-          </button> */}
           <CartShowBtn user={user}></CartShowBtn>
-          {/* <button className="hidden sm:flex p-2.5 bg-[#1A1A1A] text-white rounded-full hover:bg-black transition-transform active:scale-95">
-            <ShoppingCart size={16} className="text-white" />
-          </button> */}
           {user ? (
             <UserMenu user={user} />
           ) : (
@@ -78,7 +72,6 @@ const Navbar = () => {
               </button>
             </Link>
           )}
-          {/* <UserMenu ></UserMenu> */}
         </div>
       </nav>
 

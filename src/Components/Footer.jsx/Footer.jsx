@@ -28,7 +28,8 @@ const Footer = () => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 mb-20">
           <div>
             <h2 className="text-4xl md:text-5xl font-black uppercase tracking-tighter leading-none mb-6">
-              JOIN OUR <br /> WORLD
+              JOIN OUR <br />{" "}
+              <span className="text-blue-700">ZERO FAISHON</span>
             </h2>
             <p className="text-gray-500 text-sm max-w-sm mb-8 font-medium">
               Subscribe to receive updates, access to exclusive deals, and more.
@@ -46,16 +47,18 @@ const Footer = () => {
           </div>
 
           <div className="flex flex-col lg:items-end justify-center">
-            {/* Brand Logo in Footer */}
-            {/* <Logo></Logo> */}
-            <div className="flex h-12 w-12 mb-4">
-              <div className="w-1/2 h-full bg-gray-300 -skew-x-[20deg]"></div>
-              <div className="w-1/2 h-full bg-black -skew-x-[20deg] -ml-1"></div>
+            {/* Brand Logo */}
+            <div className="flex items-center justify-center h-12 w-12 mb-4">
+              <div className="w-1/2 h-full bg-gray-300 transform skew-x-[-20deg]"></div>
+              <div className="w-1/2 h-full bg-black transform skew-x-[-20deg]"></div>
             </div>
+            <h3 className="text-xl font-bold text-gray-900">ZERO FAISHON</h3>
+
             <p className="text-right text-[11px] font-bold uppercase tracking-[0.2em] text-gray-400">
               © 2026 XIV COLLECTIONS. <br /> ALL RIGHTS RESERVED.
             </p>
           </div>
+          
         </div>
 
         {/* Middle Section: Links Grid */}

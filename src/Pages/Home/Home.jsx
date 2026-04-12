@@ -7,11 +7,10 @@ import LandingPage from './LandingPage';
 const Home = () => {
   return (
     <div>
-        <title>New Collection</title>
+        <title>ZERO FAISHON</title>
         <Hero />
         <Collections />
         <NewArrivals />
-        
         <LandingPage />
         
         

@@ -40,7 +40,7 @@ const UserProfile = () => {
 
   return (
     <div className="relative min-h-screen bg-[#f2f2f2] pt-32 pb-20 font-sans overflow-hidden">
-      <title>{user.name} Profile</title>
+      <title>{`ZERO FAISHON || PROFILE PAGE`}</title>
       {/* 1. Background Aesthetic Layer */}
       <div
         className="absolute inset-0 z-0 bg-cover bg-center pointer-events-none opacity-[0.5]"

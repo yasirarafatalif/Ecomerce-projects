@@ -74,7 +74,7 @@ const AdvancedOrders = () => {
   return (
     <div className="min-h-screen bg-[#F2F2F2] pt-28 pb-20 font-sans">
       <div className="max-w-[1200px] mx-auto px-4 md:px-12">
-      <title>MY ORDERS PAGE</title>
+      <title>ZERO FAISHON || MY ORDERS PAGE</title>
         {/* --- 1. HEADER & SEARCH --- */}
         <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-8 mb-12">
           <div>

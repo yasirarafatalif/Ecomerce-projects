@@ -134,7 +134,7 @@ const AccountSettings = () => {
         className="absolute inset-0 z-0 bg-cover bg-center pointer-events-none"
         style={{ backgroundImage: `url(${Img})`, opacity: 0.5 }}
       />
-      <title>ACCOUNT SETTINGS - YOUR PROFILE</title>
+      <title>ZERO FAISHON || ACCOUNT SETTINGS - YOUR PROFILE</title>
 
       <div className="relative z-10 max-w-[1200px] mx-auto px-4 sm:px-6 md:px-12">
         {/* --- HEADER --- */}

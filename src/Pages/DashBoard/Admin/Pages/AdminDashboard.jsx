@@ -69,7 +69,7 @@ const AdminDashboard = () => {
 
   return (
     <div className="space-y-12 pb-20">
-      <title>ADMIN DASHBOARD</title>
+      <title>ZERO FAISHON || ADMIN DASHBOARD</title>
       {/* --- 1. ELITE HEADER --- */}
       <div className="flex flex-col xl:flex-row justify-between items-start xl:items-end gap-8 border-b border-gray-200 pb-12">
         <div className="space-y-4">

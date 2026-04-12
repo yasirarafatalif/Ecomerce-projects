@@ -35,6 +35,7 @@ const SettingsPage = () => {
 
   return (
     <div className="max-w-[1400px] mx-auto animate-in fade-in slide-in-from-bottom-4 duration-1000 space-y-12 pb-24">
+      <title>ZERO FAISHON || SETTINGS PAGE</title>
       
       {/* --- ELITE HEADER --- */}
       <div className="flex flex-col xl:flex-row justify-between items-start xl:items-end gap-8 border-b border-gray-100 pb-12">

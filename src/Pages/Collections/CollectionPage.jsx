@@ -57,7 +57,7 @@ const ProductsPage = () => {
 
   return (
     <div className="min-h-screen bg-[#f2f2f2] pt-28 pb-20 px-4 md:px-12 font-sans">
-      <title>Products Collections Page</title>
+      <title>ZERO FAISHON || PRODUCTS COLLECTIONS PAGE</title>
 
       {/* Breadcrumb & Title */}
       <div className="mb-8">

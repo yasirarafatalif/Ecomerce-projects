@@ -72,7 +72,7 @@ const CartPage = () => {
 
   return (
     <div className="min-h-screen bg-[#f2f2f2] pt-32 pb-20 font-sans">
-      <title>Cart-Checkout</title>
+      <title>ZERO FAISHON || CART-PAGE</title>
       <div className="max-w-[1440px] mx-auto px-6 md:px-12">
         {/* Header */}
         <div className="mb-12">

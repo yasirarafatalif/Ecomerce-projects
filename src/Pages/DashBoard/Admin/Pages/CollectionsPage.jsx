@@ -71,7 +71,7 @@ const CollectionsPage = () => {
 
   return (
     <div className="animate-in fade-in duration-700 space-y-10 pb-20">
-      <title>ALL PRODUCTS COLLECTIONS PAGES</title>
+      <title>ZERO FAISHON || COLLECTIONS PAGE</title>
 
       {/* --- HEADER SECTION --- */}
       <div className="flex flex-col xl:flex-row justify-between items-start xl:items-end gap-8 border-b border-gray-200 pb-10">

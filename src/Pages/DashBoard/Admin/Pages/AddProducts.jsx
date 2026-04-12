@@ -96,7 +96,7 @@ const AddProduct = () => {
 
   return (
     <div className="max-w-[1400px] mx-auto animate-in fade-in slide-in-from-bottom-6 duration-1000 space-y-12 pb-20">
-      <title>ADMIN ADD TO PRODUCTS PAGE</title>
+      <title>ZERO FAISHON || ADD PRODUCTS</title>
       {/* HEADER */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-6 border-b border-gray-200 pb-10">
         <h1 className="text-4xl md:text-5xl font-black italic tracking-tighter uppercase text-gray-900 leading-none">

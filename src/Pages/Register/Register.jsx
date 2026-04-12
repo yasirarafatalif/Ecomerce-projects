@@ -76,6 +76,7 @@ const Register = () => {
           opacity: 0.5,
         }}
       />
+      <title>ZERO FAISHON || REGISTER PAGE</title>
 
       {/* 2. Texture Overlay */}
       <div className="absolute inset-0 z-1 opacity-[0.03] pointer-events-none bg-[url('https://www.transparenttextures.com/patterns/asfalt-light.png')]"></div>

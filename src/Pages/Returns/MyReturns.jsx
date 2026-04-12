@@ -37,7 +37,7 @@ const MyReturns = () => {
       />
 
       <div className="relative z-10 max-w-[1200px] mx-auto px-4 md:px-12">
-        <title>MY RETURNS PAGE</title>
+        <title>ZERO FAISHON || MY RETURNS PAGE</title>
         
         {/* HEADER */}
         <div className="mb-12 border-b border-gray-200 pb-10">

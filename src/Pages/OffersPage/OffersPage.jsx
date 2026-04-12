@@ -33,7 +33,7 @@ const OffersPage = () => {
   return (
     <div className="relative min-h-screen bg-[#F2F2F2] pt-28 pb-20 font-sans overflow-hidden">
 
-        <title>Offers - Elegant Vogue</title>
+        <title>ZERO FAISHON || OFFERS PAGE</title>
       
       {/* Background Image Layer (Fixed Opacity Issue) */}
       <div 
@@ -43,6 +43,7 @@ const OffersPage = () => {
           opacity: 0.5 // Content-ke transparent na kore shudhu bg-ke halka rakhar jonno
         }}
       />
+
 
       <div className="relative z-10 max-w-[1440px] mx-auto px-4 md:px-12">
         

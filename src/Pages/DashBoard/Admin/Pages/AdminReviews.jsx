@@ -61,6 +61,7 @@ const AdminReviews = () => {
 
   return (
     <div className="animate-in fade-in slide-in-from-bottom-4 duration-1000 space-y-12 pb-24">
+      <title>ZERO FAISHON || ADMIN REVIEWS</title>
       
       {/* --- ELITE HEADER --- */}
       <div className="flex flex-col xl:flex-row justify-between items-start xl:items-end gap-8 border-b border-gray-100 pb-12">

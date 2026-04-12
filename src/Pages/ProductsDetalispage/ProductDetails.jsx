@@ -133,7 +133,7 @@ const ProductDetails = () => {
   return (
     <div className="min-h-screen bg-[#f2f2f2] pt-28 pb-20 font-sans">
       <div className="max-w-[1440px] mx-auto px-4 md:px-12">
-        <title>{` ${products.title}`}</title>
+        <title>{`ZERO FAISHON || ${products.title}`}</title>
         <div className="flex flex-col lg:flex-row gap-12 items-start">
           {/* --- LEFT: IMAGE SECTION --- */}
           <div className="w-full lg:flex-1 flex flex-col md:flex-row gap-4">

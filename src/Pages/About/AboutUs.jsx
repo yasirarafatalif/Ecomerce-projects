@@ -15,6 +15,8 @@ const AboutUs = () => {
         }}
       />
 
+      <title>ZERO FAISHON || ABOUT US</title>
+
       <div className="relative z-10 max-w-[1440px] mx-auto px-4 md:px-12">
         
         {/* --- 1. HERO SECTION (Story Intro) --- */}

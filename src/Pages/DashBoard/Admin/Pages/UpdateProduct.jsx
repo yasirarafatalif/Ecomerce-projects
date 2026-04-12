@@ -120,7 +120,7 @@ const UpdateProduct = () => {
 
   return (
     <div className="max-w-[1400px] mx-auto animate-in fade-in duration-700 space-y-12 pb-20">
-      <title>UPDATE PRODUCTS</title>
+      <title>ZERO FAISHON || UPDATE PRODUCT PAGE</title>
       {/* HEADER */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-6 border-b border-gray-200 pb-10">
         <div className="space-y-2">

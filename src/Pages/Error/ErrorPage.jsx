@@ -8,6 +8,7 @@ const ErrorPage = () => {
 
   return (
     <div className="min-h-screen bg-white flex flex-col items-center justify-center px-6 font-sans overflow-hidden relative">
+      <title>ZERO FAISHON || ERROR-PAGE</title>
       
       {/* --- BACKGROUND DECORATION (Watermark Style) --- */}
       <div className="absolute inset-0 flex items-center justify-center pointer-events-none select-none">

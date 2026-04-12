@@ -125,11 +125,11 @@ export const router = createBrowserRouter([
       { path:'/dashboard/orders', element: <AdminRoute><OrdersPage></OrdersPage></AdminRoute>},
       { path:'/dashboard/payments', element: <AdminRoute><PaymentsPage></PaymentsPage></AdminRoute>},
       { path:'/dashboard/coupons', element: <AdminRoute><CouponsPage></CouponsPage></AdminRoute>},
-      { path:'/dashboard/roles', element: <AccessControl></AccessControl>},
-      { path:'/dashboard/settings', element: <SettingsPage></SettingsPage>},
-      { path:'/dashboard/reviews', element: <AdminReviews></AdminReviews>},
-      { path:'/dashboard/reports', element: <ReportsPage></ReportsPage>},
-      { path:'/dashboard/banners', element: <BannersPage></BannersPage>},
+      { path:'/dashboard/roles', element: <AdminRoute><AccessControl></AccessControl></AdminRoute>},
+      { path:'/dashboard/settings', element: <AdminRoute><SettingsPage></SettingsPage></AdminRoute>},
+      { path:'/dashboard/reviews', element: <AdminRoute><AdminReviews></AdminReviews></AdminRoute>},
+      { path:'/dashboard/reports', element: <AdminRoute><ReportsPage></ReportsPage></AdminRoute>},
+      { path:'/dashboard/banners', element: <AdminRoute><BannersPage></BannersPage></AdminRoute>},
 
     ]
 

@@ -31,6 +31,7 @@ const PaymentsPage = () => {
 
   return (
     <div className="animate-in fade-in duration-700 space-y-10 pb-20">
+      <title>ZERO FAISHON || PAYMENTS PAGE</title>
       
       {/* --- HEADER SECTION --- */}
       <div className="flex flex-col xl:flex-row justify-between items-start xl:items-end gap-6 border-b border-gray-200 pb-10">
