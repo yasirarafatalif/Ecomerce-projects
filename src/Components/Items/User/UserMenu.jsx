@@ -18,6 +18,7 @@ import Swal from "sweetalert2";
 import useRole from "../../../Hooks/useRole";
 import { FiRotateCcw } from "react-icons/fi";
 import { LogToast } from "../../Shared/LogToast";
+import { u } from "framer-motion/client";
 
 const UserMenu = ({ user }) => {
   const axois = useAxios();
@@ -56,13 +57,24 @@ const UserMenu = ({ user }) => {
       {/* User Button */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className={`p-2.5 rounded-full transition-all active:scale-95 ${
-          isOpen
-            ? "bg-black text-white"
-            : "bg-[#1A1A1A] text-white hover:bg-black"
-        }`}
+        className={`relative p-[2px] rounded-full transition-all duration-300 active:scale-95 
+  ${
+    isOpen
+      ? "bg-gradient-to-tr from-blue-600 to-indigo-500 shadow-lg shadow-blue-500/30"
+      : "bg-transparent hover:bg-white/5"
+  }`}
       >
-        <User className="hover:cursor-pointer" size={16} />
+        <div className="flex items-center justify-center w-9 h-9 rounded-full bg-[#1A1A1A] overflow-hidden">
+          {user?.avatar ? (
+            <img
+              src={user.avatar}
+              alt="User Avatar"
+              className="w-full h-full object-cover"
+            />
+          ) : (
+            <User size={18} className="text-gray-300" />
+          )}
+        </div>
       </button>
 
       {/* Dropdown Menu */}
@@ -72,7 +84,7 @@ const UserMenu = ({ user }) => {
           <div className="px-5 pb-4 border-b border-gray-100 mb-2">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center font-black text-xs italic">
-                <img src={user?.image || "user"} alt="User" srcset="" />
+                <img src={user?.avatar || "user"} alt="User" srcset="" />
               </div>
               <div className="flex flex-col">
                 <span className="text-[13px] font-black uppercase tracking-tighter">

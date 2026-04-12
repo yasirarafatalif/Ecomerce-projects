@@ -13,13 +13,13 @@ import {
 import PremiumSpinner from "../../Components/Shared/PremiumSpinner";
 import BgImg from "../../assets/bg-home1.png";
 import useAuth from "../../Hooks/useAuth";
+import useAxios from "../../Hooks/useAxios";
+import handleLogout from "../../Components/Shared/LogoutButton";
 
 const UserProfile = () => {
   const { user, loading } = useAuth();
+  const axios = useAxios();
 
-  const handleLogout = () => {
-    console.log("Logging out...");
-  };
 
   if (!loading) return <PremiumSpinner />;
 
@@ -62,7 +62,7 @@ const UserProfile = () => {
             </p>
           </div>
           <button
-            onClick={handleLogout}
+            onClick={() => handleLogout(axios)}
             className="flex items-center gap-3 text-[11px] font-black uppercase tracking-widest text-gray-400 hover:text-red-500 transition-colors group"
           >
             Terminal Logout{" "}
