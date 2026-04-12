@@ -9,6 +9,7 @@ import useAxios from "../../../../Hooks/useAxios";
 import PremiumSpinner from "../../../../Components/Shared/PremiumSpinner";
 import Swal from "sweetalert2";
 import { ShowProtocolUpdatedAlert } from "../../../../Components/Shared/ShowProtocolUpdatedAlert";
+import { ShowDeleteConfirmation } from "../../../../Components/Shared/ShowDeleteConfirmation";
 
 const AdminReturns = () => {
   const axiosSecure = useAxios();
@@ -24,24 +25,9 @@ const AdminReturns = () => {
 
 
   const handleUpdateReturn = (id, newStatus) => {
-    Swal.fire({
-      title: "AUTHORIZE PROTOCOL?",
-      text: `Update status to ${newStatus.toUpperCase()}?`,
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#000",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "CONFIRM",
-      background: "#fff",
-      color: "#000",
-      backdrop: `rgba(0,0,0,0.5) backdrop-blur-sm`,
-      customClass: {
-        popup: 'rounded-none border-t-8 border-black',
-        title: 'font-black italic uppercase tracking-tighter',
-      }
-    }).then((result) => {
+    ShowDeleteConfirmation("Update Return Status?").then((result) => {
       if (result.isConfirmed) {
-        axiosSecure.patch(`/admin-returns/${id}`, { returnStatus: newStatus }).then((res) => {
+        axiosSecure.patch(`/admin-returns/${id}`, { returnStatus: newStatus , deliveryStatus: newStatus}).then((res) => {
           if (res.data.success) {
             ShowProtocolUpdatedAlert("Return status updated successfully!", newStatus);
             refetch();

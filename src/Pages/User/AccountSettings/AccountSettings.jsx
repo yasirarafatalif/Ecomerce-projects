@@ -7,6 +7,8 @@ import {
   Camera,
   Save,
   ChevronRight,
+  EyeOff,
+  Eye,
 } from "lucide-react";
 import Img from "../../../assets/bg-home1.png";
 import PremiumSpinner from "../../../Components/Shared/PremiumSpinner";
@@ -23,6 +25,7 @@ const AccountSettings = () => {
   // Image preview state
   const [selectedImage, setSelectedImage] = useState(null);
   const [imageFile, setImageFile] = useState(null);
+  const [showPassword, setShowPassword] = useState(false);
 
   const menuItems = [
     { id: "profile", label: "Profile", icon: <User size={16} /> },
@@ -37,7 +40,7 @@ const AccountSettings = () => {
       setImageFile(file);
       const reader = new FileReader();
       reader.onloadend = () => {
-        setSelectedImage(reader.result); 
+        setSelectedImage(reader.result);
       };
       reader.readAsDataURL(file);
     }
@@ -65,9 +68,64 @@ const AccountSettings = () => {
       const imageUrl = data.data.url;
       return imageUrl;
     } catch (error) {
-      ShowProtocolErrorAlert("Image Upload Failed", "Unable to upload image. Please try again.");
+      ShowProtocolErrorAlert(
+        "Image Upload Failed",
+        "Unable to upload image. Please try again.",
+      );
       return null;
     }
+  };
+
+  const handlePassReset = async (e) => {
+    e.preventDefault();
+    const form = e.target;
+
+    const currentPassword = form.currentPassword.value;
+    const newPassword = form.newPassword.value;
+
+    const validatePassword = () => {
+      if (newPassword.length < 6) {
+        return "Password must be at least 6 characters";
+      }
+      if (!/[A-Z]/.test(newPassword)) {
+        return "Must include at least 1 uppercase letter";
+      }
+      if (!/[0-9]/.test(newPassword)) {
+        return "Must include at least 1 number";
+      }
+      if (!/[!@#$%^&*]/.test(newPassword)) {
+        return "Must include at least 1 special character";
+      }
+      return null;
+    };
+
+    const errorMsg = validatePassword();
+
+    if (errorMsg) {
+      return ShowProtocolUpdatedAlert("Invalid Password", errorMsg);
+    }
+
+    const data = {
+      currentPassword,
+      newPassword,
+    };
+
+    console.log(data);
+
+    // await axios.patch("/update-password", data).then((res) => {
+    //   if (res.data.success) {
+    //     ShowProtocolUpdatedAlert(
+    //       "Password Updated",
+    //       "Your password has been successfully updated.",
+    //     );
+    //     form.reset();
+    //   } else {
+    //     ShowProtocolErrorAlert(
+    //       "Update Failed",
+    //       res.data.message || "Unable to update password. Please try again.",
+    //     );
+    //   }
+    // });
   };
 
   if (!loading) return <PremiumSpinner />;
@@ -195,12 +253,26 @@ const AccountSettings = () => {
                           console.log("Final Image URL:", imageUrl);
 
                           // example:
-                          await axios.patch("/update-profile", { avatar: imageUrl }).then(res => {
-                            res.data.success ? ShowProtocolUpdatedAlert("Profile Updated", "Your profile has been successfully updated.") : ShowProtocolErrorAlert("Profile Update Failed", "Unable to update profile. Please try again.");
-                          }).catch(err => {
-                            ShowProtocolErrorAlert("Profile Update Failed", "Unable to update profile. Please try again.");
-                            console.error("Profile update error:", err);
-                          });
+                          await axios
+                            .patch("/update-profile", { avatar: imageUrl })
+                            .then((res) => {
+                              res.data.success
+                                ? ShowProtocolUpdatedAlert(
+                                    "Profile Updated",
+                                    "Your profile has been successfully updated.",
+                                  )
+                                : ShowProtocolErrorAlert(
+                                    "Profile Update Failed",
+                                    "Unable to update profile. Please try again.",
+                                  );
+                            })
+                            .catch((err) => {
+                              ShowProtocolErrorAlert(
+                                "Profile Update Failed",
+                                "Unable to update profile. Please try again.",
+                              );
+                              console.error("Profile update error:", err);
+                            });
                         }
                       }}
                       className="w-full sm:w-auto flex items-center justify-center gap-3 bg-black text-white px-10 py-4 text-[10px] md:text-[11px] font-black uppercase tracking-widest hover:bg-blue-700 transition-all active:scale-95 shadow-xl"
@@ -218,18 +290,91 @@ const AccountSettings = () => {
                 <h3 className="text-lg md:text-xl font-black uppercase tracking-tighter italic mb-6 md:mb-8 border-b pb-4">
                   Security Protocol
                 </h3>
-                <form className="flex flex-col gap-5 md:gap-6 max-w-md">
-                  <InputField
-                    label="Current Password"
-                    type="password"
-                    placeholder="••••••••"
-                  />
-                  <InputField
-                    label="New Encryption"
-                    type="password"
-                    placeholder="••••••••"
-                  />
-                  <button className="w-full sm:w-auto bg-black text-white px-10 py-4 text-[10px] md:text-[11px] font-black uppercase tracking-widest hover:bg-red-600 transition-all active:scale-95 shadow-xl mt-4">
+                <form
+                  onSubmit={handlePassReset}
+                  className="flex flex-col gap-6 max-w-md"
+                >
+                  {/* Current Password */}
+                  <div className="flex flex-col gap-2">
+                    <label className="text-xs font-bold uppercase tracking-widest text-gray-500">
+                      Current Password
+                    </label>
+
+                    <div className="relative group">
+                      <Lock
+                        className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-black transition"
+                        size={18}
+                      />
+
+                      <input
+                        type={showPassword ? "text" : "password"}
+                        name="currentPassword"
+                        required
+                        placeholder="Enter current password"
+                        className="w-full bg-white border border-gray-200 py-4 pl-12 pr-12 text-sm font-semibold focus:border-black focus:ring-1 focus:ring-black outline-none transition-all placeholder:text-gray-300"
+                      />
+
+                      <button
+                        type="button"
+                        onClick={() =>
+                          setShowPassword(!showPassword)
+                        }
+                        className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-black transition"
+                      >
+                        {showPassword ? (
+                          <EyeOff size={18} />
+                        ) : (
+                          <Eye size={18} />
+                        )}
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* New Password */}
+                  <div className="flex flex-col gap-2">
+                    <label className="text-xs font-bold uppercase tracking-widest text-gray-500">
+                      New Password
+                    </label>
+
+                    <div className="relative group">
+                      <Lock
+                        className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-black transition"
+                        size={18}
+                      />
+
+                      <input
+                        type={showPassword ? "text" : "password"}
+                        name="newPassword"
+                        required
+                        placeholder="Enter new password"
+                        className="w-full bg-white border border-gray-200 py-4 pl-12 pr-12 text-sm font-semibold focus:border-black focus:ring-1 focus:ring-black outline-none transition-all placeholder:text-gray-300"
+                      />
+
+                      <button
+                        type="button"
+                        onClick={() => setShowPassword(!showPassword)}
+                        className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-black transition"
+                      >
+                        {showPassword ? (
+                          <EyeOff size={18} />
+                        ) : (
+                          <Eye size={18} />
+                        )}
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* Hint */}
+                  <p className="text-red-500 text-xs leading-relaxed">
+                    Password must be at least 6 characters, include an uppercase
+                    letter, a number, and a special character.
+                  </p>
+
+                  {/* Button */}
+                  <button
+                    type="submit"
+                    className="mt-2 bg-black text-white py-4 text-xs font-black uppercase tracking-widest hover:bg-red-600 transition-all active:scale-95 shadow-xl"
+                  >
                     Update Cipher
                   </button>
                 </form>
@@ -249,6 +394,7 @@ const InputField = ({
   placeholder,
   type = "text",
   defaultValue,
+  name,
   disabled = false,
 }) => (
   <div className="flex flex-col gap-2">
@@ -257,6 +403,7 @@ const InputField = ({
     </label>
     <input
       type={type}
+      name={name}
       defaultValue={defaultValue}
       placeholder={placeholder}
       disabled={disabled}

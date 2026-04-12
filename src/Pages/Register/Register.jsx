@@ -9,7 +9,7 @@ import {
   Github,
 } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
-import BgImg from "../../assets/bg-home1.png"; 
+import BgImg from "../../assets/bg-home1.png";
 import useAxios from "../../Hooks/useAxios";
 import Swal from "sweetalert2";
 import { ShowProtocolUpdatedAlert } from "../../Components/Shared/ShowProtocolUpdatedAlert";
@@ -23,31 +23,48 @@ const Register = () => {
   });
   const axios = useAxios();
   const navigate = useNavigate();
-
-const handleSubmit = async (e) => {
-  e.preventDefault();
-
-  try {
-    const res = await axios.post("/register", formData);
-
-    if (res.data?.message === "User already exists") {
-      return ShowProtocolUpdatedAlert("Registration Failed", "User already exists");
+  const validatePassword = (password) => {
+    if (password.length < 6) {
+      return "Password must be at least 6 characters";
     }
-    if (res.data?.message) {
-     ShowProtocolUpdatedAlert("Registration Successful", "Registered");
-      setTimeout(() => {
-        navigate("/login");
-      }, 2000);
+    if (!/[A-Z]/.test(password)) {
+      return "Must include at least 1 uppercase letter";
+    }
+    if (!/[0-9]/.test(password)) {
+      return "Must include at least 1 number";
+    }
+    if (!/[!@#$%^&*]/.test(password)) {
+      return "Must include at least 1 special character";
+    }
+    return null;
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const errorMsg = validatePassword(formData.password);
+    if (errorMsg) {
+      return ShowProtocolUpdatedAlert("Invalid Password", errorMsg);
     }
 
-  } catch (error) {
-    Swal.fire({
-      icon: "error",
-      title: "Registration Failed",
-      text: error.response?.data || "Something went wrong",
-    });
-  }
-};
+    try {
+      const res = await axios.post("/register", formData);
+      if (res.data?.success) {
+        ShowProtocolUpdatedAlert("Registration Successful", "Registered");
+        setTimeout(() => {
+          navigate("/login");
+        }, 2000);
+      }
+
+      if (res.data?.success === false) {
+        return ShowProtocolUpdatedAlert(
+          "Registration Failed",
+          "User already exists",
+        );
+      }
+    } catch (error) {
+      ShowProtocolUpdatedAlert("Registration Failed", "An error occurred");
+    }
+  };
 
   return (
     <div className="relative min-h-screen w-full flex items-center justify-center bg-[#f2f2f2] font-sans overflow-hidden py-20 px-6 md:px-12 lg:px-24">
@@ -56,7 +73,7 @@ const handleSubmit = async (e) => {
         className="absolute inset-0 z-0 bg-cover bg-center pointer-events-none"
         style={{
           backgroundImage: `url(${BgImg})`,
-          opacity: 0.5, 
+          opacity: 0.5,
         }}
       />
 
@@ -71,7 +88,7 @@ const handleSubmit = async (e) => {
             XIV Collective / Member Access
           </p>
           <h1 className="text-5xl md:text-7xl lg:text-8xl font-black italic tracking-tighter uppercase leading-[0.85] text-gray-900">
-            JOIN <br className="hidden md:block" /> THE <br /> COLLECTIVE.
+            JOIN THE COLLECTIVE.
           </h1>
           <p className="mt-6 text-[11px] md:text-sm font-bold uppercase tracking-widest text-gray-500 max-w-[400px] mx-auto lg:mx-0 leading-relaxed">
             Create an account to unlock XIV Exclusive collections, early access,
@@ -99,7 +116,7 @@ const handleSubmit = async (e) => {
                   <input
                     type="text"
                     required
-                    placeholder="YASIR ARAFAT"
+                    placeholder="ENTER YOUR NAME"
                     className="w-full bg-white border border-gray-200 py-4 pl-12 pr-4 text-sm font-bold uppercase tracking-tighter focus:border-black focus:outline-none transition-all placeholder:text-gray-300"
                     onChange={(e) =>
                       setFormData({ ...formData, name: e.target.value })
@@ -149,6 +166,7 @@ const handleSubmit = async (e) => {
                       setFormData({ ...formData, password: e.target.value })
                     }
                   />
+                  
                   <button
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
@@ -156,7 +174,11 @@ const handleSubmit = async (e) => {
                   >
                     {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
                   </button>
+                  
                 </div>
+                <p className="text-red-500 text-xs mt-1">
+                      Password must be at least 6 characters, include an uppercase letter, a number, and a special character.
+                  </p>
               </div>
 
               {/* Register Button */}
