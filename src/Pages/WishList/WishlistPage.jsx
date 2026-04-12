@@ -57,7 +57,7 @@ const WishlistPage = () => {
 
   return (
     <div className="relative min-h-screen bg-[#F2F2F2] pt-32 pb-20 font-sans overflow-hidden">
-      <title>WishList-Page</title>
+      <title>MY WISHLIST PAGE</title>
       {/* Background Layer */}
       <div
         className="absolute inset-0 z-0 bg-cover bg-center pointer-events-none"

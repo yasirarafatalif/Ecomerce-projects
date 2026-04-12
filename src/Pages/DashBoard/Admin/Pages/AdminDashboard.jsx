@@ -64,7 +64,6 @@ const AdminDashboard = () => {
       return res.data.result;
     },
   });
-  console.log(recentOrders)
 
   if (statsLoading || ordersLoading) return <PremiumSpinner />;
 

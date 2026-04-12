@@ -20,7 +20,10 @@ const ReturnModal = ({ isOpen, onClose, email, item }) => {
        
       }
     } catch (error) {
-      console.log(error);
+      ShowProtocolUpdatedAlert(
+        "RETURN REQUEST FAILED",
+        "An error occurred while submitting your return request.",
+      );
     }
   };
 

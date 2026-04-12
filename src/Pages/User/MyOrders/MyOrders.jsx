@@ -59,7 +59,11 @@ const AdvancedOrders = () => {
       setIsModalOpen(false);
     }
   } catch (error) {
-    console.log(error);
+      ShowProtocolUpdatedAlert(
+        "RETURN REQUEST FAILED",
+        "An error occurred while submitting your return request.",
+      );
+
   }
 };
 
@@ -70,7 +74,7 @@ const AdvancedOrders = () => {
   return (
     <div className="min-h-screen bg-[#F2F2F2] pt-28 pb-20 font-sans">
       <div className="max-w-[1200px] mx-auto px-4 md:px-12">
-        <title>My Orders Page</title>
+      <title>MY ORDERS PAGE</title>
         {/* --- 1. HEADER & SEARCH --- */}
         <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-8 mb-12">
           <div>

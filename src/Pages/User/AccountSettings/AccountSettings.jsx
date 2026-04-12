@@ -110,22 +110,20 @@ const AccountSettings = () => {
       newPassword,
     };
 
-    console.log(data);
-
-    // await axios.patch("/update-password", data).then((res) => {
-    //   if (res.data.success) {
-    //     ShowProtocolUpdatedAlert(
-    //       "Password Updated",
-    //       "Your password has been successfully updated.",
-    //     );
-    //     form.reset();
-    //   } else {
-    //     ShowProtocolErrorAlert(
-    //       "Update Failed",
-    //       res.data.message || "Unable to update password. Please try again.",
-    //     );
-    //   }
-    // });
+    await axios.patch("/update-password", data).then((res) => {
+      if (res.data.success) {
+        ShowProtocolUpdatedAlert(
+          "Password Updated",
+          "Your password has been successfully updated.",
+        );
+        form.reset();
+      } else {
+        ShowProtocolErrorAlert(
+          "Update Failed",
+          res.data.message || "Unable to update password. Please try again.",
+        );
+      }
+    });
   };
 
   if (!loading) return <PremiumSpinner />;
@@ -134,13 +132,14 @@ const AccountSettings = () => {
     <div className="relative min-h-screen bg-[#F2F2F2] pt-24 md:pt-32 pb-20 font-sans overflow-hidden">
       <div
         className="absolute inset-0 z-0 bg-cover bg-center pointer-events-none"
-        style={{ backgroundImage: `url(${Img})`, opacity: 0.12 }}
+        style={{ backgroundImage: `url(${Img})`, opacity: 0.5 }}
       />
+      <title>ACCOUNT SETTINGS - YOUR PROFILE</title>
 
       <div className="relative z-10 max-w-[1200px] mx-auto px-4 sm:px-6 md:px-12">
         {/* --- HEADER --- */}
         <div className="mb-8 md:mb-16">
-          <h1 className="text-5xl md:text-8xl font-black uppercase tracking-tighter leading-none italic text-gray-900">
+          <h1 className="text-5xl md:text-7xl font-black uppercase tracking-tighter leading-none italic text-gray-900">
             Settings.
           </h1>
           <p className="mt-4 text-[9px] md:text-[11px] font-black uppercase tracking-[0.4em] text-blue-700 italic">
@@ -213,10 +212,10 @@ const AccountSettings = () => {
 
                   <div>
                     <h3 className="text-xl md:text-2xl font-black uppercase tracking-tighter italic">
-                      {user?.displayName || "UNNAMED CITIZEN"}
+                      {user?.name || "UNNAMED CITIZEN"}
                     </h3>
                     <p className="text-[9px] md:text-[11px] font-bold text-gray-400 uppercase tracking-widest italic">
-                      Protocol ID: {user?.uid?.slice(0, 8).toUpperCase()}
+                      USER ID: {user?._id?.toUpperCase()}
                     </p>
                   </div>
                 </div>
@@ -224,8 +223,8 @@ const AccountSettings = () => {
                 <form className="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-6">
                   <InputField
                     label="Identity Name"
-                    defaultValue={user?.displayName}
-                    placeholder="XIV CITIZEN"
+                    defaultValue={user?.name}
+                    placeholder="Enter your name"
                   />
                   <InputField
                     label="Contact Intel"
@@ -250,8 +249,6 @@ const AccountSettings = () => {
                         const imageUrl = await uploadToImageBB();
 
                         if (imageUrl) {
-                          console.log("Final Image URL:", imageUrl);
-
                           // example:
                           await axios
                             .patch("/update-profile", { avatar: imageUrl })

@@ -21,7 +21,6 @@ const AccessControl = () => {
       return res.data.result; 
     },
   });
-  console.log(users)
 
  
   const handleRoleToggle = (user, newRole) => {

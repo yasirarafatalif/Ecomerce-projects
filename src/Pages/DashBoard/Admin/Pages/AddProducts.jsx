@@ -76,7 +76,7 @@ const AddProduct = () => {
       onSale: formData.onSale 
     };
 
-    console.log(finalProduct)
+
 
     try {
       const res = await axiosSecure.post("/products", finalProduct);

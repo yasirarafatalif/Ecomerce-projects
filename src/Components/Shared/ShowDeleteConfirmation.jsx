@@ -13,7 +13,7 @@ export const ShowDeleteConfirmation = (title, text) => {
     icon: "warning",
     iconColor: "#000",
     showCancelButton: true,
-    confirmButtonText: "CONFIRM DELETE",
+    confirmButtonText: "CONFIRM",
     cancelButtonText: "ABORT",
     confirmButtonColor: "#000", 
     cancelButtonColor: "#000",

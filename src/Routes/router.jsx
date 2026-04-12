@@ -32,6 +32,8 @@ import CouponsPage from "../Pages/DashBoard/Admin/Pages/CouponsPage";
 import SettingsPage from "../Pages/DashBoard/Common/SettingsPage";
 import AdminReviews from "../Pages/DashBoard/Admin/Pages/AdminReviews";
 import PrivateRoute from "./PrivateRoute";
+import ReportsPage from "../Pages/DashBoard/Admin/Pages/ReportsPage";
+import BannersPage from "../Pages/DashBoard/Admin/Pages/BannersPage";
 
 
 export const router = createBrowserRouter([
@@ -126,6 +128,8 @@ export const router = createBrowserRouter([
       { path:'/dashboard/roles', element: <AccessControl></AccessControl>},
       { path:'/dashboard/settings', element: <SettingsPage></SettingsPage>},
       { path:'/dashboard/reviews', element: <AdminReviews></AdminReviews>},
+      { path:'/dashboard/reports', element: <ReportsPage></ReportsPage>},
+      { path:'/dashboard/banners', element: <BannersPage></BannersPage>},
 
     ]
 
