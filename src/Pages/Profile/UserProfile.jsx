@@ -15,12 +15,11 @@ import BgImg from "../../assets/bg-home1.png";
 import useAuth from "../../Hooks/useAuth";
 import useAxios from "../../Hooks/useAxios";
 import handleLogout from "../../Components/Shared/LogoutButton";
+import { Link } from "react-router-dom";
 
 const UserProfile = () => {
   const { user, loading } = useAuth();
   const axios = useAxios();
-
-
   if (!loading) return <PremiumSpinner />;
 
   if (!user) {
@@ -44,7 +43,7 @@ const UserProfile = () => {
       <title>{user.name} Profile</title>
       {/* 1. Background Aesthetic Layer */}
       <div
-        className="absolute inset-0 z-0 bg-cover bg-center pointer-events-none opacity-[0.05]"
+        className="absolute inset-0 z-0 bg-cover bg-center pointer-events-none opacity-[0.5]"
         style={{ backgroundImage: `url(${BgImg})` }}
       />
       <div className="absolute inset-0 z-1 opacity-[0.03] pointer-events-none bg-[url('https://www.transparenttextures.com/patterns/asfalt-light.png')]"></div>
@@ -54,11 +53,7 @@ const UserProfile = () => {
         <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
           <div className="text-left">
             <p className="text-[10px] font-black uppercase tracking-[0.4em] text-blue-700 mb-2 italic">
-              XIV Collective /
-              {
-                user?.role ==="user" && "Member Dashboard"
-              }
-               
+              XIV Collective /{user?.role === "user" && "Member Dashboard"}
             </p>
           </div>
           <button
@@ -78,7 +73,15 @@ const UserProfile = () => {
           <div className="lg:col-span-4">
             <div className="bg-white p-10 shadow-2xl relative border-t-4 border-black">
               <div className="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mb-8 mx-auto border-2 border-dashed border-gray-300">
-                <User size={40} className="text-gray-300" />
+                {user?.avatar ? (
+                  <img
+                    src={user.avatar}
+                    alt="User Avatar"
+                    className="w-full h-full object-cover rounded-full"
+                  />
+                ) : (
+                  <User size={32} className="text-gray-300" />
+                )}
               </div>
 
               <div className="space-y-6">
@@ -125,44 +128,50 @@ const UserProfile = () => {
                 {
                   label: "Order History",
                   icon: <Package size={20} />,
+                  path: "/my-orders",
                   desc: "Track your aesthetic acquisitions",
                 },
                 {
                   label: "Saved Items",
                   icon: <Heart size={20} />,
+                  path: "/wishlist",
                   desc: "Your curated wishlist",
                 },
                 {
                   label: "Account Security",
                   icon: <Shield size={20} />,
+                  path: "/account-settings",
                   desc: "Manage member credentials",
                 },
                 {
                   label: "Preferences",
                   icon: <Settings size={20} />,
+                  path: "/preferences",
                   desc: "Customize your XIV experience",
                 },
               ].map((item, idx) => (
-                <div
-                  key={idx}
-                  className="bg-white/50 backdrop-blur-sm p-8 border border-white hover:border-black transition-all cursor-pointer group shadow-sm"
-                >
-                  <div className="flex justify-between items-start mb-4">
-                    <div className="p-3 bg-white shadow-md text-gray-900 group-hover:bg-black group-hover:text-white transition-all">
-                      {item.icon}
+                <Link to={item.path} key={idx}>
+                  <div className="bg-white/50 backdrop-blur-sm p-8 border border-white hover:border-black transition-all cursor-pointer group shadow-sm">
+                    <div className="flex justify-between items-start mb-4">
+                      <div className="p-3 bg-white shadow-md text-gray-900 group-hover:bg-black group-hover:text-white transition-all">
+                        {item.icon}
+                      </div>
+
+                      <ChevronRight
+                        size={16}
+                        className="text-gray-300 group-hover:text-black group-hover:translate-x-2 transition-all"
+                      />
                     </div>
-                    <ChevronRight
-                      size={16}
-                      className="text-gray-300 group-hover:text-black group-hover:translate-x-2 transition-all"
-                    />
+
+                    <h3 className="text-sm font-black uppercase tracking-tighter mb-1 italic">
+                      {item.label}
+                    </h3>
+
+                    <p className="text-[10px] text-gray-400 uppercase font-bold tracking-widest leading-none">
+                      {item.desc}
+                    </p>
                   </div>
-                  <h3 className="text-sm font-black uppercase tracking-tighter mb-1 italic">
-                    {item.label}
-                  </h3>
-                  <p className="text-[10px] text-gray-400 uppercase font-bold tracking-widest leading-none">
-                    {item.desc}
-                  </p>
-                </div>
+                </Link>
               ))}
             </div>
 

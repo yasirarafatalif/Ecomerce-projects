@@ -19,6 +19,7 @@ import useRole from "../../../Hooks/useRole";
 import { FiRotateCcw } from "react-icons/fi";
 import { LogToast } from "../../Shared/LogToast";
 import { u } from "framer-motion/client";
+import { ShowProtocolErrorAlert } from "../../Shared/ShowProtocolErrorAlert";
 
 const UserMenu = ({ user }) => {
   const axois = useAxios();
@@ -45,10 +46,7 @@ const UserMenu = ({ user }) => {
         window.location.href = "/";
       }, 1200);
     } catch (error) {
-      Swal.fire({
-        icon: "error",
-        title: "Logout Failed",
-      });
+     ShowProtocolErrorAlert(error, "Logout Failed");
     }
   };
 
