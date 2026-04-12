@@ -16,7 +16,6 @@ import useAuth from "../../Hooks/useAuth";
 
 const UserProfile = () => {
   const { user, loading } = useAuth();
-  console.log(user)
 
   const handleLogout = () => {
     console.log("Logging out...");

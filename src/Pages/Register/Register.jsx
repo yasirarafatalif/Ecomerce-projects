@@ -12,6 +12,7 @@ import { Link, useNavigate } from "react-router-dom";
 import BgImg from "../../assets/bg-home1.png"; 
 import useAxios from "../../Hooks/useAxios";
 import Swal from "sweetalert2";
+import { ShowProtocolUpdatedAlert } from "../../Components/Shared/ShowProtocolUpdatedAlert";
 
 const Register = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -30,23 +31,13 @@ const handleSubmit = async (e) => {
     const res = await axios.post("/register", formData);
 
     if (res.data?.message === "User already exists") {
-      return Swal.fire({
-        position: "top-end",
-        icon: "error",
-        title: `This user already exists`,
-        showConfirmButton: false,
-        timer: 1500,
-      });
+      return ShowProtocolUpdatedAlert("Registration Failed", "User already exists");
     }
     if (res.data?.message) {
-      await Swal.fire({
-        position: "top-end",
-        icon: "success",
-        title: res.data.message,
-        showConfirmButton: false,
-        timer: 1500,
-      });
-      navigate("/login");
+     ShowProtocolUpdatedAlert("Registration Successful", "Registered");
+      setTimeout(() => {
+        navigate("/login");
+      }, 2000);
     }
 
   } catch (error) {

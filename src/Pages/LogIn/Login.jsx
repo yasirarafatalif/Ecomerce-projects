@@ -6,6 +6,7 @@ import useAxios from "../../Hooks/useAxios";
 import Swal from "sweetalert2";
 import useAuth from "../../Hooks/useAuth";
 import { LogToast } from "../../Components/Shared/LogToast";
+import { ShowProtocolErrorAlert } from "../../Components/Shared/ShowProtocolErrorAlert";
 
 const Login = () => {
   const { user } = useAuth();
@@ -34,19 +35,11 @@ const Login = () => {
       const { success, message } = res.data;
 
       if (message === "Wrong password") {
-        return Swal.fire({
-          icon: "error",
-          title: "Wrong Password",
-          text: message || "Something went wrong",
-        });
+        return ShowProtocolErrorAlert("Log In Failed", "Wrong password");
       }
 
       if (message === "User not found") {
-        return Swal.fire({
-          icon: "error",
-          title: "This Email Is Not Registered On Our Website",
-          text: message || "Something went wrong",
-        });
+        return ShowProtocolErrorAlert("Log In Failed", "User not found");
       }
 
       if (success) {
@@ -56,11 +49,7 @@ const Login = () => {
       }, 1200);
       }
     } catch (error) {
-      Swal.fire({
-        icon: "error",
-        title: "Log In Failed",
-        text: error?.response?.data?.message || "Something went wrong",
-      });
+      ShowProtocolErrorAlert("Log In Failed", error.response?.data || "Something went wrong");
     }
   };
   return (
