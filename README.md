@@ -9,7 +9,7 @@
 ## 🎬 STOREFRONT PREVIEW
 | Desktop Interface | Mobile Protocol |
 | :--- | :--- |
-| ![Desktop View](https://raw.githubusercontent.com/your-username/repo-name/main/screenshots/desktop.png) | ![Mobile View](https://raw.githubusercontent.com/your-username/repo-name/main/screenshots/mobile.png) |
+| ![Desktop View](https://i.ibb.co.com/1fHvjFpr/image.png) | ![Mobile View](https://raw.githubusercontent.com/your-username/repo-name/main/screenshots/mobile.png) |
 
 ---
 
