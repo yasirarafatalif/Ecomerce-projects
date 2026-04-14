@@ -9,7 +9,7 @@
 ## 🎬 STOREFRONT PREVIEW
 | Desktop Interface | Mobile Protocol |
 | :--- | :--- |
-| ![Desktop View](https://i.ibb.co.com/1fHvjFpr/image.png) | ![Mobile View](https://ibb.co.com/ksZfKFH9) |
+| ![Desktop View](https://i.ibb.co.com/1fHvjFpr/image.png) | ![Mobile View](https://i.ibb.co.com/DHdy4nV8/image.png) |
 
 ---
 
