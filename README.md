@@ -1,5 +1,5 @@
 # ⬛ ZENO.FASHION 🟦
-> **Minimalist Fashion Protocol / 2026 Digital Archive*
+> **Minimalist Fashion Protocol / 2026 Digital Archive**
 
 [![Live Demo](https://img.shields.io/badge/DEMO-LIVE_PREVIEW-blue?style=for-the-badge&logo=vercel)]([https://your-live-link.vercel.app](https://ecommrecfronteend.vercel.app))
 [![Tech Stack](https://img.shields.io/badge/STACK-MERN_ARCHITECTURE-black?style=for-the-badge)](https://github.com/your-username)
