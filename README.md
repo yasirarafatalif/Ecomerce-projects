@@ -1,4 +1,4 @@
-# ⬛ ZENO.FASHION 🟦
+# ⬛ ZERO.FASHION 🟦
 > **Minimalist Fashion Protocol / 2026 Digital Archive**
 
 [![Live Demo](https://img.shields.io/badge/DEMO-LIVE_PREVIEW-blue?style=for-the-badge&logo=vercel)]([https://your-live-link.vercel.app](https://ecommrecfronteend.vercel.app))
