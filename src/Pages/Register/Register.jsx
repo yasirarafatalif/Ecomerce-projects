@@ -39,6 +39,9 @@ const Register = () => {
     return null;
   };
 
+  console.log(validatePassword)
+
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     const errorMsg = validatePassword(formData.password);
