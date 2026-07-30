@@ -18,6 +18,10 @@
 
 ---
 
+## DEMO ADMIN
+email:admin1@gmail.com
+password:Admin12@
+
 ## ⚡ CORE VAULT FEATURES
 
 ### 🛡️ Admin Command Center
