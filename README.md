@@ -13,7 +13,7 @@
 
 ---
 
-## 💎 THE VISION
+## 💎 THE VISION FASHION
 **ZENO.FASHION** is not just an e-commerce platform; it’s a technical manifestation of luxury. Built with a **brutalist monochrome aesthetic**, it focuses on high-speed performance and elite user experience for modern fashion acquisitions.
 
 ---
