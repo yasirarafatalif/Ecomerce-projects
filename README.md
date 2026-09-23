@@ -5,6 +5,7 @@
 [![Tech Stack](https://img.shields.io/badge/STACK-MERN_ARCHITECTURE-black?style=for-the-badge)](https://github.com/your-username)
 
 ---
+and
 
 ## 🎬 STOREFRONT PREVIEW
 | Desktop Interface | Mobile Protocol |
